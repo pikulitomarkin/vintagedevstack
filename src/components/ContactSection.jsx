@@ -58,6 +58,10 @@ const ContactSection = () => {
               </h3>
               
               <div className="space-y-6">
+                <div className="mb-4">
+                  <p className="font-serif text-2xl font-bold text-tech-white">Marcos Padilha</p>
+                  <p className="text-tech-white/70 text-sm italic">CEO • Cientista da Computação • Especialista em IA</p>
+                </div>
                 <div className="border-l-2 border-electric-blue/50 pl-4">
                   <p className="font-mono text-xs text-electric-blue/60 mb-2 uppercase">[EMAIL]</p>
                   <a 
