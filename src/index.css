@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    @apply bg-navy-deep text-tech-white;
+    background-image: 
+      linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
+
+@layer utilities {
+  .blueprint-border {
+    @apply border border-electric-blue/30;
+    box-shadow: 
+      inset 0 0 10px rgba(0, 212, 255, 0.1),
+      0 0 20px rgba(0, 212, 255, 0.1);
+  }
+  
+  .blueprint-glow {
+    text-shadow: 
+      0 0 10px rgba(0, 212, 255, 0.5),
+      0 0 20px rgba(0, 212, 255, 0.3);
+  }
+  
+  .patent-line {
+    @apply border-t border-electric-blue/40;
+    position: relative;
+  }
+  
+  .patent-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00D4FF);
+  }
+  
+  .patent-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #00D4FF);
+  }
+}
+
