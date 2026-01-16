@@ -75,3 +75,5 @@ Write-Host "   git push -u origin main" -ForegroundColor White
 Write-Host ""
 Write-Host "⚠️  Nota: Você precisará autenticar no GitHub (token ou SSH)" -ForegroundColor Yellow
 
+
+

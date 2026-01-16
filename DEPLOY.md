@@ -91,3 +91,5 @@ Se houver problemas:
 3. Verifique se a porta está sendo detectada corretamente
 4. Confirme que todas as dependências estão no `package.json`
 
+
+

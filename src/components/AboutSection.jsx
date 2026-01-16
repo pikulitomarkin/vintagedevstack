@@ -23,7 +23,7 @@ const AboutSection = () => {
             </p>
 
             <p>
-              Inspirados pela robustez e elegância de máquinas clássicas como o <span className="font-mono text-electric-blue">Passat 87</span>, 
+              Inspirados pela robustez e elegância de máquinas clássicas como o <span className="font-mono text-electric-blue">Passat Village 87</span>, 
               aplicamos os mesmos princípios de excelência, durabilidade e atenção aos detalhes em cada linha de código que escrevemos.
             </p>
 
@@ -107,4 +107,6 @@ const AboutSection = () => {
 }
 
 export default AboutSection
+
+
 

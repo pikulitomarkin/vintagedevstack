@@ -4,74 +4,86 @@ const PortfolioSection = () => {
   const projects = [
     {
       id: 1,
-      name: 'AstraFuture',
-      category: 'Gestão e Arquitetura',
-      description: 'Sistema de gestão e arquitetura empresarial com foco em escalabilidade e performance.',
-      technologies: ['C#', '.NET', 'SQL Server', 'Azure'],
-      status: 'ACTIVE'
+      name: 'Vintage DevStack',
+      category: 'Site Institucional',
+      description: 'Site institucional da Vintage DevStack com design blueprint industrial. Portfolio completo, seção de serviços e contato integrado. Deploy automatizado no Railway.',
+      technologies: ['React', 'Vite', 'Tailwind CSS', 'Railway'],
+      status: 'ACTIVE',
+      githubUrl: 'https://github.com/pikulitomarkin/vintagedevstack'
     },
     {
       id: 2,
-      name: 'MinasTaxi',
-      category: 'Automação Logística e APIs',
-      description: 'Plataforma de automação logística com integração de APIs para gestão de frotas e rotas.',
-      technologies: ['Node.js', 'Python', 'REST APIs', 'PostgreSQL'],
-      status: 'ACTIVE'
+      name: 'AuraFiscal - Automação NFS-e',
+      category: 'Automação Fiscal e Gov Tech',
+      description: 'Sistema de automação de emissão de NFS-e através da API ADN oficial do Gov.br. Processamento em lote de até 50 documentos, geração de XML padrão SPED, compressão GZIP, assinatura digital A1 e integração com PostgreSQL.',
+      technologies: ['Python', 'Streamlit', 'PostgreSQL', 'SQLAlchemy', 'API Gov.br', 'XML SPED', 'Certificado A1'],
+      status: 'ACTIVE',
+      githubUrl: 'https://github.com/pikulitomarkin/AuraFiscal-'
     },
     {
       id: 3,
-      name: 'Automações n8n',
-      category: 'Integrações de IA e WhatsApp',
-      description: 'Workflows automatizados com IA para comunicação multicanal e processamento inteligente.',
-      technologies: ['n8n', 'OpenAI API', 'WhatsApp Business API', 'Python'],
-      status: 'ACTIVE'
+      name: 'ClinicaPsi',
+      category: 'SaaS - Gestão Clínica',
+      description: 'Sistema completo de gestão para clínicas de psicologia desenvolvido em ASP.NET Core 9.0 com Blazor Server. Inclui agendamento inteligente, gamificação (PsicoPontos), notificações multi-canal e dashboard gerencial.',
+      technologies: ['.NET 9.0', 'Blazor Server', 'EF Core', 'PostgreSQL', 'Docker', 'AWS'],
+      status: 'ACTIVE',
+      githubUrl: 'https://github.com/pikulitomarkin/sistema-p-clinica',
+      liveUrl: 'https://www.psiianasantos.com.br'
     },
     {
       id: 4,
-      name: 'Aparar',
-      category: 'Mobile & Web - Gestão de Campo',
-      description: 'Sistema completo de gestão de corte de matos com app mobile React Native/Expo e painel web admin. Sincronização em tempo real via Firebase, modo offline, geolocalização e notificações push.',
-      technologies: ['React Native', 'Expo', 'Firebase', 'Firestore', 'WebSocket', 'Geolocalização', 'Push Notifications'],
+      name: 'Sistema Queimadas - Eletrobras',
+      category: 'Mobile - Gestão Corporativa',
+      description: 'Sistema mobile para registro de campanhas de prevenção de queimadas da Eletrobras. Inclui cadastro de entregas, captura fotográfica, assinatura digital, geração automática de PDFs e integração com OneDrive.',
+      technologies: ['React Native', 'Firebase', 'Firestore', 'PDF Generation', 'OneDrive API'],
       status: 'ACTIVE'
     },
     {
       id: 5,
-      name: 'Agente IA WhatsApp',
-      category: 'Automação e IA',
-      description: 'Agente inteligente que integra Evolution API e OpenAI para responder mensagens do WhatsApp automaticamente conforme prompt personalizado. Deploy em Railway com suporte a variáveis de ambiente.',
-      technologies: ['Python', 'OpenAI API', 'Evolution API', 'WhatsApp API', 'Railway', 'python-dotenv'],
+      name: 'Aparar - Gestão de Corte de Matos',
+      category: 'Mobile & Web - Gestão de Campo',
+      description: 'Sistema completo de gestão de corte de matos com app mobile React Native/Expo e painel web admin. Sincronização em tempo real via Firebase, modo offline, geolocalização e notificações push.',
+      technologies: ['React Native', 'Expo', 'Firebase', 'Firestore', 'WebSocket', 'Geolocalização'],
       status: 'ACTIVE'
     },
     {
       id: 6,
-      name: 'ClinicaPsi',
-      category: 'SaaS - Gestão Clínica',
-      description: 'Sistema completo de gestão para clínicas de psicologia desenvolvido em ASP.NET Core 9.0 com Blazor Server. Inclui agendamento inteligente, gamificação (PsicoPontos), notificações multi-canal e dashboard gerencial. Em produção: www.psiianasantos.com.br',
-      technologies: ['.NET 9.0', 'Blazor Server', 'EF Core', 'PostgreSQL', 'Docker', 'AWS'],
+      name: 'KM Web App - Linha de Transmissão',
+      category: 'Web App - Infraestrutura',
+      description: 'Sistema web PWA para consulta de torres e visualização de mapas de linhas de transmissão. Funciona offline, suporta múltiplas linhas, importação de arquivos GPX/Excel e interface otimizada para tablets.',
+      technologies: ['PWA', 'Python', 'Flask', 'Railway', 'Mapas Interativos', 'GPX'],
       status: 'ACTIVE'
     },
     {
       id: 7,
-      name: 'KM Web App',
-      category: 'Web App - Infraestrutura',
-      description: 'Sistema web PWA para consulta de torres e visualização de mapas de linhas de transmissão. Funciona offline, suporta múltiplas linhas, importação de arquivos GPX/Excel e interface otimizada para tablets. Consulta por KM a partir de subestações com mapa interativo.',
-      technologies: ['PWA', 'Web App', 'Mapas Interativos', 'GPX', 'Excel', 'Offline First'],
+      name: 'Agente IA WhatsApp',
+      category: 'Automação e IA',
+      description: 'Agente inteligente que integra Evolution API e OpenAI para responder mensagens do WhatsApp automaticamente conforme prompt personalizado. Deploy em Railway com suporte a variáveis de ambiente.',
+      technologies: ['Python', 'OpenAI API', 'Evolution API', 'WhatsApp API', 'Railway'],
       status: 'ACTIVE'
     },
     {
       id: 8,
-      name: 'Sistema Queimadas - Eletrobras',
-      category: 'Mobile - Gestão Corporativa',
-      description: 'Sistema mobile para registro de campanhas de prevenção de queimadas da Eletrobras. Inclui cadastro de entregas, captura fotográfica, assinatura digital, geração automática de PDFs e integração com OneDrive. Sincronização Firebase em tempo real com modo offline como fallback.',
-      technologies: ['React Native', 'Firebase', 'Firestore', 'Firebase Storage', 'PDF Generation', 'OneDrive API', 'AsyncStorage'],
+      name: 'Automações n8n',
+      category: 'Integrações de IA e WhatsApp',
+      description: 'Workflows automatizados com IA para comunicação multicanal e processamento inteligente. Integração de múltiplas plataformas e APIs para automação de processos empresariais.',
+      technologies: ['n8n', 'OpenAI API', 'WhatsApp Business API', 'Python', 'Webhooks'],
       status: 'ACTIVE'
     },
     {
       id: 9,
-      name: 'Curso C# Hotmart',
-      category: 'Capacidade Educacional',
-      description: 'Plataforma educacional completa para ensino de C# e desenvolvimento .NET.',
-      technologies: ['C#', 'Video Streaming', 'Hotmart API', 'LMS'],
+      name: 'MinasTaxi - Automação Logística',
+      category: 'Automação Logística e APIs',
+      description: 'Plataforma de automação logística com integração de APIs para gestão de frotas, otimização de rotas e rastreamento em tempo real. Sistema completo para empresas de transporte.',
+      technologies: ['Node.js', 'Python', 'REST APIs', 'PostgreSQL', 'Google Maps API'],
+      status: 'ACTIVE'
+    },
+    {
+      id: 10,
+      name: 'AstraFuture - Dashboard Empresarial',
+      category: 'Gestão e Arquitetura',
+      description: 'Sistema de gestão e arquitetura empresarial com foco em escalabilidade e performance. Dashboard completo para monitoramento de KPIs e análise de dados em tempo real.',
+      technologies: ['C#', '.NET', 'SQL Server', 'Azure', 'Power BI'],
       status: 'ACTIVE'
     }
   ]
@@ -135,6 +147,34 @@ const PortfolioSection = () => {
                 ))}
               </div>
             </div>
+
+            {/* Links do Projeto */}
+            {(project.githubUrl || project.liveUrl) && (
+              <div className="mt-4 pt-4 border-t border-electric-blue/20 flex gap-3">
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="blueprint-border px-3 py-1 text-xs font-mono text-electric-blue hover:text-accent-neon transition-colors flex items-center gap-1"
+                  >
+                    <span>GitHub</span>
+                    <span>→</span>
+                  </a>
+                )}
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="blueprint-border px-3 py-1 text-xs font-mono text-accent-neon hover:text-electric-blue transition-colors flex items-center gap-1"
+                  >
+                    <span>Live Demo</span>
+                    <span>→</span>
+                  </a>
+                )}
+              </div>
+            )}
 
             {/* Linha decorativa inferior */}
             <div className="mt-4 h-px bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent"></div>

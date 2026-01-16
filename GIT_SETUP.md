@@ -82,3 +82,5 @@ O arquivo `.gitignore` já está configurado para ignorar:
 - Arquivos de log e temporários
 - Arquivos do editor
 
+
+
