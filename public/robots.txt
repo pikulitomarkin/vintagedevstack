@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Sitemap apontando para o domínio configurado
+Sitemap: https://www.vintagedevstack.com.br/sitemap.xml
+
+# Se quiser bloquear ambientes de staging, adicione regras condicionais no deploy para substituir este arquivo.
