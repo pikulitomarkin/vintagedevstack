@@ -5,10 +5,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const siteUrl = process.env.SITE_URL || process.argv[2];
-if (!siteUrl) {
-  console.error('ERRO: defina SITE_URL via env (SITE_URL=https://seu-site) ou como primeiro argumento');
-  process.exit(1);
+// Use SITE_URL env, first CLI arg, or fallback to the production domain used in the project.
+// This makes the script safe to run during CI/deploys even if SITE_URL was not provided.
+const siteUrl = process.env.SITE_URL || process.argv[2] || 'https://www.vintagedevstack.com.br';
+if (!process.env.SITE_URL && !process.argv[2]) {
+  console.warn('AVISO: SITE_URL não definido. Usando valor padrão:', siteUrl);
 }
 
 const routes = [
