@@ -86,6 +86,26 @@ const PortfolioSection = () => {
       technologies: ['C#', '.NET', 'SQL Server', 'Azure', 'Power BI'],
       status: 'ACTIVE'
     }
+    ,
+    {
+      id: 11,
+      name: 'Sistema de Gestão de RH - Enterprise Edition',
+      category: 'SaaS - Gestão de RH',
+      description: 'Sistema completo de gestão de recursos humanos com backend em ASP.NET Core e frontend em React (Vite). Inclui folha de pagamento quinzenal, controle de frequência, dashboards, RBAC e cálculos CLT brasileiros.',
+      technologies: ['ASP.NET Core', 'Entity Framework', 'React', 'Vite', 'Tailwind CSS', 'Zustand', 'TanStack Query', 'Recharts', 'SQLite'],
+      status: 'ACTIVE',
+      githubUrl: 'https://github.com/pikulitomarkin/sistemagestaorh'
+    }
+    ,
+    {
+      id: 12,
+      name: 'CRM SeguroJá - CRM WhatsApp com IA',
+      category: 'Automação & CRM',
+      description: 'Sistema de qualificação automática de leads via WhatsApp com backend em FastAPI, dashboard em Streamlit e integração com modelos Claude (Anthropic) e Evolution API para envio/recebimento. Focado em automação de atendimento, qualificação e notificações.',
+      technologies: ['FastAPI', 'Python', 'Streamlit', 'Anthropic Claude', 'Evolution API', 'SQLite', 'PostgreSQL'],
+      status: 'ACTIVE',
+      githubUrl: 'https://github.com/pikulitomarkin/crmseguroja'
+    }
   ]
 
   return (
