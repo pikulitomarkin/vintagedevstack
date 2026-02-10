@@ -35,8 +35,8 @@ const HeroSection = () => {
         backgroundSize: '50px 50px'
       }}></div>
       
-      {/* Válvula Termiônica Digital */}
-      <div className="absolute top-20 right-20 w-32 h-32 opacity-30">
+      {/* Válvula Termiônica Digital - esconde no mobile */}
+      <div className="hidden md:block absolute top-20 right-20 w-32 h-32 opacity-30">
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <circle cx="100" cy="100" r="80" fill="none" stroke="#00D4FF" strokeWidth="2" opacity="0.5"/>
           <circle cx="100" cy="100" r="50" fill="none" stroke="#00D4FF" strokeWidth="1.5" opacity="0.3"/>
@@ -51,11 +51,11 @@ const HeroSection = () => {
 
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Título Principal com Video Avatar */}
-        <div className="flex flex-col items-center justify-center mb-6">
-          <div className="flex items-center justify-center gap-8 mb-4">
+        <div className="flex flex-col items-center justify-center mb-4 md:mb-6">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-4">
             {/* Video Avatar */}
             <div 
-              className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden blueprint-border cursor-pointer"
+              className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden blueprint-border cursor-pointer flex-shrink-0"
               onClick={togglePlayPause}
             >
               <video 
@@ -114,7 +114,7 @@ const HeroSection = () => {
               )}
             </div>
             
-            <h1 className="font-serif text-6xl md:text-9xl font-bold blueprint-glow">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-9xl font-bold blueprint-glow">
               <span className="block">VINTAGE</span>
               <span className="block text-electric-blue">DEVSTACK</span>
             </h1>
@@ -122,24 +122,24 @@ const HeroSection = () => {
         </div>
         
         {/* Subtítulo */}
-        <div className="patent-line my-8"></div>
-        <p className="font-mono text-xl md:text-2xl text-electric-blue mb-4 tracking-wider">
+        <div className="patent-line my-4 md:my-8"></div>
+        <p className="font-mono text-sm sm:text-base md:text-2xl text-electric-blue mb-2 md:mb-4 tracking-wider px-2">
           ENGENHARIA DE SOFTWARE DE PRECISÃO
         </p>
-        <p className="font-mono text-lg md:text-xl text-tech-white/80 mb-8">
+        <p className="font-mono text-xs sm:text-sm md:text-xl text-tech-white/80 mb-4 md:mb-8">
           & AUTOMAÇÃO DE IA
         </p>
-        <div className="patent-line my-8"></div>
+        <div className="patent-line my-4 md:my-8"></div>
 
         {/* Annotations técnicas */}
-        <div className="mt-12 flex flex-wrap justify-center gap-8 text-sm font-mono text-electric-blue/60">
-          <div className="blueprint-border px-4 py-2">
+        <div className="mt-6 md:mt-12 flex flex-wrap justify-center gap-3 md:gap-8 text-xs md:text-sm font-mono text-electric-blue/60">
+          <div className="blueprint-border px-3 py-1.5 md:px-4 md:py-2">
             <span className="text-accent-neon">[SYSTEM]</span> READY
           </div>
           <div className="blueprint-border px-4 py-2">
             <span className="text-accent-neon">[STATUS]</span> OPERATIONAL
           </div>
-          <div className="blueprint-border px-4 py-2">
+          <div className="blueprint-border px-3 py-1.5 md:px-4 md:py-2">
             <span className="text-accent-neon">[VERSION]</span> 1.0.0
           </div>
         </div>

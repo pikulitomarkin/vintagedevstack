@@ -2,22 +2,22 @@ import React from 'react'
 
 const AboutSection = () => {
   return (
-    <section className="py-20 px-4 relative">
+    <section className="py-12 md:py-20 px-4 relative">
       <div className="max-w-5xl mx-auto">
         {/* Título da Seção */}
-        <div className="patent-line mb-6"></div>
-        <h2 className="font-serif text-5xl md:text-6xl font-bold text-tech-white mb-4">
+        <div className="patent-line mb-4 md:mb-6"></div>
+        <h2 className="font-serif text-3xl md:text-6xl font-bold text-tech-white mb-3 md:mb-4">
           SOBRE
         </h2>
-        <p className="font-mono text-electric-blue text-lg tracking-wider mb-12">
+        <p className="font-mono text-electric-blue text-sm md:text-lg tracking-wider mb-6 md:mb-12">
           [ABOUT] THE FUSION OF CLASSIC & MODERN
         </p>
-        <div className="patent-line mb-12"></div>
+        <div className="patent-line mb-6 md:mb-12"></div>
 
         {/* Conteúdo Principal */}
-        <div className="blueprint-border bg-navy-deep/30 p-8 md:p-12">
-          <div className="space-y-6 text-tech-white/90 leading-relaxed">
-            <p className="text-lg">
+        <div className="blueprint-border bg-navy-deep/30 p-4 md:p-8 lg:p-12">
+          <div className="space-y-4 md:space-y-6 text-tech-white/90 leading-relaxed text-sm md:text-base">
+            <p className="md:text-lg">
               A <span className="text-electric-blue font-bold">Vintage DevStack</span> nasce da fusão única entre a 
               <span className="text-accent-neon"> engenharia clássica de precisão</span> e o desenvolvimento de software moderno.
             </p>
@@ -74,22 +74,22 @@ const AboutSection = () => {
         </div>
 
         {/* Especificações Técnicas */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="blueprint-border p-4 text-center">
-            <p className="font-mono text-2xl font-bold text-electric-blue mb-1">5+</p>
-            <p className="font-mono text-xs text-tech-white/60 uppercase">Projetos Ativos</p>
+        <div className="mt-6 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          <div className="blueprint-border p-3 md:p-4 text-center">
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">5+</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Projetos Ativos</p>
           </div>
-          <div className="blueprint-border p-4 text-center">
-            <p className="font-mono text-2xl font-bold text-electric-blue mb-1">100%</p>
-            <p className="font-mono text-xs text-tech-white/60 uppercase">Taxa de Sucesso</p>
+          <div className="blueprint-border p-3 md:p-4 text-center">
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">100%</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Taxa de Sucesso</p>
           </div>
-          <div className="blueprint-border p-4 text-center">
-            <p className="font-mono text-2xl font-bold text-electric-blue mb-1">24/7</p>
-            <p className="font-mono text-xs text-tech-white/60 uppercase">Disponibilidade</p>
+          <div className="blueprint-border p-3 md:p-4 text-center">
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">24/7</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Disponibilidade</p>
           </div>
-          <div className="blueprint-border p-4 text-center">
-            <p className="font-mono text-2xl font-bold text-electric-blue mb-1">∞</p>
-            <p className="font-mono text-xs text-tech-white/60 uppercase">Inovação</p>
+          <div className="blueprint-border p-3 md:p-4 text-center">
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">∞</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Inovação</p>
           </div>
         </div>
 

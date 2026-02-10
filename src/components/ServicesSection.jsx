@@ -33,51 +33,51 @@ const ServicesSection = () => {
   ]
 
   return (
-    <section className="py-20 px-4 relative bg-navy-deep/30">
+    <section className="py-12 md:py-20 px-4 relative bg-navy-deep/30">
       {/* Título da Seção */}
-      <div className="max-w-7xl mx-auto mb-16">
-        <div className="patent-line mb-6"></div>
-        <h2 className="font-serif text-5xl md:text-6xl font-bold text-tech-white mb-4">
+      <div className="max-w-7xl mx-auto mb-8 md:mb-16">
+        <div className="patent-line mb-4 md:mb-6"></div>
+        <h2 className="font-serif text-3xl md:text-6xl font-bold text-tech-white mb-3 md:mb-4">
           SERVIÇOS
         </h2>
-        <p className="font-mono text-electric-blue text-lg tracking-wider">
+        <p className="font-mono text-electric-blue text-sm md:text-lg tracking-wider">
           [SERVICES] ENGINEERING SOLUTIONS
         </p>
-        <div className="patent-line mt-6"></div>
+        <div className="patent-line mt-4 md:mt-6"></div>
       </div>
 
       {/* Grid de Serviços */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
         {services.map((service) => (
           <div
             key={service.id}
-            className="blueprint-border bg-navy-deep/50 p-8 hover:bg-navy-deep/70 transition-all duration-300 group relative"
+            className="blueprint-border bg-navy-deep/50 p-4 md:p-8 hover:bg-navy-deep/70 transition-all duration-300 group relative"
           >
             {/* Código do Serviço */}
-            <div className="absolute top-4 right-4">
-              <span className="font-mono text-xs text-electric-blue/50">
+            <div className="absolute top-2 right-2 md:top-4 md:right-4">
+              <span className="font-mono text-[10px] md:text-xs text-electric-blue/50">
                 {service.code}
               </span>
             </div>
 
             {/* Título */}
-            <h3 className="font-serif text-3xl font-bold text-electric-blue mb-3 group-hover:text-accent-neon transition-colors pr-20">
+            <h3 className="font-serif text-xl md:text-3xl font-bold text-electric-blue mb-2 md:mb-3 group-hover:text-accent-neon transition-colors pr-16 md:pr-20">
               {service.title}
             </h3>
 
             {/* Descrição */}
-            <p className="text-tech-white/70 mb-6 leading-relaxed">
+            <p className="text-tech-white/70 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
               {service.description}
             </p>
 
             {/* Features */}
-            <div className="border-t border-electric-blue/20 pt-6">
-              <p className="font-mono text-xs text-electric-blue/60 mb-4 uppercase tracking-wider">
+            <div className="border-t border-electric-blue/20 pt-4 md:pt-6">
+              <p className="font-mono text-[10px] md:text-xs text-electric-blue/60 mb-3 md:mb-4 uppercase tracking-wider">
                 [FEATURES]
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5 md:space-y-2">
                 {service.features.map((feature, index) => (
-                  <li key={index} className="flex items-center font-mono text-sm text-tech-white/80">
+                  <li key={index} className="flex items-center font-mono text-xs md:text-sm text-tech-white/80">
                     <span className="text-accent-neon mr-3">▶</span>
                     {feature}
                   </li>
@@ -86,7 +86,7 @@ const ServicesSection = () => {
             </div>
 
             {/* Linha decorativa */}
-            <div className="mt-6 h-px bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent"></div>
+            <div className="mt-4 md:mt-6 h-px bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent"></div>
           </div>
         ))}
       </div>
