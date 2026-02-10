@@ -2,12 +2,25 @@ import React, { useState, useRef } from 'react'
 
 const HeroSection = () => {
   const [audioEnabled, setAudioEnabled] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const videoRef = useRef(null)
 
   const enableAudio = () => {
     if (videoRef.current) {
       videoRef.current.muted = false
       setAudioEnabled(true)
+    }
+  }
+
+  const togglePlayPause = () => {
+    if (audioEnabled && videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause()
+        setIsPlaying(false)
+      } else {
+        videoRef.current.play()
+        setIsPlaying(true)
+      }
     }
   }
 
@@ -41,7 +54,10 @@ const HeroSection = () => {
         <div className="flex flex-col items-center justify-center mb-6">
           <div className="flex items-center justify-center gap-8 mb-4">
             {/* Video Avatar */}
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden blueprint-border">
+            <div 
+              className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden blueprint-border cursor-pointer"
+              onClick={togglePlayPause}
+            >
               <video 
                 ref={videoRef}
                 autoPlay 
@@ -63,8 +79,11 @@ const HeroSection = () => {
               {/* Botão para ativar áudio */}
               {!audioEnabled && (
                 <button
-                  onClick={enableAudio}
-                  className="absolute inset-0 flex items-center justify-center bg-deep-navy/80 hover:bg-deep-navy/60 transition-all cursor-pointer group"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    enableAudio()
+                  }}
+                  className="absolute inset-0 flex items-center justify-center bg-deep-navy/80 hover:bg-deep-navy/60 transition-all cursor-pointer group z-10"
                   aria-label="Ativar áudio"
                 >
                   <div className="text-center">
@@ -79,6 +98,19 @@ const HeroSection = () => {
                     <span className="text-xs text-electric-blue font-mono">CLIQUE PARA ÁUDIO</span>
                   </div>
                 </button>
+              )}
+              
+              {/* Indicador de pausa */}
+              {audioEnabled && !isPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center bg-deep-navy/60 transition-all pointer-events-none">
+                  <svg 
+                    className="w-12 h-12 text-electric-blue" 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
               )}
             </div>
             
