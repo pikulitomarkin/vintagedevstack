@@ -52,7 +52,12 @@ const HeroSection = () => {
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Título Principal com Video Avatar */}
         <div className="flex flex-col items-center justify-center mb-4 md:mb-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-4">
+          <div className="flex flex-col items-center justify-center gap-4 md:gap-8 mb-4">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-9xl font-bold blueprint-glow">
+              <span className="block">VINTAGE</span>
+              <span className="block text-electric-blue">DEVSTACK</span>
+            </h1>
+            
             {/* Video Avatar */}
             <div 
               className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full overflow-hidden blueprint-border cursor-pointer flex-shrink-0"
@@ -113,11 +118,6 @@ const HeroSection = () => {
                 </div>
               )}
             </div>
-            
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-9xl font-bold blueprint-glow">
-              <span className="block">VINTAGE</span>
-              <span className="block text-electric-blue">DEVSTACK</span>
-            </h1>
           </div>
         </div>
         
