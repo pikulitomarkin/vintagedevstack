@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Amanhecer Gradiente</title>
+  <style>
+    /* ========================
+       Tema: Amanhecer Gradiente
+       Imagem usada: Gemini_Generated_Image_1pnebo1pnebo1pnebo.png
+       Identidade: quente, vibrante, contraste alto para texto branco
+       ======================== */
+
+    :root{
+      --bg-overlay: linear-gradient(135deg, rgba(255,122,89,0.55) 0%, rgba(123,97,255,0.45) 100%);
+      --overlay-dark: rgba(3,7,18,0.45);
+      --accent: #FFD08A;
+      --primary: #FF7A59;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,0.82);
+      --radius: 14px;
+      --max-width: 1200px;
+      --touch: 44px; /* mínimo para áreas de toque */
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; color:var(--text); background:#071026;}
+
+    /* HERO full-bleed */
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center;}
+
+    /* background (lazy via data-bg) */
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;transition:transform 0.6s ease;will-change:transform;background-attachment:fixed}
+    @media (max-width:768px){ .hero__bg{background-attachment:scroll} }
+
+    /* overlay for contrast + gradient inspired by imagem */
+    .hero__overlay{position:absolute;inset:0;z-index:1;background-image:var(--bg-overlay), linear-gradient(180deg, var(--overlay-dark), rgba(3,7,18,0.6));mix-blend-mode:multiply;}
+
+    /* content container uses container queries */
+    .hero__content{position:relative;z-index:2;width:100%;max-width:var(--max-width);margin:0 auto;padding:clamp(1rem,4vw,3.5rem);display:grid;gap:1rem;align-items:center;container-type:inline-size}
+
+    .site-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+    .logo{font-weight:700;letter-spacing:0.6px;background:linear-gradient(90deg,#fff,#ffd6b0);-webkit-background-clip:text;background-clip:text;color:transparent}
+    nav a{color:var(--muted);text-decoration:none;margin-left:1.4rem;font-size:0.95rem}
+
+    .hero-grid{display:grid;gap:1.25rem}
+    .kicker{color:var(--muted);font-weight:600;font-size:0.9rem}
+    h1{font-size:clamp(1.9rem,6.8vw,3.6rem);line-height:1.02;margin-top:0.25rem;letter-spacing:-0.02em}
+    p.lead{color:rgba(255,255,255,0.85);max-width:60ch;margin-top:0.8rem;font-size:1rem}
+
+    .cta{display:inline-flex;gap:0.75rem;align-items:center;margin-top:1.25rem}
+    .btn{background:linear-gradient(90deg,var(--primary),#FFB86B);border:0;color:#071026;padding:0.7rem 1.2rem;border-radius:999px;font-weight:700;cursor:pointer;min-height:var(--touch);box-shadow:0 6px 30px rgba(0,0,0,0.28);transform:translateZ(0);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .22s}
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:rgba(255,255,255,0.08);color:var(--muted);border:1px solid rgba(255,255,255,0.06)}
+
+    /* layout adjustments */
+    @container (min-width:760px){ .hero-grid{grid-template-columns:1fr 380px;align-items:center} .hero__content{padding:4rem} .kicker{font-size:1rem} }
+
+    /* small-intro card on the right (position variation) */
+    .card{background:rgba(255,255,255,0.04);border-radius:12px;padding:1.2rem;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* animations (subtle) */
+    .reveal{opacity:0;transform:translateY(10px);animation:slideIn .9s cubic-bezier(.2,.9,.2,1) forwards}
+    .reveal.delay{animation-delay:.12s}
+    @keyframes slideIn{to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){ .reveal{animation:none;opacity:1;transform:none} }
+
+    /* accessibility / text scaling */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+    /* small preview frames (inside page) */
+    .preview-row{display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap}
+    .frame{flex:1 1 320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+    .frame .viewport{background:#f3f6fb;height:320px;display:flex;align-items:center;justify-content:center;color:#333;font-size:.85rem}
+
+    footer{margin-top:3rem;color:rgba(255,255,255,0.6);font-size:0.9rem}
+  </style>
+</head>
+<body>
+  <main class="hero" role="main">
+    <!-- background is lazy-loaded by JS from data-bg; noscript fallback below -->
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_1pnebo1pnebo1pnebo.png" aria-hidden="true"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <header class="site-header">
+        <div class="logo">Amanhecer</div>
+        <nav aria-label="Principal">
+          <a href="#">Home</a>
+          <a href="#">Serviços</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <section class="hero-grid">
+        <div>
+          <div class="kicker reveal">Design & Experiência</div>
+          <h1 class="reveal delay">Layouts inspirados nas cores e texturas da imagem — impacto instantâneo.</h1>
+          <p class="lead reveal delay">Gradientes quentes, contraste alto para legibilidade e tipografia clara para hierarquia visual imediata. Ideal para landing pages e portfolios que exigem presença visual forte.</p>
+          <div class="cta reveal delay">
+            <button class="btn">Ver portfólio</button>
+            <button class="btn ghost">Saiba mais</button>
+          </div>
+        </div>
+
+        <aside class="card reveal" aria-hidden="true">
+          <strong>Detalhes rápidos</strong>
+          <p style="margin-top:.6rem;font-size:.95rem;line-height:1.35;">Posicionamento: left/center • Overlay: gradiente quente + escurecimento • Tipografia display ousada</p>
+        </aside>
+      </section>
+
+      <div class="preview-row" aria-hidden="true">
+        <div class="frame"><div class="viewport">Mobile (320px) — texto usa clamp() e botões ≥44px</div></div>
+        <div class="frame"><div class="viewport">Desktop (1440px) — background-attachment: fixed para parallax suave</div></div>
+      </div>
+
+      <footer>
+        Contraste objetivo: white text sobre overlay escuro — atende WCAG AA para a maioria dos tamanhos. Botões com área de toque mínima 44×44 px.
+      </footer>
+    </div>
+  </main>
+
+  <noscript>
+    <style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_1pnebo1pnebo1pnebo.png')}</style>
+  </noscript>
+
+  <script>
+    // Lazy-load background images and respect reduced-motion
+    (function(){
+      const el = document.querySelector('.hero__bg');
+      const src = el.dataset.bg;
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries,obs)=>{
+          entries.forEach(e=>{ if(e.isIntersecting){ el.style.backgroundImage = `url('${src}')`; obs.unobserve(el); } });
+        },{rootMargin:'200px'});
+        io.observe(el);
+      } else { el.style.backgroundImage = `url('${src}')`; }
+    })();
+  </script>
+</body>
+</html>

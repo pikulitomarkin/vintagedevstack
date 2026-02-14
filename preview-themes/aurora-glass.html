@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Aurora Glass</title>
+  <style>
+    /* ========================
+       Tema: Aurora Glass
+       Imagem usada: Gemini_Generated_Image_tsrvd2tsrvd2tsrv.png
+       Identidade: glassmorphism, cores frias, suave movimento
+       ======================== */
+
+    :root{
+      --bg-deep:#071927;
+      --glass-1: rgba(124,58,237,0.14);
+      --glass-2: rgba(103,232,249,0.12);
+      --accent:#67E8F9;
+      --text:#E6FBFF;
+      --muted:rgba(230,251,255,0.78);
+      --max-width:1200px;
+      --touch:44px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);background:linear-gradient(180deg,#031526 0%,#071927 100%)}
+
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center}
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;filter:contrast(.98) saturate(1.05)}
+    .animated-gradient{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(45deg, rgba(103,232,249,0.06), rgba(124,58,237,0.06));mix-blend-mode:screen;animation:flow 12s linear infinite;opacity:0.9}
+    @keyframes flow{0%{transform:translateX(-10%)}50%{transform:translateX(10%)}100%{transform:translateX(-10%)}}
+    @media (prefers-reduced-motion:reduce){ .animated-gradient{animation:none} }
+
+    .overlay-glass{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg, rgba(2,8,23,0.35), rgba(2,8,23,0.5));}
+
+    .card{position:relative;z-index:3;max-width:1100px;margin:0 auto;padding:clamp(1rem,4vw,3rem);display:grid;grid-template-columns:1fr;gap:1.25rem;align-items:center}
+
+    header{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+    .brand{font-weight:800;letter-spacing:0.6px}
+    nav a{color:var(--muted);text-decoration:none;margin-left:1rem}
+
+    .hero-inner{display:grid;gap:1rem}
+    h1{font-weight:800;font-size:clamp(1.8rem,6.5vw,3.8rem);line-height:1.02}
+    p{color:rgba(230,251,255,0.88);max-width:64ch}
+
+    .glass-panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:1.2rem;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.06);display:flex;gap:1rem;align-items:center}
+    .glass-dot{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--glass-1),var(--glass-2));box-shadow:0 8px 30px rgba(7,25,40,0.6)}
+
+    .btn{background:linear-gradient(90deg,#7C3AED,#06B6D4);border:0;color:#fff;padding:.65rem 1.1rem;border-radius:999px;min-height:var(--touch);cursor:pointer}
+
+    /* responsiveness */
+    @media (min-width:820px){ .card{grid-template-columns:1fr 420px;align-items:center} }
+  </style>
+</head>
+<body>
+  <main class="hero" role="main">
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_tsrvd2tsrvd2tsrv.png" aria-hidden="true"></div>
+    <div class="animated-gradient" aria-hidden="true"></div>
+    <div class="overlay-glass" aria-hidden="true"></div>
+
+    <div class="card">
+      <header>
+        <div class="brand">Aurora Glass</div>
+        <nav aria-label="Menu">
+          <a href="#">Início</a>
+          <a href="#">Produtos</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <section class="hero-inner">
+        <div>
+          <h1>Vidro e luz — interface leve com profundidade.</h1>
+          <p>Glassmorphism com gradientes translúcidos e micro-animações. Alto contraste para texto e CTA claro para conversões.</p>
+          <div style="margin-top:1rem;display:flex;gap:1rem;align-items:center">
+            <button class="btn">Começar</button>
+            <div class="glass-panel" aria-hidden="true">
+              <div class="glass-dot"></div>
+              <div style="color:var(--muted)">Posicionamento: top/right • overlay translúcido</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="min-width:220px;align-self:center;color:var(--muted)">
+          <strong>Notas</strong>
+          <p style="margin-top:.5rem">Use backdrop-filter com fallback; animação desligável via prefers-reduced-motion.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <noscript><style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_tsrvd2tsrvd2tsrv.png')}</style></noscript>
+  <script>
+    (function(){
+      const el = document.querySelector('.hero__bg');
+      const src = el.dataset.bg;
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries,obs)=>{ entries.forEach(e=>{ if(e.isIntersecting){ el.style.backgroundImage = `url('${src}')`; obs.unobserve(el); } }); },{rootMargin:'200px'});
+        io.observe(el);
+      } else el.style.backgroundImage = `url('${src}')`;
+    })();
+  </script>
+</body>
+</html>

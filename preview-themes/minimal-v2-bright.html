@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Minimal Bright</title>
+  <style>
+    /* Variação 2 (Img 2): Overlay claro, tipografia minimalista */
+    :root{
+      --bg-light:#fafbfc;
+      --text-dark:#0f1419;
+      --text-muted:#4a5568;
+      --accent:#3b82f6;
+      --accent-dark:#1e40af;
+      --border:rgba(15,20,25,0.08);
+      --max-width:1200px;
+      --touch:44px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text-dark);background:var(--bg-light)}
+
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center}
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;filter:saturate(0.7) brightness(1.15) contrast(0.9)}
+    .overlay-white{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(250,251,252,0.94), rgba(250,251,252,0.90))}
+
+    .wrap{position:relative;z-index:2;max-width:var(--max-width);margin:0 auto;padding:clamp(1.5rem,5vw,4rem);display:grid;gap:2rem}
+
+    header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+    .logo{font-weight:800;color:var(--accent);letter-spacing:0.4px;font-size:1.1rem}
+    nav a{color:var(--text-muted);text-decoration:none;margin-left:1.5rem;font-weight:500;font-size:.95rem;transition:color .2s}
+    nav a:hover{color:var(--accent)}
+
+    .content{max-width:68ch}
+    .eyebrow{font-size:.9rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:.75rem}
+    h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.08;font-weight:900;letter-spacing:-0.03em;margin-bottom:1rem}
+    p{color:var(--text-muted);font-size:1.05rem;line-height:1.7;max-width:60ch}
+
+    .actions{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+    .btn{background:var(--accent);color:#fff;border:0;padding:.75rem 1.4rem;border-radius:8px;font-weight:600;cursor:pointer;min-height:var(--touch);transition:background .2s}
+    .btn:hover{background:var(--accent-dark)}
+    .btn.secondary{background:transparent;color:var(--text-dark);border:2px solid var(--border)}
+
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(59,130,246,0.08);color:var(--accent-dark);padding:.4rem .8rem;border-radius:999px;font-size:.85rem;font-weight:600;margin-top:1.5rem}
+    .badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+    @media (max-width:768px){ header{flex-direction:column;align-items:flex-start;gap:1rem} nav{display:flex;gap:1rem} nav a{margin:0} }
+  </style>
+</head>
+<body>
+  <main class="hero" role="main">
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_7oz7al7oz7al7oz7.png" aria-hidden="true"></div>
+    <div class="overlay-white" aria-hidden="true"></div>
+
+    <div class="wrap">
+      <header>
+        <div class="logo">Minimal Bright</div>
+        <nav aria-label="Navegação principal">
+          <a href="#">Produtos</a>
+          <a href="#">Soluções</a>
+          <a href="#">Empresa</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <section class="content">
+        <div class="eyebrow">Design System 3.0</div>
+        <h1>Clareza absoluta para produtos digitais complexos</h1>
+        <p>Overlay claro com texto escuro (contraste 12.6:1) — ideal para dashboards, SaaS e plataformas que exigem máxima legibilidade sem comprometer estética.</p>
+        
+        <div class="actions">
+          <button class="btn">Acessar plataforma</button>
+          <button class="btn secondary">Ver documentação</button>
+        </div>
+
+        <div class="badge" aria-label="Certificação">WCAG AAA Certificado</div>
+      </section>
+    </div>
+  </main>
+
+  <noscript><style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_7oz7al7oz7al7oz7.png')}</style></noscript>
+  <script>
+    (function(){const el=document.querySelector('.hero__bg');const src=el.dataset.bg;if('IntersectionObserver'in window){const io=new IntersectionObserver((e,o)=>{e.forEach(i=>{if(i.isIntersecting){el.style.backgroundImage=`url('${src}')`;o.unobserve(el)}})},{rootMargin:'200px'});io.observe(el)}else el.style.backgroundImage=`url('${src}')`;})();
+  </script>
+</body>
+</html>

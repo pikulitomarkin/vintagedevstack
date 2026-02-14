@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Textura Vintage</title>
+  <style>
+    /* ========================
+       Tema: Textura Vintage
+       Imagem usada: Gemini_Generated_Image_dmel6odmel6odmel.png
+       Identidade: orgânico, texturizado, tipografia com serif
+       ======================== */
+
+    :root{
+      --bg: #0b0a08;
+      --cream: #F7F3EE;
+      --warm: #D9B99B;
+      --muted: #8A8A8A;
+      --accent: #8AA4A6;
+      --max-width:1200px;
+      --touch:44px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family: "Merriweather", Georgia, serif; color:var(--cream); background:var(--bg)}
+
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center}
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:bottom left;background-repeat:no-repeat;filter:contrast(.98) saturate(.86);}
+    .overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(4,4,6,0.35), rgba(4,4,6,0.65));mix-blend-mode:multiply}
+
+    .grain::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.25;background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 6px)}
+    .vignette::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 50% at 50% 70%, transparent 0%, rgba(0,0,0,0.42) 60%)}
+
+    .container{position:relative;z-index:2;max-width:var(--max-width);margin:0 auto;padding:clamp(1rem,4vw,3rem);display:grid;gap:1.25rem;align-items:start}
+
+    header{display:flex;justify-content:space-between;align-items:center;color:rgba(247,243,238,0.9)}
+    .brand{font-weight:700;letter-spacing:0.6px}
+    nav a{color:rgba(247,243,238,0.7);text-decoration:none;margin-left:1rem}
+
+    h1{font-size:clamp(1.8rem,6vw,3.4rem);margin-top:.5rem;font-family:Georgia,serif}
+    p{color:rgba(247,243,238,0.88);max-width:62ch}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1.2rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(3px)}
+
+    /* positioning: bottom-left */
+    .hero-content{display:flex;gap:1rem;flex-direction:column;align-items:flex-start;justify-content:flex-end;min-height:60vh}
+    @media (min-width:760px){ .hero-content{min-height:72vh;padding-bottom:4rem} }
+
+    .btn{background:var(--warm);color:#2b1f18;padding:.6rem 1rem;border-radius:999px;border:0;min-height:var(--touch);cursor:pointer}
+
+    /* small decorative animated accent (subtle) */
+    .accent{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6b8b8a);box-shadow:0 8px 40px rgba(0,0,0,0.45);transform:translateY(0);transition:transform .6s cubic-bezier(.2,.9,.2,1)}
+    .accent:hover{transform:translateY(-6px)}
+    @media (prefers-reduced-motion:reduce){ .accent{transition:none} }
+
+  </style>
+</head>
+<body>
+  <main class="hero grain vignette" role="main">
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_dmel6odmel6odmel.png" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="container">
+      <header>
+        <div class="brand">Veludo Retrô</div>
+        <nav aria-label="Topo">
+          <a href="#">Portfólio</a>
+          <a href="#">Estúdio</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <section class="hero-content">
+        <div style="max-width:52ch">
+          <h1>A atmosfera tátil — história em cada pixel.</h1>
+          <p>Uso de texturas, grain e cores quentes para trazer sensações analógicas. Contraste garantido pelo overlay e bordas suaves para foco de leitura.</p>
+          <div style="margin-top:1rem;display:flex;gap:1rem;align-items:center">
+            <button class="btn">Explorar coleção</button>
+            <div class="accent" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="card" style="width:260px">
+          <strong>Tratamento tipográfico</strong>
+          <p style="margin-top:.5rem;color:rgba(247,243,238,0.8)">Serif para títulos + sans para textos: hierarquia clássica.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <noscript><style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_dmel6odmel6odmel.png')}</style></noscript>
+  <script>
+    (function(){
+      const el = document.querySelector('.hero__bg');
+      const src = el.dataset.bg;
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries,obs)=>{ entries.forEach(e=>{ if(e.isIntersecting){ el.style.backgroundImage = `url('${src}')`; obs.unobserve(el); } }); },{rootMargin:'200px'});
+        io.observe(el);
+      } else el.style.backgroundImage = `url('${src}')`;
+    })();
+  </script>
+</body>
+</html>

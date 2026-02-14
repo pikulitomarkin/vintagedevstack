@@ -1,0 +1,403 @@
+/* ==============================================
+   THEMES.CSS - Estilos compartilhados para os 12 temas
+   Garante consistência, responsividade e acessibilidade
+   ============================================== */
+
+/* === BASE LAYOUT === */
+.theme-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.theme-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.6s ease;
+  will-change: transform;
+}
+
+.theme-bg.fixed-bg {
+  background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+  .theme-bg.fixed-bg {
+    background-attachment: scroll; /* Performance em mobile */
+  }
+}
+
+.theme-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.theme-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  container-type: inline-size;
+}
+
+/* === TIPOGRAFIA === */
+h1 {
+  font-size: clamp(1.9rem, 6.8vw, 3.6rem);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 700;
+}
+
+p {
+  line-height: 1.65;
+  font-size: 1rem;
+  max-width: 65ch;
+}
+
+/* === BOTÕES === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 0;
+  min-height: 44px; /* Área de toque WCAG */
+  min-width: 44px;
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.2, 1), 
+              box-shadow 0.22s,
+              background 0.22s;
+  text-decoration: none;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === CARDS === */
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 1.2rem;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+}
+
+/* === NAVEGAÇÃO === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  margin-left: 1.2rem;
+  font-weight: 500;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+nav a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  nav {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  nav a {
+    margin-left: 0;
+  }
+}
+
+/* === GRIDS === */
+.hero-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@container (min-width: 760px) {
+  .hero-grid {
+    grid-template-columns: 1fr 380px;
+    align-items: center;
+  }
+}
+
+.features, .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* === ANIMAÇÕES === */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideIn 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.reveal.delay {
+  animation-delay: 0.12s;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Respeitar preferência do usuário */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* === EFEITOS VISUAIS === */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.25;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0 1px,
+    transparent 1px 6px
+  );
+  z-index: 3;
+}
+
+.vignette::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 50% at 50% 70%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.42) 60%
+  );
+  z-index: 3;
+}
+
+/* === SPLIT SCREEN LAYOUTS === */
+.split-theme {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .split-theme {
+    grid-template-columns: 45% 55%;
+  }
+}
+
+.panel {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 6, 4, 0.95),
+    rgba(26, 15, 10, 0.92)
+  );
+  padding: clamp(2rem, 6vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.image-side {
+  position: relative;
+  overflow: hidden;
+  min-height: 40vh;
+}
+
+@media (min-width: 900px) {
+  .image-side {
+    min-height: 100vh;
+  }
+}
+
+/* === ACESSIBILIDADE === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible para teclado */
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* === UTILIDADES === */
+.centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* === PERFORMANCE === */
+/* Otimizações para evitar reflow/repaint */
+.theme-bg,
+.theme-overlay,
+.glow {
+  will-change: transform;
+}
+
+/* Usar transform/opacity para animações (GPU-accelerated) */
+@media (prefers-reduced-motion: no-preference) {
+  .animated-gradient {
+    animation: flow 12s linear infinite;
+  }
+  
+  @keyframes flow {
+    0% { transform: translateX(-10%); }
+    50% { transform: translateX(10%); }
+    100% { transform: translateX(-10%); }
+  }
+  
+  .glow {
+    animation: pulse 8s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* === RESPONSIVE BREAKPOINTS === */
+/* Mobile: < 768px (padrão) */
+/* Tablet: 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .theme-content {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+
+/* Desktop: > 1024px */
+@media (min-width: 1024px) {
+  .theme-content {
+    padding: clamp(2rem, 4vw, 4rem);
+  }
+}
+
+/* Large desktop: > 1440px */
+@media (min-width: 1440px) {
+  .theme-container {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+}

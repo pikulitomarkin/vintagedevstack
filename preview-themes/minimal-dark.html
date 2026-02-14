@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Minimal Dark</title>
+  <style>
+    /* ========================
+       Tema: Minimal Dark
+       Imagem usada: Gemini_Generated_Image_7oz7al7oz7al7oz7.png
+       Identidade: elegante, tipografia minimal, CTA clara
+       ======================== */
+
+    :root{
+      --bg-dark: #071026;
+      --panel: rgba(255,255,255,0.03);
+      --accent: #60A5FA;
+      --text: #E6EEF8;
+      --muted: rgba(230,238,248,0.7);
+      --radius: 12px;
+      --touch:44px;
+      --max-width:1200px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);background:var(--bg-dark)}
+
+    .hero{position:relative;min-height:100vh;display:grid;align-items:center}
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:right center;background-repeat:no-repeat;filter:saturate(.95) contrast(.98);background-attachment:fixed}
+    @media (max-width:768px){ .hero__bg{background-position:center;background-attachment:scroll} }
+
+    .overlay{position:absolute;inset:0;z-index:1;background:radial-gradient(1200px 400px at 85% 20%, rgba(96,165,250,0.12), transparent 20%), linear-gradient(180deg, rgba(2,6,23,0.65), rgba(2,6,23,0.78));}
+
+    .wrap{position:relative;z-index:2;max-width:var(--max-width);margin:0 auto;padding:clamp(1rem,4vw,3.5rem);display:grid;grid-template-columns:1fr;gap:1.4rem;container-type:inline-size}
+
+    header{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+    .brand{font-weight:700;letter-spacing:.6px}
+    nav a{color:var(--muted);text-decoration:none;margin-left:1rem;font-size:.95rem}
+
+    .layout{display:grid;gap:1.25rem}
+    h1{font-size:clamp(1.6rem,5.6vw,3rem);line-height:1.02;font-weight:800;letter-spacing:-0.02em}
+    p{color:rgba(230,238,248,0.85);max-width:60ch}
+
+    .actions{display:flex;gap:1rem;margin-top:1rem}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:.7rem 1.1rem;border-radius:999px;color:var(--muted);min-height:var(--touch);cursor:pointer;transition:all .18s}
+    .btn.primary{background:linear-gradient(90deg,#4F46E5,#06B6D4);color:#fff;border:0}
+
+    /* position variation: content aligned right on desktop */
+    @container (min-width:760px){ .layout{grid-template-columns:1fr 420px;align-items:center} .wrap{padding:4rem} .layout .card{justify-self:end;text-align:right} }
+
+    .card{background:var(--panel);padding:1.1rem;border-radius:12px;color:var(--muted);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.02)}
+
+    /* subtle hover and focus - accessible */
+    .btn:focus{outline:3px solid rgba(96,165,250,0.18);outline-offset:3px}
+
+    @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+  </style>
+</head>
+<body>
+  <main class="hero" role="main">
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_7oz7al7oz7al7oz7.png" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="wrap">
+      <header>
+        <div class="brand">Minimal Dark</div>
+        <nav aria-label="Navegação">
+          <a href="#">Sobre</a>
+          <a href="#">Trabalhos</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <section class="layout">
+        <div>
+          <h1>Foco no conteúdo — estética sóbria.</h1>
+          <p class="muted">Espaço respirável, tipografia forte e CTA claro. Overlay escuro garante contraste elevado mesmo com imagens complexas.</p>
+          <div class="actions">
+            <button class="btn primary">Veja o case</button>
+            <button class="btn">Contato</button>
+          </div>
+        </div>
+
+        <aside class="card" aria-hidden="true">
+          <strong>Tratamento</strong>
+          <p style="margin-top:.5rem">Overlay escuro + radial accent • Posicionamento: right • Tipografia minimalista</p>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <noscript><style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_7oz7al7oz7al7oz7.png')}</style></noscript>
+  <script>
+    (function(){
+      const el = document.querySelector('.hero__bg');
+      const src = el.dataset.bg;
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries,obs)=>{ entries.forEach(e=>{ if(e.isIntersecting){ el.style.backgroundImage = `url('${src}')`; obs.unobserve(el); } }); },{rootMargin:'150px'});
+        io.observe(el);
+      } else el.style.backgroundImage = `url('${src}')`;
+    })();
+  </script>
+</body>
+</html>

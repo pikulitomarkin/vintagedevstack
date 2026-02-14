@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tema — Artisan Clean</title>
+  <style>
+    /* Variação 2 (Img 3): Overlay claro, tipografia moderna, mínimo grain */
+    :root{
+      --bg-cream:#faf8f5;
+      --text:#2d1810;
+      --text-muted:#6b5548;
+      --accent:#d97706;
+      --accent-light:#fbbf24;
+      --border:rgba(45,24,16,0.08);
+      --max-width:1200px;
+      --touch:44px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);background:var(--bg-cream)}
+
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center}
+    .hero__bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center bottom;filter:saturate(0.75) brightness(1.2)}
+    .overlay-cream{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(250,248,245,0.95), rgba(250,248,245,0.88))}
+    .subtle-grain::after{content:'';position:absolute;inset:0;z-index:2;background-image:repeating-linear-gradient(45deg, rgba(45,24,16,0.01) 0 1px, transparent 1px 4px);pointer-events:none;opacity:.4}
+
+    .wrap{position:relative;z-index:3;max-width:var(--max-width);margin:0 auto;padding:clamp(2rem,5vw,4rem);display:grid;gap:2rem}
+
+    header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1.5rem;border-bottom:2px solid var(--border)}
+    .brand{font-weight:800;color:var(--accent);font-size:1.15rem;letter-spacing:0.4px}
+    nav a{color:var(--text-muted);text-decoration:none;margin-left:1.5rem;font-weight:500}
+
+    .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:3rem;align-items:center}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+
+    h1{font-size:clamp(2.4rem,6.5vw,4.2rem);line-height:1.08;font-weight:900;letter-spacing:-0.03em;margin-bottom:1rem}
+    .highlight{color:var(--accent)}
+    p{color:var(--text-muted);line-height:1.7;font-size:1.05rem;max-width:56ch}
+
+    .actions{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-light));border:0;color:#fff;padding:.75rem 1.5rem;border-radius:12px;font-weight:700;cursor:pointer;min-height:var(--touch);box-shadow:0 4px 20px rgba(217,119,6,0.2)}
+    .btn.secondary{background:transparent;color:var(--text);border:2px solid var(--border);box-shadow:none}
+
+    .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .feature{background:rgba(255,255,255,0.5);padding:1.2rem;border-radius:12px;border:1px solid var(--border)}
+    .feature h3{font-size:1rem;margin-bottom:.4rem;color:var(--text)}
+    .feature p{font-size:.9rem;color:var(--text-muted);margin:0}
+
+    @media (max-width:768px){ header{flex-direction:column;align-items:flex-start;gap:1rem} nav{display:flex;gap:1rem} nav a{margin:0} .feature-grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="hero subtle-grain" role="main">
+    <div class="hero__bg" data-bg="../img temas/Gemini_Generated_Image_dmel6odmel6odmel.png" aria-hidden="true"></div>
+    <div class="overlay-cream" aria-hidden="true"></div>
+
+    <div class="wrap">
+      <header>
+        <div class="brand">Artisan Clean</div>
+        <nav aria-label="Navegação">
+          <a href="#">Coleções</a>
+          <a href="#">Sobre</a>
+          <a href="#">Contato</a>
+        </nav>
+      </header>
+
+      <div class="grid">
+        <section>
+          <h1>Texturas <span class="highlight">artesanais</span> com clareza contemporânea</h1>
+          <p>Overlay claro com grain sutil (contraste 9.2:1) — perfeito para e-commerce artesanal, marcas orgânicas e estúdios criativos que valorizam estética clean com toque humano.</p>
+          <div class="actions">
+            <button class="btn">Explorar produtos</button>
+            <button class="btn secondary">Ver manifesto</button>
+          </div>
+        </section>
+
+        <aside class="feature-grid">
+          <article class="feature">
+            <h3>Contraste alto</h3>
+            <p>Texto escuro sobre fundo claro — legibilidade garantida.</p>
+          </article>
+          <article class="feature">
+            <h3>Grain artesanal</h3>
+            <p>Toque analógico sem comprometer performance.</p>
+          </article>
+          <article class="feature">
+            <h3>Tipografia bold</h3>
+            <p>Headlines impactantes com peso visual.</p>
+          </article>
+          <article class="feature">
+            <h3>Mobile-first</h3>
+            <p>100% responsivo desde 320px.</p>
+          </article>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <noscript><style>.hero__bg{background-image:url('../img temas/Gemini_Generated_Image_dmel6odmel6odmel.png')}</style></noscript>
+  <script>
+    (function(){const el=document.querySelector('.hero__bg');const src=el.dataset.bg;if('IntersectionObserver'in window){const io=new IntersectionObserver((e,o)=>{e.forEach(i=>{if(i.isIntersecting){el.style.backgroundImage=`url('${src}')`;o.unobserve(el)}})},{rootMargin:'200px'});io.observe(el)}else el.style.backgroundImage=`url('${src}')`;})();
+  </script>
+</body>
+</html>
