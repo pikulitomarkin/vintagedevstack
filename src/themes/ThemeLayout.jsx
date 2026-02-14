@@ -41,6 +41,8 @@ const ThemeLayout = ({
     }
   }, [backgroundImage]);
 
+  const isSplit = typeof className === 'string' && className.includes('split-theme');
+
   return (
     <div className={`theme-container ${className}`}>
       <div 
@@ -54,9 +56,27 @@ const ThemeLayout = ({
         aria-hidden="true"
       />
       {extraElements}
-      <div className="theme-content">
-        {children}
-      </div>
+
+      {/* Renderização específica para 'split-theme' — painel esquerdo com conteúdo real + imagem à direita */}
+      {isSplit ? (
+        <div className="split-theme-wrapper" aria-hidden={false}>
+          <section className="panel">
+            <div className="theme-content">
+              {children}
+            </div>
+          </section>
+
+          {/* Exibe a mesma imagem de background na coluna direita para dar o efeito 'split' */}
+          <aside className="image-side" aria-hidden="true">
+            <div className="bg" style={{ backgroundImage: `url('${backgroundImage}')` }} />
+            <div className="gradient-overlay" style={overlayStyle} aria-hidden="true" />
+          </aside>
+        </div>
+      ) : (
+        <div className="theme-content">
+          {children}
+        </div>
+      )}
     </div>
   );
 };

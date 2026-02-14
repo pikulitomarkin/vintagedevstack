@@ -6,24 +6,31 @@
 /* === BASE LAYOUT === */
 .theme-container {
   position: relative;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden; /* mantém overflow interno escondido */
 }
 
+/* Background full-bleed: usa fixed para garantir cobertura da viewport
+   (mantemos o lazy-load no JS — só alteramos a posição para cobrir as laterais) */
 .theme-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   transition: transform 0.6s ease;
   will-change: transform;
+  pointer-events: none;
 }
 
 .theme-bg.fixed-bg {
+  /* mantém compatibilidade com mobile (fallback definido via media query abaixo) */
   background-attachment: fixed;
 }
 
@@ -31,10 +38,19 @@
   .theme-bg.fixed-bg {
     background-attachment: scroll; /* Performance em mobile */
   }
+
+  /* Evita fixed background em dispositivos móveis (melhora performance) */
+  .theme-bg {
+    position: absolute;
+  }
+  .theme-overlay {
+    position: absolute;
+  }
 }
 
 .theme-overlay {
-  position: absolute;
+  /* overlay também full-bleed para cobrir toda a viewport e garantir contraste */
+  position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
@@ -192,6 +208,90 @@ nav a:focus-visible {
   }
 }
 
+/* Common container utilities used by preview themes — scoped inside `.theme-content`
+   so they don't affect static previews. These ensure components like
+   `.layout`, `.wrap`, `.hero-content`, `.card-grid` and `.side-card` render
+   identically in the React app. */
+.theme-content .wrap,
+.theme-content .container {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width, 1200px);
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  display: grid;
+  gap: 1.25rem;
+  container-type: inline-size;
+}
+
+.theme-content .layout {
+  display: grid;
+  gap: 1.25rem;
+}
+@container (min-width: 760px) {
+  .theme-content .layout {
+    grid-template-columns: 1fr 420px;
+    align-items: center;
+  }
+  .theme-content .layout .card {
+    justify-self: end;
+    text-align: right;
+  }
+}
+
+.theme-content .hero-content,
+.theme-content .content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.theme-content .content.centered {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.theme-content .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.02);
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--accent-neon, #06b6d4);
+}
+
+/* side-card / two-column content inside theme-content */
+.theme-content > .side-card,
+.theme-content > aside.side-card {
+  margin-top: 1rem;
+  max-width: 360px;
+  background: rgba(255,255,255,0.02);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+@container (min-width: 760px) {
+  .theme-content {
+    /* if there is an aside, allow it to form a 2-col layout without breaking single-column themes */
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 360px);
+    gap: 2rem;
+    align-items: center;
+  }
+  .theme-content > section { grid-column: 1; }
+  .theme-content > aside.side-card { grid-column: 2; }
+}
+
+.theme-content .card-grid,
+.theme-content .feature-cards,
+.theme-content .card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
 .features, .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -264,6 +364,7 @@ nav a:focus-visible {
 }
 
 /* === SPLIT SCREEN LAYOUTS === */
+/* standalone `.split-theme` (used by preview components) */
 .split-theme {
   display: grid;
   min-height: 100vh;
@@ -276,6 +377,103 @@ nav a:focus-visible {
   }
 }
 
+/* layout aplicado quando `split-theme` é usado via `ThemeLayout` (app real)
+   - garante que `.theme-content` ocupe a coluna do painel (esquerda)
+   - mostra `.image-side` à direita usando a mesma imagem de fundo */
+.theme-container.split-theme {
+  display: grid;
+  /* ligeiro aumento da coluna esquerda para mais espaço ao conteúdo */
+  grid-template-columns: 48% 52%;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.theme-container.split-theme .theme-content {
+  max-width: none;
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centra verticalmente o conteúdo do painel */
+  align-items: center;     /* centraliza horizontalmente (como nos outros temas) */
+  text-align: center;
+  gap: 1rem;
+}
+
+/* limita larguras internas (hero/containers) para evitar overflow de títulos muito grandes) */
+.theme-container.split-theme .theme-content .max-w-5xl,
+.theme-container.split-theme .theme-content .wrap,
+.theme-container.split-theme .theme-content .container {
+  max-width: 760px !important;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* reduzir H1 muito grande só para split-theme (mantém escala nos outros temas) */
+.theme-container.split-theme h1 {
+  font-size: clamp(2.6rem, 5.2vw, 4.25rem) !important;
+  line-height: 1.03;
+  margin: 0.25rem 0 0.75rem;
+}
+
+/* subtítulos e lead text um pouco mais compactos */
+.theme-container.split-theme p,
+.theme-container.split-theme .lead {
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  max-width: 56ch;
+  margin: 0.5rem auto;
+}
+
+/* patentes/linhas centrais alinhadas */
+.theme-container.split-theme .patent-line {
+  margin: 1rem auto;
+  max-width: 720px;
+}
+
+/* botões alinhados ao centro (como nos outros temas) */
+.theme-container.split-theme .cta,
+.theme-container.split-theme .btn-group {
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .theme-container.split-theme {
+    grid-template-columns: 1fr;
+  }
+  .theme-container.split-theme .theme-content {
+    align-items: center;
+    text-align: center;
+    padding: clamp(1rem, 4vw, 2rem);
+  }
+}
+
+.theme-container.split-theme .image-side {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.theme-container.split-theme .image-side .bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  filter: saturate(.92) contrast(.96);
+}
+
+@media (max-width: 900px) {
+  .theme-container.split-theme {
+    grid-template-columns: 1fr;
+  }
+  .theme-container.split-theme .image-side { display: none; }
+  .theme-container.split-theme .theme-content { padding: clamp(1rem, 4vw, 3.5rem); }
+}
+
+/* panel + image-side base (shared with preview files) */
 .panel {
   background: linear-gradient(
     135deg,

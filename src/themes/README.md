@@ -1,6 +1,6 @@
 # Componentes de Temas React
 
-Esta pasta contém **12 componentes de tema responsivos** prontos para uso em aplicações React/Vite, cada um com identidade visual única e garantia de contraste WCAG AA/AAA.
+Esta pasta contém **8 componentes de tema responsivos** prontos para uso em aplicações React/Vite, cada um com identidade visual única e garantia de contraste WCAG AA/AAA.
 
 ---
 
@@ -10,8 +10,8 @@ Esta pasta contém **12 componentes de tema responsivos** prontos para uso em ap
 src/themes/
 ├── ThemeLayout.jsx          # Componente base (lazy loading, estrutura)
 ├── AmanhecerGradient.jsx    # Tema 1.1
-├── AmanhecerLight.jsx       # Tema 1.2
-├── AmanhecerSplit.jsx       # Tema 1.3
+
+
 ├── MinimalDark.jsx          # Tema 2.1
 ├── MinimalBright.jsx        # Tema 2.2
 ├── ElectricAsymmetric.jsx   # Tema 2.3
@@ -19,8 +19,7 @@ src/themes/
 ├── ArtisanClean.jsx         # Tema 3.2
 ├── WarmFade.jsx             # Tema 3.3
 ├── AuroraGlass.jsx          # Tema 4.1
-├── CrystalClear.jsx         # Tema 4.2
-├── VibrantCards.jsx         # Tema 4.3
+
 ├── themes.css               # Estilos compartilhados
 ├── index.js                 # Exports centralizados
 └── README.md                # Este arquivo
@@ -120,8 +119,7 @@ function MeuTemaCustom() {
 | Tema | ID | Contraste | Overlay | Melhor uso |
 |------|-----|-----------|---------|------------|
 | Amanhecer Gradiente | `amanhecer-gradient` | WCAG AA | Gradiente quente | Landing pages vibrantes |
-| Amanhecer Light | `amanhecer-light` | 7.8:1 AAA | Claro | Conteúdo denso |
-| Amanhecer Split | `amanhecer-split` | 15.2:1 AAA | Split lateral | Apresentações produto |
+
 | Minimal Dark | `minimal-dark` | WCAG AA+ | Escuro radial | Portfolios minimalistas |
 | Minimal Bright | `minimal-bright` | 12.6:1 AAA | Claro | SaaS/dashboards |
 | Electric Asymmetric | `electric-asymmetric` | 14:1 AAA | Acento elétrico | Tech startups, gaming |
@@ -129,8 +127,7 @@ function MeuTemaCustom() {
 | Artisan Clean | `artisan-clean` | 9.2:1 AAA | Claro grain | E-commerce artesanal |
 | Warm Fade | `warm-fade` | 11.8:1 AAA | Fade lateral | Blogs premium |
 | Aurora Glass | `aurora-glass` | WCAG AA+ | Glassmorphism | Interfaces modernas |
-| Crystal Clear | `crystal-clear` | 13.5:1 AAA | Claro glass | Plataformas corporativas |
-| Vibrant Cards | `vibrant-cards` | 14.2:1 AAA | Multicolor cards | Marketplaces, SaaS |
+
 
 ---
 

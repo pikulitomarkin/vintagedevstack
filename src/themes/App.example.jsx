@@ -1,13 +1,11 @@
 /**
- * EXEMPLO DE USO DOS 12 TEMAS
- * Copie este código para src/App.jsx para testar os temas
+ * EXEMPLO DE USO DOS 8 TEMAS
+ * Copie este código para src/App.jsx para testar os temas (8 temas disponíveis)
  */
 
 import { useState } from 'react';
 import {
   AmanhecerGradient,
-  AmanhecerLight,
-  AmanhecerSplit,
   MinimalDark,
   MinimalBright,
   ElectricAsymmetric,
@@ -15,8 +13,6 @@ import {
   ArtisanClean,
   WarmFade,
   AuroraGlass,
-  CrystalClear,
-  VibrantCards,
   themesMetadata
 } from './themes';
 import './themes/themes.css';
@@ -24,17 +20,13 @@ import './themes/themes.css';
 // Mapeamento de IDs para componentes
 const themeComponents = {
   'amanhecer-gradient': AmanhecerGradient,
-  'amanhecer-light': AmanhecerLight,
-  'amanhecer-split': AmanhecerSplit,
   'minimal-dark': MinimalDark,
   'minimal-bright': MinimalBright,
   'electric-asymmetric': ElectricAsymmetric,
   'textura-vintage': TexturaVintage,
   'artisan-clean': ArtisanClean,
   'warm-fade': WarmFade,
-  'aurora-glass': AuroraGlass,
-  'crystal-clear': CrystalClear,
-  'vibrant-cards': VibrantCards
+  'aurora-glass': AuroraGlass
 };
 
 function App() {

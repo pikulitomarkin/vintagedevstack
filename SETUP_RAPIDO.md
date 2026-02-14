@@ -1,6 +1,6 @@
 # 🚀 Setup Rápido — Começar em 5 minutos
 
-Este guia mostra como testar os 12 temas imediatamente no seu projeto.
+Este guia mostra como testar os 8 temas imediatamente no seu projeto.
 
 ---
 
@@ -15,7 +15,7 @@ chrome preview-themes/index.html
 firefox preview-themes/index.html
 ```
 
-**Pronto!** Navegue pelos 12 temas e teste responsividade (F12 → Device Toolbar).
+**Pronto!** Navegue pelos 8 temas e teste responsividade (F12 → Device Toolbar).
 
 ---
 
@@ -43,7 +43,7 @@ npm run dev
 http://localhost:5173
 ```
 
-**Pronto!** Use o seletor no canto superior direito para trocar entre os 12 temas.
+**Pronto!** Use o seletor no canto superior direito para trocar entre os 8 temas.
 
 ---
 
@@ -228,4 +228,4 @@ import './themes/themes.css';
 
 **🎉 Divirta-se criando!**
 
-Todos os 12 temas estão prontos para produção com contraste garantido, responsividade completa e performance otimizada.
+Todos os 8 temas estão prontos para produção com contraste garantido, responsividade completa e performance otimizada.

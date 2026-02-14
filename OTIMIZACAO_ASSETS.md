@@ -1,6 +1,6 @@
-# Guia de Otimização de Assets — 12 Temas
+# Guia de Otimização de Assets — 8 Temas
 
-Este guia fornece instruções completas para otimizar as imagens de fundo e garantir performance máxima em todos os 12 temas criados.
+Este guia fornece instruções completas para otimizar as imagens de fundo e garantir performance máxima em todos os 8 temas criados.
 
 ---
 

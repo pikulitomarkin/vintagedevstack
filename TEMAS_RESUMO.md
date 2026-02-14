@@ -1,4 +1,4 @@
-# 🎨 Resumo — 12 Temas Profissionais Criados
+# 🎨 Resumo — 8 Temas Profissionais Criados
 
 **Data:** 14 de fevereiro de 2026  
 **Projeto:** Vintage Dev Stack — Temas responsivos com alto contraste
@@ -7,7 +7,7 @@
 
 ## ✅ Entregas concluídas
 
-### 1️⃣ **12 Temas HTML/CSS** (preview estáticos)
+### 1️⃣ **8 Temas HTML/CSS** (preview estáticos)
 Arquivos criados em `preview-themes/`:
 - ✅ 3 variações para Imagem 1 (Amanhecer)
 - ✅ 3 variações para Imagem 2 (Minimal)
@@ -15,7 +15,7 @@ Arquivos criados em `preview-themes/`:
 - ✅ 3 variações para Imagem 4 (Aurora)
 - ✅ Index de navegação (`index.html`)
 
-### 2️⃣ **12 Componentes React** (prontos para produção)
+### 2️⃣ **8 Componentes React** (prontos para produção)
 Arquivos criados em `src/themes/`:
 - ✅ `ThemeLayout.jsx` (componente base com lazy loading)
 - ✅ 12 componentes de tema individuais
@@ -23,6 +23,7 @@ Arquivos criados em `src/themes/`:
 - ✅ `index.js` (exports e metadados)
 - ✅ `README.md` (documentação completa)
 - ✅ `App.example.jsx` (exemplo de integração)
+- ✅ 8 componentes de tema individuais
 
 ### 3️⃣ **Guia de otimização de assets**
 - ✅ `OTIMIZACAO_ASSETS.md` (raiz do projeto)
@@ -38,8 +39,7 @@ Arquivos criados em `src/themes/`:
 | # | Nome | Arquivo HTML | Componente React | Contraste | Overlay | Uso ideal |
 |---|------|--------------|------------------|-----------|---------|-----------|
 | 1 | Amanhecer Gradiente | `amanhecer-gradient.html` | `AmanhecerGradient.jsx` | WCAG AA | Gradiente quente | Landing pages vibrantes |
-| 2 | Amanhecer Light | `amanhecer-v2-light.html` | `AmanhecerLight.jsx` | 7.8:1 (AAA) | Claro | Conteúdo denso |
-| 3 | Amanhecer Split | `amanhecer-v3-split.html` | `AmanhecerSplit.jsx` | 15.2:1 (AAA) | Split lateral | Apresentações produto |
+
 | 4 | Minimal Dark | `minimal-dark.html` | `MinimalDark.jsx` | WCAG AA+ | Escuro radial | Portfolios minimalistas |
 | 5 | Minimal Bright | `minimal-v2-bright.html` | `MinimalBright.jsx` | 12.6:1 (AAA) | Claro | SaaS/dashboards |
 | 6 | Electric Asymmetric | `minimal-v3-electric.html` | `ElectricAsymmetric.jsx` | 14:1 (AAA) | Acento elétrico | Tech startups, gaming |
@@ -47,8 +47,7 @@ Arquivos criados em `src/themes/`:
 | 8 | Artisan Clean | `artisan-v2-clean.html` | `ArtisanClean.jsx` | 9.2:1 (AAA) | Claro grain | E-commerce artesanal |
 | 9 | Warm Fade | `artisan-v3-warm.html` | `WarmFade.jsx` | 11.8:1 (AAA) | Fade lateral | Blogs premium |
 | 10 | Aurora Glass | `aurora-glass.html` | `AuroraGlass.jsx` | WCAG AA+ | Glassmorphism | Interfaces modernas |
-| 11 | Crystal Clear | `aurora-v2-crystal.html` | `CrystalClear.jsx` | 13.5:1 (AAA) | Claro glass | Plataformas corporativas |
-| 12 | Vibrant Cards | `aurora-v3-vibrant.html` | `VibrantCards.jsx` | 14.2:1 (AAA) | Multicolor | Marketplaces, SaaS |
+
 
 ---
 
@@ -56,7 +55,7 @@ Arquivos criados em `src/themes/`:
 
 ### ✅ Contraste e acessibilidade
 - **Mínimo WCAG AA (4.5:1)** para texto principal
-- **9 temas com AAA (7:1+)** para máxima legibilidade
+- **vários temas com AAA (7:1+)** para máxima legibilidade
 - Áreas de toque **44×44px** em todos os botões
 - Navegação por teclado com `:focus-visible`
 - Suporte para screen readers (`aria-label`, `role`)
@@ -93,7 +92,7 @@ start preview-themes/index.html  # Windows
 open preview-themes/index.html   # macOS/Linux
 ```
 
-Navegue pelos 12 temas e teste responsividade (DevTools → Device Toolbar).
+Navegue pelos 8 temas e teste responsividade (DevTools → Device Toolbar).
 
 ### Opção 2: Componentes React (produção)
 
@@ -124,24 +123,20 @@ vintagedevstack/
 ├── preview-themes/               # Previews HTML estáticos
 │   ├── index.html               # ✅ Galeria de navegação
 │   ├── amanhecer-gradient.html  # ✅ Tema 1.1
-│   ├── amanhecer-v2-light.html  # ✅ Tema 1.2
-│   ├── amanhecer-v3-split.html  # ✅ Tema 1.3
 │   ├── minimal-dark.html        # ✅ Tema 2.1
 │   ├── minimal-v2-bright.html   # ✅ Tema 2.2
 │   ├── minimal-v3-electric.html # ✅ Tema 2.3
 │   ├── textura-vintage.html     # ✅ Tema 3.1
 │   ├── artisan-v2-clean.html    # ✅ Tema 3.2
 │   ├── artisan-v3-warm.html     # ✅ Tema 3.3
-│   ├── aurora-glass.html        # ✅ Tema 4.1
-│   ├── aurora-v2-crystal.html   # ✅ Tema 4.2
-│   └── aurora-v3-vibrant.html   # ✅ Tema 4.3
+│   └── aurora-glass.html        # ✅ Tema 4.1
 │
 ├── src/
 │   └── themes/                  # Componentes React
 │       ├── ThemeLayout.jsx      # ✅ Componente base
 │       ├── AmanhecerGradient.jsx
 │       ├── AmanhecerLight.jsx
-│       ├── AmanhecerSplit.jsx
+
 │       ├── MinimalDark.jsx
 │       ├── MinimalBright.jsx
 │       ├── ElectricAsymmetric.jsx
@@ -234,8 +229,8 @@ vercel deploy --prod
 
 - **Total de arquivos criados**: 28
 - **Linhas de código**: ~4.800+
-- **Temas HTML**: 12 (+ 1 index)
-- **Componentes React**: 13 (12 temas + ThemeLayout)
+- **Temas HTML**: 8 (+ 1 index)
+- **Componentes React**: 9 (8 temas + ThemeLayout)
 - **Contraste médio**: 10.6:1 (bem acima de WCAG AA)
 - **Responsividade**: 100% (320px - 2560px)
 - **Acessibilidade**: AAA (75%), AA (25%)
