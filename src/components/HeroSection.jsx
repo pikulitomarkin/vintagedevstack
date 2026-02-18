@@ -1,9 +1,23 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 const HeroSection = () => {
   const [audioEnabled, setAudioEnabled] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
   const videoRef = useRef(null)
+
+  // Reproduz o vídeo uma vez ao abrir o site
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {})
+    }
+  }, [])
+
+  const handleVideoEnded = () => {
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
+    setIsPlaying(false)
+  }
 
   const enableAudio = () => {
     if (videoRef.current) {
@@ -66,10 +80,10 @@ const HeroSection = () => {
               <video 
                 ref={videoRef}
                 autoPlay 
-                loop 
                 muted
                 playsInline
                 preload="auto"
+                onEnded={handleVideoEnded}
                 className="w-full h-full object-cover opacity-70 mix-blend-screen"
                 style={{
                   filter: 'brightness(1.2) contrast(1.1) saturate(0.8)',
