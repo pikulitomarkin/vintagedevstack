@@ -21,8 +21,7 @@ const TexturaVintage = () => {
       <header>
         <div className="brand">Veludo Retrô</div>
         <nav aria-label="Topo">
-          <a href="#portfolio">Portfólio</a>
-          <a href="#estudio">Estúdio</a>
+<a href="#estudio">Estúdio</a>
           <a href="#contato">Contato</a>
         </nav>
       </header>
