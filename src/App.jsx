@@ -4,7 +4,6 @@ import { themeSkins, themesMetadata } from './themes'
 import './themes/themes.css'
 
 import HeroSection from './components/HeroSection'
-import PortfolioSection from './components/PortfolioSection'
 import ServicesSection from './components/ServicesSection'
 import AboutSection from './components/AboutSection'
 import ContactSection from './components/ContactSection'
@@ -83,7 +82,6 @@ export default function App() {
       {/* Site com o skin selecionado (usa os componentes reais) */}
       <ThemeLayout {...selectedSkin}>
         <HeroSection />
-        <PortfolioSection />
         <ServicesSection />
         <AboutSection />
         <ContactSection />
