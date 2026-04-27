@@ -73,23 +73,23 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Especificações Técnicas */}
+        {/* Especificações Técnicas — Workana 25/04/2026 */}
         <div className="mt-6 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">5+</p>
-            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Projetos Ativos</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">33</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Projetos Entregues</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">100%</p>
-            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Taxa de Sucesso</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">5.0★</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Avaliação Workana</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">24/7</p>
-            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Disponibilidade</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">#11</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Ranking TI Brasil</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">∞</p>
-            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Inovação</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">HERO</p>
+            <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Nível Workana</p>
           </div>
         </div>
 
