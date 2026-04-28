@@ -33,6 +33,17 @@ const IconWorkana = ({ className = 'w-7 h-7' }) => (
   </svg>
 )
 
+const IconBriefcase = ({ className = 'w-10 h-10' }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="1.5"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+    <line x1="12" y1="12" x2="12" y2="12"/>
+    <path d="M2 12h20"/>
+  </svg>
+)
+
 const ContactSection = () => {
   const links = {
     whatsapp: 'https://wa.me/5543988713278',
@@ -91,6 +102,19 @@ const ContactSection = () => {
           >
             <IconEmail className="w-10 h-10 text-electric-blue group-hover:text-accent-neon transition-colors" />
             <span className="font-mono text-xs text-electric-blue/80 group-hover:text-accent-neon uppercase">Email</span>
+          </a>
+
+          {/* Card Carreiras */}
+          <a
+            href="/carreiras.html"
+            className="relative blueprint-border bg-navy-deep/30 p-6 flex flex-col items-center justify-center gap-3 transition-all hover:border-accent-neon hover:bg-electric-blue/5 group"
+            aria-label="Carreiras"
+          >
+            <span className="absolute top-2 right-2 text-[9px] bg-electric-blue text-navy-deep px-2 py-0.5 rounded-full animate-pulse font-bold leading-none">
+              3 vagas
+            </span>
+            <IconBriefcase className="w-10 h-10 text-electric-blue group-hover:text-accent-neon transition-colors" />
+            <span className="font-mono text-xs text-electric-blue/80 group-hover:text-accent-neon uppercase tracking-wider">Carreiras</span>
           </a>
 
           {/* Card LinkedIn, GitHub, Workana */}
