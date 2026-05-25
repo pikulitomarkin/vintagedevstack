@@ -296,7 +296,7 @@ export default function App() {
               <p>
                 A <strong>Vintage DevStack</strong> nasce da fusão única entre a
                 <span className="acc">engenharia clássica de precisão</span> e o desenvolvimento de
-                software moderno. Inspirados pela elegante simplicidade da
+                software moderno. Inspirados pela elegante simplicidade da{" "}
                 <span className="serif" style={{ fontStyle: 'italic' }}>Máquina de Turing</span>, aplicamos
                 os mesmos princípios de excelência, durabilidade e atenção aos detalhes em cada
                 linha de código.
