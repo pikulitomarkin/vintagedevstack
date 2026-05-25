@@ -9,31 +9,30 @@
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   
   <style>
     :root {
-      /* Tema blueprint Vintage DevStack */
-      --navy-deep: #002244;
-      --electric-blue: #00D4FF;
-      --tech-white: #F0F8FF;
-      --accent-neon: #00FF88;
-      --primary: #00D4FF;
-      --primary-dark: #00a8cc;
-      --secondary: #00FF88;
-      --dark: #002244;
-      --dark-light: #003358;
-      --light: rgba(240, 248, 255, 0.08);
-      --gray: rgba(0, 212, 255, 0.6);
-      --success: #00FF88;
-      --warning: #f59e0b;
+      --navy-deep: #061714;
+      --electric-blue: #00ff9c;
+      --tech-white: #d8fff0;
+      --accent-neon: #00d4ff;
+      --primary: #00ff9c;
+      --primary-dark: #1c5a4d;
+      --secondary: #5effc8;
+      --dark: #061714;
+      --dark-light: #0a221f;
+      --light: rgba(216, 255, 240, 0.08);
+      --gray: #6cd6b8;
+      --success: #00ff9c;
+      --warning: #ffb84d;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.15);
-      --radius: 12px;
+      --shadow-lg: 4px 4px 0 #1c5a4d, 4px 4px 0 1px #00ff9c;
+      --radius: 0px;
       --transition: all 0.3s ease;
-      --blueprint-border: 1px solid rgba(0, 212, 255, 0.3);
-      --blueprint-glow: 0 0 20px rgba(0, 212, 255, 0.1), inset 0 0 10px rgba(0, 212, 255, 0.05);
+      --blueprint-border: 1.5px solid #1c5a4d;
+      --blueprint-glow: 0 0 20px rgba(0, 255, 156, 0.1), inset 0 0 10px rgba(0, 255, 156, 0.05);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +40,7 @@
     html { scroll-behavior: smooth; }
     
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Mono', monospace;
       background: var(--navy-deep);
       background-image:
         linear-gradient(rgba(0, 212, 255, 0.06) 1px, transparent 1px),
@@ -210,7 +209,7 @@
     
     .btn {
       padding: 0.875rem 1.75rem;
-      border-radius: 50px;
+      border-radius: 0px;
       text-decoration: none;
       font-weight: 600;
       transition: var(--transition);
@@ -375,7 +374,7 @@
     .about-card {
       background: rgba(0, 34, 68, 0.6);
       padding: 2rem;
-      border-radius: var(--radius);
+      border-radius: 0px;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
     }
@@ -451,7 +450,7 @@
     .skill-category {
       background: rgba(0, 34, 68, 0.6);
       padding: 1.5rem;
-      border-radius: var(--radius);
+      border-radius: 0px;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
       transition: var(--transition);
@@ -484,7 +483,7 @@
       color: var(--electric-blue);
       border: 1px solid rgba(0, 212, 255, 0.4);
       padding: 0.375rem 0.875rem;
-      border-radius: 50px;
+      border-radius: 0px;
       font-size: 0.875rem;
       font-weight: 500;
     }
@@ -528,7 +527,7 @@
     .timeline-card {
       background: rgba(0, 34, 68, 0.6);
       padding: 1.5rem;
-      border-radius: var(--radius);
+      border-radius: 0px;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
       transition: var(--transition);
@@ -576,7 +575,7 @@
     
     .project-card {
       background: rgba(0, 34, 68, 0.6);
-      border-radius: var(--radius);
+      border-radius: 0px;
       overflow: hidden;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
@@ -614,7 +613,7 @@
       background: rgba(0, 212, 255, 0.2);
       color: var(--tech-white);
       padding: 0.25rem 0.625rem;
-      border-radius: 50px;
+      border-radius: 0px;
       font-size: 0.75rem;
       font-weight: 500;
     }
@@ -691,7 +690,7 @@
     .cert-card {
       background: rgba(0, 34, 68, 0.6);
       padding: 1.5rem;
-      border-radius: var(--radius);
+      border-radius: 0px;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
       text-align: center;
@@ -715,7 +714,7 @@
       background: var(--accent-neon);
       color: var(--navy-deep);
       padding: 0.25rem 0.75rem;
-      border-radius: 50px;
+      border-radius: 0px;
       font-size: 0.875rem;
       font-weight: 600;
       display: inline-block;
@@ -726,7 +725,7 @@
     .testimonial-card {
       background: rgba(0, 34, 68, 0.6);
       padding: 2rem;
-      border-radius: var(--radius);
+      border-radius: 0px;
       border: var(--blueprint-border);
       box-shadow: var(--blueprint-glow);
       max-width: 800px;
@@ -801,7 +800,7 @@
       box-shadow: var(--blueprint-glow);
       color: var(--tech-white);
       text-align: center;
-      border-radius: var(--radius);
+      border-radius: 0px;
       padding: 3rem 2rem;
       margin: 3rem auto;
       max-width: 1000px;
