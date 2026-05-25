@@ -18,7 +18,7 @@ const PortfolioSection = () => {
       description: 'Sistema de automação de emissão de NFS-e através da API ADN oficial do Gov.br. Processamento em lote de até 50 documentos, geração de XML padrão SPED, compressão GZIP, assinatura digital A1 e integração com PostgreSQL.',
       technologies: ['Python', 'Streamlit', 'PostgreSQL', 'SQLAlchemy', 'API Gov.br', 'XML SPED', 'Certificado A1'],
       status: 'ACTIVE',
-      githubUrl: 'https://github.com/pikulitomarkin/AuraFiscal-'
+      githubUrl: 'https://github.com/pikulitomarkin/AuraFiscal'
     },
     {
       id: 3,
