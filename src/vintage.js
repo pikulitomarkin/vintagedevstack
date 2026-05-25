@@ -131,6 +131,9 @@ export function initVintage() {
       "  date          — system time",
       "  theme [n|a]   — switch theme (neon / amber)",
       "  sound [on|off]— toggle audio",
+      "  mario         — play super mario bros",
+      "  off           — turn off monitor",
+      "  on            — turn on monitor",
       "  matrix        — easter egg",
       "  cv            — abrir currículo / portfolio",
       "  clear         — clear screen",
@@ -161,6 +164,9 @@ export function initVintage() {
     clear: () => 'CLEAR',
     exit: () => 'EXIT',
     matrix: () => 'MATRIX',
+    mario: () => { window.dispatchEvent(new CustomEvent('crt-action', { detail: 'mario' })); return ["CH 2: LOADING MARIO..."]; },
+    off: () => { window.dispatchEvent(new CustomEvent('crt-action', { detail: 'off' })); return ["POWERING DOWN..."]; },
+    on: () => { window.dispatchEvent(new CustomEvent('crt-action', { detail: 'on' })); return ["POWERING UP..."]; },
     theme: (arg) => {
       const a = (arg || '').toLowerCase();
       if (a === 'a' || a === 'amber' || a === 'd' || a === 'dark') { applyTheme('dark'); return ["theme → amber"]; }

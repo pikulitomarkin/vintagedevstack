@@ -1,15 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initVintage } from './vintage';
 
 export default function App() {
+  const [crtPower, setCrtPower] = useState(true);
+  const [crtChannel, setCrtChannel] = useState(1);
+
   useEffect(() => {
-    // Para rodar init() de vintage e configurar coisas sem repetir listeners infinitos, ideal seria garantir que rode 1x.
-    // Como a navegação React no StrictMode roda 2x, setTimeout resolve se n usar dependencias estritas
-    let t = setTimeout(() => {
-      initVintage();
-    }, 100);
-    return () => clearTimeout(t);
+    const handleCrtAction = (e) => {
+      const act = e.detail;
+      if(act === 'mario') { setCrtChannel(2); setCrtPower(true); }
+      if(act === 'off') setCrtPower(false);
+      if(act === 'on') setCrtPower(true);
+    };
+    window.addEventListener('crt-action', handleCrtAction);
+    let t = setTimeout(() => { initVintage(); }, 100);
+    return () => { clearTimeout(t); window.removeEventListener('crt-action', handleCrtAction); };
   }, []);
+
+  const togglePower = () => setCrtPower(p => !p);
+  const setChannel = (ch) => { setCrtPower(true); setCrtChannel(ch); };
 
   return (
     <>
@@ -93,18 +102,21 @@ export default function App() {
               <div className="crt">
                 <div className="crt-top">
                   <span className="label">VINTAGE-CRT MODEL 87</span>
-                  <span className="pwr"><span className="pwr-dot"></span>PWR</span>
+                  <span className="pwr" style={{ cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"><span className="pwr-dot" style={{ background: crtPower ? 'var(--accent)' : 'transparent', boxShadow: crtPower ? '0 0 8px var(--accent)' : 'none' }}></span>PWR</span>
                 </div>
-                <div className="crt-screen">
-                  <div className="scroll" id="crt-scroll"></div>
+                <div className={`crt-screen ${!crtPower ? 'screen-off' : ''}`}>
+                  <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
+                  {crtChannel === 2 && (
+                    <iframe src="https://freemario.org/" title="Super Mario Bros" style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }} />
+                  )}
                 </div>
                 <div className="crt-base">
                   <div className="knobs">
-                    <div className="knob" style={{ transform: 'rotate(-30deg)' }}></div>
-                    <div className="knob" style={{ transform: 'rotate(45deg)' }}></div>
-                    <div className="knob" style={{ transform: 'rotate(15deg)' }}></div>
+                    <div className="knob" style={{ transform: crtChannel === 1 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(1)} title="Canal 1 (Terminal)"></div>
+                    <div className="knob" style={{ transform: crtChannel === 2 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(2)} title="Canal 2 (Mario)"></div>
+                    <div className="knob" style={{ transform: 'rotate(15deg)', cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"></div>
                   </div>
-                  <div className="meter">CH·1 ─ 50Hz ─ AC</div>
+                  <div className="meter">CH·{crtChannel} ─ 50Hz ─ AC</div>
                 </div>
               </div>
             </div>
