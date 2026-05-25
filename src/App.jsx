@@ -107,7 +107,7 @@ export default function App() {
                 <div className={`crt-screen ${!crtPower ? 'screen-off' : ''}`}>
                   <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
                   {crtChannel === 2 && (
-                    <iframe src="https://freemario.org/" title="Super Mario Bros" style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }} />
+                    <iframe src="https://jsemu.github.io/nes/?game=super-mario-bros" title="Super Mario Bros" style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }} />
                   )}
                 </div>
                 <div className="crt-base">
@@ -514,7 +514,15 @@ export default function App() {
             <span id="term-bar-label">TERMINAL · marcos@vintage</span>
             <span className="hint">— click or press <b>/</b> to open · ESC to close</span>
           </div>
-          <div className="chev">▲</div>
+          <div className="r" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button onClick={(e) => { e.stopPropagation(); togglePower(); }} style={{ background: 'transparent', color: crtPower ? 'var(--accent)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
+              PWR {crtPower ? 'ON' : 'OFF'}
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); setChannel(crtChannel === 2 ? 1 : 2); }} style={{ background: 'transparent', color: crtChannel === 2 ? 'var(--accent-2)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
+              MARIO
+            </button>
+            <div className="chev" style={{ marginLeft: '6px' }}>▲</div>
+          </div>
         </div>
         <div className="term-body" id="term-body">
           <div className="term-input-line">
