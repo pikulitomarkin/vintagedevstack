@@ -173,7 +173,7 @@ export default function App() {
               <circle cx="35" cy="40" r="3" fill="var(--accent)" />
               <circle cx="140" cy="40" r="3" fill="var(--accent-2)" />
               <circle cx="280" cy="30" r="3" fill="var(--accent-3)" />
-              <text x="6" y="14" font-family="IBM Plex Mono" font-size="9" fill="var(--ink-3)">ROUTE_OPT.LIVE</text>
+              <text x="6" y="14" fontFamily="IBM Plex Mono" fontSize="9" fill="var(--ink-3)">ROUTE_OPT.LIVE</text>
             </svg>
           </div>
           <div className="feats">
@@ -216,7 +216,7 @@ export default function App() {
                 <circle cx="260" cy="40" r="2.5" />
                 <circle cx="240" cy="68" r="2.5" />
               </g>
-              <text x="6" y="14" font-family="IBM Plex Mono" font-size="9" fill="var(--ink-3)">AGENT_MESH.NET</text>
+              <text x="6" y="14" fontFamily="IBM Plex Mono" fontSize="9" fill="var(--ink-3)">AGENT_MESH.NET</text>
             </svg>
           </div>
           <div className="feats">
@@ -450,10 +450,10 @@ export default function App() {
           </div>
           <div className="punch-body">
             <label>NOME / OPERADOR</label>
-            <input type="text" name="name" required placeholder="seu nome completo" autocomplete="name" />
+            <input type="text" name="name" required placeholder="seu nome completo" autoComplete="name" />
 
             <label>CANAL DE RESPOSTA</label>
-            <input type="email" name="email" required placeholder="email@empresa.com" autocomplete="email" />
+            <input type="email" name="email" required placeholder="email@empresa.com" autoComplete="email" />
 
             <label>PROJETO / DESCRIÇÃO</label>
             <textarea name="brief" required placeholder="o que precisa ser construído? prazo? stack atual?"></textarea>
@@ -486,7 +486,7 @@ export default function App() {
         <a href="#" data-open-term className="glow-pulse"
           style={{color: 'var(--accent-3)', fontSize: '10px', textDecoration: 'none'}}
           title="dica: abra o terminal e digite `cv`">
-          &gt; psst… try <span style="color: var(--accent);">cv</span> in terminal
+          &gt; psst… try <span style={{color: 'var(--accent)'}}>cv</span> in terminal
         </a>
       </div>
     </footer>
@@ -507,7 +507,7 @@ export default function App() {
     <div className="term-body" id="term-body">
       <div className="term-input-line">
         <span className="prompt">marcos@vintage:~$</span>
-        <input className="term-input" id="term-input" autocomplete="off" spellcheck="false" />
+        <input className="term-input" id="term-input" autoComplete="off" spellCheck="false" />
       </div>
     </div>
   </aside>
