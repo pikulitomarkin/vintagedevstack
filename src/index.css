@@ -495,6 +495,24 @@ h1, h2, h3, h4 { margin: 0; }
   position: relative;
   z-index: 1;
 }
+.mario-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #000;
+  position: relative;
+  z-index: 1;
+}
+.mario-scaler {
+  width: 640px;
+  height: 480px;
+  transform: scale(0.65);
+  transform-origin: center;
+}
 .crt-line { white-space: pre-wrap; }
 .crt-line .ok { color: #94e878; text-shadow: 0 0 6px #94e878; }
 .crt-line .warn { color: #ffc14d; text-shadow: 0 0 6px #ffc14d; }
@@ -1199,6 +1217,7 @@ section { position: relative; padding: 88px 0 24px; }
   .channels { grid-template-columns: 1fr; }
   .shell { padding: 0 16px; }
   .crt-screen { height: 280px; font-size: 15px; }
+  .mario-scaler { transform: scale(0.5); }
 }
 
 /* small util */
