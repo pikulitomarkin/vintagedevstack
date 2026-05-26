@@ -508,9 +508,35 @@ h1, h2, h3, h4 { margin: 0; }
   z-index: 1;
 }
 .mario-scaler {
-  width: 640px;
-  height: 480px;
-  transform: scale(0.65);
+  width: 840px;
+  height: 560px;
+  transform: scale(0.64);
+  transform-origin: center 5%;
+}
+.mario-fs-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--accent-2);
+  border: 1px solid var(--accent-2);
+  padding: 4px 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+.mario-fs-btn:hover {
+  background: var(--accent-2);
+  color: #000;
+}
+.mario-container:fullscreen .mario-scaler {
+  width: 100vw;
+  height: 100vh;
+  transform: none;
   transform-origin: center;
 }
 .crt-line { white-space: pre-wrap; }
@@ -1217,7 +1243,7 @@ section { position: relative; padding: 88px 0 24px; }
   .channels { grid-template-columns: 1fr; }
   .shell { padding: 0 16px; }
   .crt-screen { height: 280px; font-size: 15px; }
-  .mario-scaler { transform: scale(0.5); }
+  .mario-scaler { transform: scale(0.42); transform-origin: center 0%; }
 }
 
 /* small util */

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { initVintage } from './vintage';
 
 export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
+  const marioContainerRef = useRef(null);
 
   useEffect(() => {
     const handleCrtAction = (e) => {
@@ -19,6 +20,16 @@ export default function App() {
 
   const togglePower = () => setCrtPower(p => !p);
   const setChannel = (ch) => { setCrtPower(true); setCrtChannel(ch); };
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      marioContainerRef.current?.requestFullscreen().catch(err => {
+        console.warn(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
   return (
     <>
@@ -107,10 +118,11 @@ export default function App() {
                 <div className={`crt-screen ${!crtPower ? 'screen-off' : ''}`}>
                   <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
                   {crtChannel === 2 && (
-                    <div className="mario-container">
+                    <div className="mario-container" ref={marioContainerRef}>
                       <div className="mario-scaler">
                         <iframe src="https://supermarioemulator.com/mario.php" title="Super Mario Bros" style={{ width: '100%', height: '100%', border: 'none' }} />
                       </div>
+                      <button className="mario-fs-btn" onClick={toggleFullscreen}>⛶ Fullscreen</button>
                     </div>
                   )}
                 </div>
