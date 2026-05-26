@@ -508,10 +508,10 @@ h1, h2, h3, h4 { margin: 0; }
   z-index: 1;
 }
 .mario-scaler {
-  width: 840px;
-  height: 560px;
-  transform: scale(0.64);
-  transform-origin: center 5%;
+  width: 800px;
+  height: 600px;
+  transform: scale(0.65);
+  transform-origin: center center;
 }
 .mario-fs-btn {
   position: absolute;
@@ -1243,7 +1243,7 @@ section { position: relative; padding: 88px 0 24px; }
   .channels { grid-template-columns: 1fr; }
   .shell { padding: 0 16px; }
   .crt-screen { height: 280px; font-size: 15px; }
-  .mario-scaler { transform: scale(0.42); transform-origin: center 0%; }
+  .mario-scaler { transform: scale(0.52); transform-origin: center center; }
 }
 
 /* small util */
