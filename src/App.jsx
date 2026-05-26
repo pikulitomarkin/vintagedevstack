@@ -325,8 +325,8 @@ export default function App() {
 
               <p>
                 Nossa abordagem combina <span className="acc-2">precisão técnica</span> —
-                cada decisão arquitetural fundamentada em princípios sólidos — com
-                <span className="acc">inovação moderna</span> em IA, automação e cloud-native, e
+                cada decisão arquitetural fundamentada em princípios sólidos — com{" "}
+                <span className="acc">inovação moderna</span> em IA, automação e cloud-native, e{" "}
                 <span className="acc-2">qualidade atemporal</span> em soluções escaláveis.
               </p>
 
