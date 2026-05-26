@@ -5,6 +5,8 @@ export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
   const marioContainerRef = useRef(null);
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const handleCrtAction = (e) => {
@@ -18,8 +20,30 @@ export default function App() {
     return () => { clearTimeout(t); window.removeEventListener('crt-action', handleCrtAction); };
   }, []);
 
+  useEffect(() => {
+    audioRef.current = new Audio('/clash.webm');
+    audioRef.current.addEventListener('ended', () => setIsPlaying(false));
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+    };
+  }, []);
+
   const togglePower = () => setCrtPower(p => !p);
   const setChannel = (ch) => { setCrtPower(true); setCrtChannel(ch); };
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(e => console.error('Audio play failed:', e));
+      setIsPlaying(true);
+    }
+  };
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -52,7 +76,9 @@ export default function App() {
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
-            <span><span id="sound-icon">·</span> AUDIO</span>
+            <span onClick={toggleAudio} style={{ cursor: 'pointer', color: isPlaying ? 'var(--accent)' : 'inherit' }}>
+              <span id="sound-icon" className={isPlaying ? 'glow-pulse' : ''}>·</span> AUDIO
+            </span>
             <span>·</span>
             <span id="clock" className="mono">00:00:00</span>
             <span>·</span>
