@@ -1319,12 +1319,54 @@ section { position: relative; padding: 88px 0 24px; }
     box-shadow: 2px 2px 0 var(--border);
   }
   .mobile-nav-links a .br { color: var(--accent); }
+
+  /* Prevent overflow */
+  .foot .ascii {
+    display: none;
+  }
+  .statusbar-inner .t-label,
+  .statusbar-inner .lights {
+    display: none;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 9vw, 92px);
+  }
+  .hero-meta {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
+
 @media (max-width: 520px) {
   .channels { grid-template-columns: 1fr; }
   .shell { padding: 0 16px; }
-  .crt-screen { height: 280px; font-size: 15px; }
-  .mario-scaler { transform: scale(0.52); transform-origin: center center; }
+  
+  .crt { padding: 14px 14px 10px; border-radius: 16px 16px 20px 20px; }
+  .crt-screen { height: 260px; font-size: 15px; padding: 12px; }
+  .mario-scaler { transform: scale(0.45); transform-origin: top center; }
+  
+  .statusbar-inner { gap: 8px; }
+  .brand { font-size: 11px; letter-spacing: 0.1em; }
+  
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat { padding: 12px; }
+  .stat .v { font-size: 40px; }
+  .stat .l { font-size: 9px; }
+  
+  .section-head .num { font-size: 52px; }
+  .section-head h2 { font-size: 32px; }
+  
+  .svc { padding: 16px; }
+  .svc h3 { font-size: 18px; }
+  .about-card .name { font-size: 22px; }
 }
 
 /* small util */
