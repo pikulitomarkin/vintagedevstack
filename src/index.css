@@ -1229,6 +1229,9 @@ section { position: relative; padding: 88px 0 24px; }
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+.mobile-menu-btn { display: none; }
+.mobile-nav-overlay { display: none; }
+
 @media (max-width: 880px) {
   .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
   .services { grid-template-columns: repeat(2, 1fr); }
@@ -1238,6 +1241,84 @@ section { position: relative; padding: 88px 0 24px; }
   .nav { display: none; }
   .section-head { grid-template-columns: 1fr; gap: 8px; }
   .section-head .num { font-size: 64px; }
+  
+  .hide-mobile { display: none !important; }
+  
+  .mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 28px;
+    height: 28px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 8px;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .mobile-menu-btn:hover {
+    background: var(--bg-3);
+    color: var(--ink);
+  }
+  
+  .mobile-nav-overlay {
+    display: block;
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    background: color-mix(in oklab, var(--bg-2) 95%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 99;
+    padding: 24px 28px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .mobile-nav-overlay.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+  
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .mobile-nav-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    color: var(--ink-2);
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: all .15s ease;
+    text-align: center;
+  }
+  
+  .mobile-nav-links a:hover,
+  .mobile-nav-links a:active {
+    color: var(--ink);
+    border-color: var(--accent);
+    background: var(--bg-3);
+    box-shadow: 2px 2px 0 var(--border);
+  }
+  .mobile-nav-links a .br { color: var(--accent); }
 }
 @media (max-width: 520px) {
   .channels { grid-template-columns: 1fr; }

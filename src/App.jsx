@@ -7,6 +7,7 @@ export default function App() {
   const marioContainerRef = useRef(null);
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleCrtAction = (e) => {
@@ -79,13 +80,26 @@ export default function App() {
             <span onClick={toggleAudio} style={{ cursor: 'pointer', color: isPlaying ? 'var(--accent)' : 'inherit' }}>
               <span id="sound-icon" className={isPlaying ? 'glow-pulse' : ''}>·</span> AUDIO
             </span>
-            <span>·</span>
-            <span id="clock" className="mono">00:00:00</span>
-            <span>·</span>
-            <span className="glow-pulse">REC ●</span>
+            <span className="hide-mobile">·</span>
+            <span id="clock" className="mono hide-mobile">00:00:00</span>
+            <span className="hide-mobile">·</span>
+            <span className="glow-pulse hide-mobile">REC ●</span>
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle Menu">
+              {isMobileMenuOpen ? '✕' : '☰'}
+            </button>
           </div>
         </div>
       </header>
+
+      {/* ============== MOBILE MENU ============== */}
+      <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
+        <nav className="mobile-nav-links">
+          <a href="#servicos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>02<span className="br">]</span> Serviços</a>
+          <a href="#sobre" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>03<span className="br">]</span> Sobre</a>
+          <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Contato</a>
+          <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
+        </nav>
+      </div>
 
       {/* ============== HERO ============== */}
       <main className="shell">
