@@ -446,7 +446,7 @@ export default function App() {
           <div className="videos-grid">
             {[
               { id: '1gJw0tZKE1g', title: 'Bilhete Já', stamp: 'VID-001' },
-              { id: 'N9FDvke5Uhc', title: 'Case em destaque', stamp: 'VID-002' },
+              { id: 'N9FDvke5Uhc', title: 'MenuSis', stamp: 'VID-002' },
               { id: '96xuFDS52W8', title: 'MarqueOn', stamp: 'VID-003' },
             ].map((video) => (
               <article key={video.id} className="video-card">
