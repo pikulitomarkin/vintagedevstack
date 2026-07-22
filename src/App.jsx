@@ -74,6 +74,7 @@ export default function App() {
             <a href="#servicos"><span className="br">[</span>02<span className="br">]</span> Serviços</a>
             <a href="#sobre"><span className="br">[</span>03<span className="br">]</span> Sobre</a>
             <a href="#contato"><span className="br">[</span>04<span className="br">]</span> Contato</a>
+            <a href="/curriculo.html"><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
@@ -97,6 +98,7 @@ export default function App() {
           <a href="#servicos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>02<span className="br">]</span> Serviços</a>
           <a href="#sobre" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>03<span className="br">]</span> Sobre</a>
           <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Contato</a>
+          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
           <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
         </nav>
       </div>
