@@ -328,9 +328,15 @@ export default function App() {
               <div className="chips">
                 <span className="chip"><strong>Py</strong>thon</span>
                 <span className="chip"><strong>TS</strong>/Node</span>
-                <span className="chip"><strong>Go</strong>lang</span>
-                <span className="chip"><strong>K8s</strong></span>
+                <span className="chip"><strong>C#</strong>/.NET</span>
+                <span className="chip"><strong>React</strong></span>
+                <span className="chip"><strong>Next</strong>.js</span>
+                <span className="chip"><strong>Nest</strong>JS</span>
+                <span className="chip"><strong>Blazor</strong></span>
+                <span className="chip"><strong>Flutter</strong></span>
                 <span className="chip"><strong>PG</strong>SQL</span>
+                <span className="chip"><strong>Docker</strong></span>
+                <span className="chip"><strong>Supabase</strong></span>
                 <span className="chip"><strong>LLM</strong>s</span>
               </div>
             </article>
