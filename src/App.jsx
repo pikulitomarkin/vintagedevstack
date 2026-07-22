@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { initVintage } from './vintage';
 
 const PLAYLIST = [
-  { id: 'clash', src: '/clash.webm', title: 'Clash' },
+  { id: 'clash', src: '/clash.webm', title: "Should I Stay or Should I Go — The Clash" },
   { id: 'kiss', src: '/kiss-i-was-made-for-lovin-you.webm', title: "I Was Made for Lovin' You — KISS" },
 ];
 
@@ -13,6 +13,7 @@ export default function App() {
   const audioRef = useRef(null);
   const trackIndexRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [nowPlaying, setNowPlaying] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
     document.body.classList.toggle('nav-open', isMobileMenuOpen);
@@ -60,11 +61,17 @@ export default function App() {
       trackIndexRef.current = idx;
       audioRef.current.src = track.src;
       audioRef.current.load();
+      setCrtChannel(1);
+      setCrtPower(true);
+      setNowPlaying({ title: track.title, status: 'PLAY' });
       const playPromise = audioRef.current.play();
       if (playPromise && typeof playPromise.then === 'function') {
         playPromise
           .then(() => setIsPlaying(true))
-          .catch((e) => console.error('Audio play failed:', e));
+          .catch((e) => {
+            console.error('Audio play failed:', e);
+            setNowPlaying({ title: track.title, status: 'ERROR' });
+          });
       } else {
         setIsPlaying(true);
       }
@@ -78,6 +85,7 @@ export default function App() {
         trackIndexRef.current = 0;
         audio.src = PLAYLIST[0].src;
         setIsPlaying(false);
+        setNowPlaying((prev) => (prev ? { ...prev, status: 'STOP' } : null));
       }
     };
 
@@ -106,7 +114,15 @@ export default function App() {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
+      setNowPlaying((prev) => {
+        const track = PLAYLIST[trackIndexRef.current];
+        return { title: prev?.title || track?.title || 'AUDIO', status: 'PAUSE' };
+      });
     } else {
+      const track = PLAYLIST[trackIndexRef.current] || PLAYLIST[0];
+      setCrtChannel(1);
+      setCrtPower(true);
+      setNowPlaying({ title: track.title, status: 'PLAY' });
       audioRef.current.play().catch(e => console.error('Audio play failed:', e));
       setIsPlaying(true);
     }
@@ -227,6 +243,17 @@ export default function App() {
                 </div>
                 <div className={`crt-screen ${!crtPower ? 'screen-off' : ''}`}>
                   <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
+                  {crtChannel === 1 && nowPlaying && (
+                    <div className={`crt-now-playing ${nowPlaying.status === 'PLAY' ? 'is-playing' : ''}`} aria-live="polite">
+                      <div className="np-row">
+                        <span className="np-label">AUDIO</span>
+                        <span className={`np-status status-${nowPlaying.status.toLowerCase()}`}>
+                          {nowPlaying.status === 'PLAY' ? '▶ PLAY' : nowPlaying.status === 'PAUSE' ? '⏸ PAUSE' : nowPlaying.status === 'STOP' ? '■ STOP' : nowPlaying.status}
+                        </span>
+                      </div>
+                      <div className="np-title">{nowPlaying.title}</div>
+                    </div>
+                  )}
                   {crtChannel === 2 && (
                     <div className="mario-container" ref={marioContainerRef}>
                       <div className="mario-scaler">
@@ -426,29 +453,28 @@ export default function App() {
           <div className="about-grid">
             <div className="about-text">
               <p>
-                A <strong>Vintage DevStack</strong> nasce da fusão única entre a
-                <span className="acc">engenharia clássica de precisão</span> e o desenvolvimento de
-                software moderno. Inspirados pela elegante simplicidade da{" "}
-                <span className="serif" style={{ fontStyle: 'italic' }}>Máquina de Turing</span>, aplicamos
-                os mesmos princípios de excelência, durabilidade e atenção aos detalhes em cada
-                linha de código.
+                A <strong>Vintage DevStack</strong> mistura o melhor de dois mundos:
+                a <span className="acc">disciplina da engenharia clássica</span> com o ritmo do
+                software moderno. A ideia é simples — e bem Turing: sistemas claros, bem
+                pensados e sem firula desnecessária. Cada linha de código precisa fazer sentido
+                e aguentar o tranco em produção.
               </p>
 
               <blockquote className="pull">
-                Assim como um engenheiro mecânico desenha cada componente com precisão milimétrica,
-                arquitetamos sistemas que não apenas funcionam, mas que são construídos para durar.
+                A gente não entrega só “código que funciona”. Entrega arquitetura que escala,
+                integra e continua fácil de manter daqui a meses — sem gambiarra escondida.
               </blockquote>
 
               <p>
-                Nossa abordagem combina <span className="acc-2">precisão técnica</span> —
-                cada decisão arquitetural fundamentada em princípios sólidos — com{" "}
-                <span className="acc">inovação moderna</span> em IA, automação e cloud-native, e{" "}
-                <span className="acc-2">qualidade atemporal</span> em soluções escaláveis.
+                Na prática, isso vira <span className="acc-2">decisões técnicas sólidas</span> —
+                stack certa, APIs bem definidas, banco e deploy sob controle — somadas a{" "}
+                <span className="acc">IA, automação e cloud-native</span> quando faz diferença de
+                verdade. Resultado: <span className="acc-2">produto estável</span>, rápido de evoluir
+                e pronto para crescer com o negócio.
               </p>
 
               <p style={{ color: 'var(--ink-3)', fontSize: '14px' }}>
-                → Transformar complexidade técnica em soluções elegantes, onde cada componente
-                é projetado com a mesma atenção que um mestre engenheiro dedicaria a uma obra-prima mecânica.
+                → Traduzir problema complexo em solução limpa: menos ruído, mais engenharia.
               </p>
             </div>
 
