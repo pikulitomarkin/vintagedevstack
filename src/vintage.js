@@ -131,6 +131,7 @@ export function initVintage() {
       "  date          — system time",
       "  theme [n|a]   — switch theme (neon / amber)",
       "  sound [on|off]— toggle audio",
+      "  clash / crash  — play The Clash (faixa do AUDIO)",
       "  kiss          — play I Was Made for Lovin' You",
       "  mario         — play super mario bros",
       "  off           — turn off monitor",
@@ -185,6 +186,8 @@ export function initVintage() {
       return ["usage: sound [on|off]"];
     },
     kiss: () => 'PLAY_KISS',
+    clash: () => 'PLAY_CLASH',
+    crash: () => 'PLAY_CLASH',
     ls: () => ["hero/  serviços/  sobre/  contato/  ./README.md"],
     cat: (arg) => arg === 'README.md' ? [
       "# Vintage DevStack",
@@ -239,7 +242,8 @@ export function initVintage() {
       .replace(/[^a-z0-9\s]/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
-    const aliases = [
+
+    const kissAliases = [
       'i was made for loving you',
       'i was made for lovin you',
       'i was made for lovin you kiss',
@@ -248,13 +252,28 @@ export function initVintage() {
       'i was made for loving',
       'i was made for lovin',
     ];
-    if (n === 'kiss' || aliases.some((a) => n === a || n.includes(a))) return 'kiss';
+    if (n === 'kiss' || kissAliases.some((a) => n === a || n.includes(a))) return 'kiss';
+
+    const clashAliases = [
+      'the clash',
+      'the crash',
+      'clash',
+      'crash',
+      'should i stay or should i go',
+    ];
+    if (clashAliases.some((a) => n === a || n.includes(a))) return 'clash';
+
     return null;
   }
 
-  function playKissTrack() {
-    window.dispatchEvent(new CustomEvent('play-track', { detail: 'kiss' }));
-    termPrint("♪ now playing: I Was Made for Lovin' You — KISS", 'ok');
+  const TRACK_LABELS = {
+    kiss: "I Was Made for Lovin' You — KISS",
+    clash: 'The Clash — faixa do AUDIO',
+  };
+
+  function playTrackById(id) {
+    window.dispatchEvent(new CustomEvent('play-track', { detail: id }));
+    termPrint(`♪ now playing: ${TRACK_LABELS[id] || id}`, 'ok');
     chord([392, 494, 587], 0.1);
   }
 
@@ -263,8 +282,9 @@ export function initVintage() {
     if (!trimmed) return;
     termPrint(`marcos@vintage:~$ ${escapeHtml(trimmed)}`, 'p');
 
-    if (matchSongCommand(trimmed)) {
-      playKissTrack();
+    const songId = matchSongCommand(trimmed);
+    if (songId) {
+      playTrackById(songId);
       return;
     }
 
@@ -287,7 +307,8 @@ export function initVintage() {
     }
     if (out === 'MATRIX') { runMatrix(); return; }
     if (out === 'CV') { openCV(); return; }
-    if (out === 'PLAY_KISS') { playKissTrack(); return; }
+    if (out === 'PLAY_KISS') { playTrackById('kiss'); return; }
+    if (out === 'PLAY_CLASH') { playTrackById('clash'); return; }
     if (Array.isArray(out)) {
       out.forEach(l => termPrint(l, cmd === 'about' || cmd === 'services' ? 'p' : 'p'));
     }
