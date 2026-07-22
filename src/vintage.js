@@ -309,10 +309,7 @@ export function initVintage() {
     }
     if (out === 'MATRIX') { runMatrix(); return; }
     if (out === 'CV') { openCV(); return; }
-<<<<<<< HEAD
     if (out === 'LOGIN') { openLogin(); return; }
-=======
->>>>>>> origin/main
     if (out === 'PLAY_KISS') { playTrackById('kiss'); return; }
     if (out === 'PLAY_CLASH') { playTrackById('clash'); return; }
     if (Array.isArray(out)) {
