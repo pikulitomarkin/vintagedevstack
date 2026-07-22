@@ -61,17 +61,24 @@ export default function App() {
       trackIndexRef.current = idx;
       audioRef.current.src = track.src;
       audioRef.current.load();
+<<<<<<< HEAD
       setCrtChannel(1);
       setCrtPower(true);
       setNowPlaying({ title: track.title, status: 'PLAY' });
+=======
+>>>>>>> origin/main
       const playPromise = audioRef.current.play();
       if (playPromise && typeof playPromise.then === 'function') {
         playPromise
           .then(() => setIsPlaying(true))
+<<<<<<< HEAD
           .catch((e) => {
             console.error('Audio play failed:', e);
             setNowPlaying({ title: track.title, status: 'ERROR' });
           });
+=======
+          .catch((e) => console.error('Audio play failed:', e));
+>>>>>>> origin/main
       } else {
         setIsPlaying(true);
       }
