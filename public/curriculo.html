@@ -680,6 +680,87 @@
       background: rgba(0, 212, 255, 0.25);
     }
 
+
+    /* ===== PROJECT SUBSECTIONS ===== */
+    .projects-subsection {
+      margin-top: 3.5rem;
+    }
+    .projects-subsection:first-of-type {
+      margin-top: 0;
+    }
+    .projects-subsection-title {
+      margin: 0 0 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+    }
+    .projects-subsection-title h3 {
+      color: var(--electric-blue);
+      font-size: 1.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .projects-subsection-title p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    .project-card.featured .project-header {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.28), rgba(0, 255, 136, 0.18));
+    }
+    .project-card.compact .project-header {
+      padding: 1.1rem 1.25rem;
+    }
+    .project-card.compact .project-header h4 {
+      font-size: 1.05rem;
+    }
+    .project-card.compact .project-header p {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      margin: 0;
+      color: rgba(240, 248, 255, 0.85);
+    }
+    .project-card.compact .project-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    .project-card.compact .project-features {
+      margin-bottom: 0.75rem;
+    }
+    .project-status {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent-neon);
+      border: 1px solid rgba(0, 255, 136, 0.35);
+      padding: 0.15rem 0.5rem;
+    }
+    .trajetoria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .trajetoria-item {
+      background: rgba(0, 34, 68, 0.45);
+      border: var(--blueprint-border);
+      padding: 1rem 1.15rem;
+      transition: var(--transition);
+    }
+    .trajetoria-item:hover {
+      border-color: rgba(0, 212, 255, 0.5);
+      box-shadow: 0 0 18px rgba(0, 212, 255, 0.12);
+    }
+    .trajetoria-item strong {
+      display: block;
+      color: var(--tech-white);
+      margin-bottom: 0.35rem;
+      font-size: 0.98rem;
+    }
+    .trajetoria-item span {
+      color: var(--gray);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
     /* ===== CERTIFICATIONS ===== */
     .cert-grid {
       display: grid;
@@ -1201,129 +1282,50 @@
   <!-- PROJETOS -->
   <section id="projetos" style="background: rgba(0, 212, 255, 0.03);">
     <div class="section-title">
-      <h2>Projetos em Destaque</h2>
-      <p>Soluções desenvolvidas com foco em impacto real e tecnologia moderna</p>
+      <h2>Projetos</h2>
+      <p>Catálogo atualizado — destaque, cases e trajetória técnica (sem duplicatas)</p>
     </div>
-    <div class="projects-grid">
-      <div class="project-card animate">
-        <div class="project-header">
-          <h4>🌿 Corte e Poda</h4>
-          <p>Sistema de gerenciamento de atividades de vegetação</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Firebase</span>
-            <span>REST API</span>
-            <span>CSS3</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Autenticação com níveis de acesso</li>
-            <li><i class="fas fa-check-circle"></i> Sincronização em tempo real</li>
-            <li><i class="fas fa-check-circle"></i> Dashboard com estatísticas visuais</li>
-            <li><i class="fas fa-check-circle"></i> Interface mobile-first responsiva</li>
-          </ul>
-          <div class="project-links">
-<a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
+
+    <!-- DESTAQUE -->
+    <div class="projects-subsection">
+      <div class="projects-subsection-title">
+        <h3>Projetos em Destaque</h3>
+        <p>Pitch + stack das soluções de maior impacto</p>
       </div>
+      <div class="projects-grid">
 
-      <div class="project-card animate delay-1">
+      <div class="project-card featured animate">
         <div class="project-header">
-          <h4>⚡ Onde a Linha Desligou</h4>
-          <p>Consulta de torres de transmissão com mapa interativo</p>
+          <h4>🧠 ClinicaPsi — Gestão para Clínicas de Psicologia</h4>
+          <p>SaaS em .NET/Blazor para clínicas de psicologia: agendamento, prontuário, gamificação PsicoPontos e notificações. Clean Architecture em camadas.</p>
+          <span class="project-status">Em produção · psiianasantos.com.br</span>
           <div class="tech-stack">
-            <span>Python</span>
-            <span>Flask</span>
-            <span>Railway</span>
-            <span>JavaScript</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Consulta inteligente por quilometragem</li>
-            <li><i class="fas fa-check-circle"></i> Mapas interativos com geolocalização</li>
-            <li><i class="fas fa-check-circle"></i> Deploy automatizado na nuvem</li>
-            <li><i class="fas fa-check-circle"></i> Suporte a arquivos GPX</li>
-          </ul>
-          <div class="project-links">
-<a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="project-card animate delay-3">
-        <div class="project-header">
-          <h4>🤖 Automação NFS-e Nacional</h4>
-          <p>API para emissão automatizada de notas fiscais</p>
-          <div class="tech-stack">
-            <span>Python</span>
+            <span>ASP.NET Core 9</span>
+            <span>Blazor Server</span>
+            <span>EF Core</span>
             <span>PostgreSQL</span>
-            <span>DevOps</span>
-            <span>Swagger</span>
+            <span>Docker</span>
+            <span>AWS</span>
           </div>
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Integração com APIs governamentais</li>
-            <li><i class="fas fa-check-circle"></i> Filas de processamento assíncrono</li>
-            <li><i class="fas fa-check-circle"></i> Logs detalhados e monitoramento</li>
-            <li><i class="fas fa-check-circle"></i> Documentação completa</li>
+            <li><i class="fas fa-check-circle"></i> UI reativa em C#/.NET sem duplicar lógica em JS</li>
+            <li><i class="fas fa-check-circle"></i> Shared / Infrastructure / Application / Web</li>
+            <li><i class="fas fa-check-circle"></i> SEO 100/100 e gamificação própria</li>
           </ul>
           <div class="project-links">
-<a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a href="https://github.com/pikulitomarkin/sistema-p-clinica" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a href="https://www.psiianasantos.com.br" class="code" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Live</a>
           </div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card featured animate delay-1">
         <div class="project-header">
-          <h4>🎁 NexoBrindes — Plataforma de Brindes Corporativos</h4>
-          <p>Plataforma completa para gestão e venda de brindes corporativos com catálogo personalizado e painel administrativo.</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>PostgreSQL</span>
-            <span>Railway</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> E-COMMERCE &amp; B2B</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/nexobrindes" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-1">
-        <div class="project-header">
-          <h4>🌐 Integrix — Site Institucional SEO</h4>
-          <p>Site institucional otimizado para SEO com arquitetura focada em performance, indexação orgânica e geração de leads B2B.</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>REST API</span>
-            <span>PostgreSQL</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SITE INSTITUCIONAL &amp; SEO</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/Integrix" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-2">
-        <div class="project-header">
-          <h4>🏥 Clínica Carijós — Site Institucional &amp; Sistema de Agendamento</h4>
-          <p>Site institucional completo integrado a sistema de agendamento médico com busca por especialidades, controle de horários por profissional, fluxo de check-in digital, gestão de convênios e painel administrativo multi-role.</p>
+          <h4>🏥 Clínica Carijós — Gestão de Agendamentos</h4>
+          <p>Sistema em React + Supabase para gestão de agendamentos médicos: especialidades, horários por profissional, check-in digital, convênios e painel multi-role. Projeto distinto do ClinicaPsi.</p>
+          <span class="project-status">React + Supabase · agendamentos</span>
           <div class="tech-stack">
             <span>React</span>
             <span>Vite</span>
@@ -1334,99 +1336,35 @@
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Busca por especialidade e médico</li>
-            <li><i class="fas fa-check-circle"></i> Controle de horários e disponibilidade</li>
-            <li><i class="fas fa-check-circle"></i> Sistema de check-in digital</li>
-            <li><i class="fas fa-check-circle"></i> Gestão de convênios e taxas</li>
-            <li><i class="fas fa-check-circle"></i> Painel multi-role (admin / recepcionista / paciente)</li>
-            <li><i class="fas fa-check-circle"></i> Site institucional com SEO integrado</li>
+            <li><i class="fas fa-check-circle"></i> Busca por especialidade e profissional</li>
+            <li><i class="fas fa-check-circle"></i> Controle de horários e check-in digital</li>
+            <li><i class="fas fa-check-circle"></i> Painel multi-role (admin / recepção / paciente)</li>
           </ul>
           <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/sistema-p-clinica" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
           </div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card featured animate delay-2">
         <div class="project-header">
-          <h4>🏷️ Commit ERP — Consignação Multi-tenant</h4>
-          <p>ERP multi-tenant para consignado com app mobile Flutter e painel admin Next.js. Gestão de vendas, logística reversa e controle financeiro.</p>
+          <h4>📲 AgenteCarijos — WhatsApp + IA</h4>
+          <p>Worker complementar à Clínica Carijós: automação de notificações e atendimento via WhatsApp com classificação de intenção por IA.</p>
+          <span class="project-status">Em produção · integrado à Clínica Carijós</span>
           <div class="tech-stack">
-            <span>NestJS</span>
-            <span>PostgreSQL</span>
-            <span>Next.js</span>
-            <span>Flutter</span>
+            <span>Node.js</span>
+            <span>Express</span>
+            <span>Evolution API</span>
+            <span>DeepSeek AI</span>
+            <span>Supabase</span>
             <span>Railway</span>
           </div>
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SAAS - LOGÍSTICA &amp; VENDAS</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/Commit" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate">
-        <div class="project-header">
-          <h4>🌹 RosaFiscal — Automação Fiscal</h4>
-          <p>Sistema de automação fiscal com emissão de documentos, integração com APIs governamentais e geração de relatórios.</p>
-          <div class="tech-stack">
-            <span>Python</span>
-            <span>PostgreSQL</span>
-            <span>REST API</span>
-            <span>Docker</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> AUTOMAÇÃO FISCAL</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/RosaFiscal" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-1">
-        <div class="project-header">
-          <h4>🧾 AuraFiscal — Automação NFS-e</h4>
-          <p>Sistema de automação de emissão de NFS-e via API ADN Gov.br. Processamento em lote, XML SPED, compressão GZIP e assinatura digital A1.</p>
-          <div class="tech-stack">
-            <span>Python</span>
-            <span>Streamlit</span>
-            <span>PostgreSQL</span>
-            <span>SQLAlchemy</span>
-            <span>API Gov.br</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> AUTOMAÇÃO FISCAL E GOV TECH</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/AuraFiscal-" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-2">
-        <div class="project-header">
-          <h4>📲 AgenteCarijós — IA WhatsApp Clínica</h4>
-          <p>Agente inteligente integrado ao WhatsApp para atendimento automatizado de clínica médica com IA conversacional.</p>
-          <div class="tech-stack">
-            <span>Node.js</span>
-            <span>OpenAI</span>
-            <span>Evolution API</span>
-            <span>Redis</span>
-            <span>Firebase</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> AUTOMAÇÃO E IA</li>
+            <li><i class="fas fa-check-circle"></i> I/O assíncrono dedicado (worker desacoplado)</li>
+            <li><i class="fas fa-check-circle"></i> Confirmar / cancelar / reagendar via IA</li>
+            <li><i class="fas fa-check-circle"></i> Cron jobs + WhatsApp sem botões rígidos</li>
           </ul>
           <div class="project-links">
             <a href="https://github.com/pikulitomarkin/AgenteCarijos" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
@@ -1434,62 +1372,74 @@
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card featured animate delay-3">
         <div class="project-header">
-          <h4>🏠 EasyLoc — Gestão de Locações</h4>
-          <p>Plataforma de gestão de locações imobiliárias com controle de contratos, inquilinos, cobranças e relatórios financeiros.</p>
+          <h4>🟥 Clube da Esquerda — Rede Social de Nicho</h4>
+          <p>Rede social com área de membros, chat, eventos e páginas temáticas (“Rodas”). Login via CPF com verificação de identidade.</p>
+          <span class="project-status">Etapa 1 em desenvolvimento</span>
           <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
+            <span>Next.js</span>
             <span>PostgreSQL</span>
-            <span>Railway</span>
+            <span>TypeScript</span>
           </div>
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SAAS - IMOBILIÁRIO</li>
+            <li><i class="fas fa-check-circle"></i> Alternativa moderna ao stack Java original</li>
+            <li><i class="fas fa-check-circle"></i> Foco em concorrência e velocidade de entrega</li>
+            <li><i class="fas fa-check-circle"></i> Etapa 2 (fóruns, loja, vaquinhas) a orçar</li>
           </ul>
           <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/EasyLoc" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
           </div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card featured animate delay-3">
         <div class="project-header">
-          <h4>📚 Ampliare — Plataforma Educacional</h4>
-          <p>Plataforma educacional com gestão de cursos, alunos e conteúdo digital com suporte a múltiplos instrutores.</p>
+          <h4>🧾 AuraFiscal — Automação de NFS-e Nacional</h4>
+          <p>Emissão em lote via API ADN oficial do Gov.br, com extração de dados via PDF, XML SPED e certificado digital A1. (RosaFiscal / V2 = mesma solução — mantida só AuraFiscal.)</p>
+          <span class="project-status">Automação fiscal · GovTech</span>
           <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
+            <span>Python</span>
+            <span>Streamlit</span>
+            <span>httpx async</span>
             <span>PostgreSQL</span>
-            <span>Docker</span>
+            <span>SQLAlchemy 2.0</span>
+            <span>Certificado A1</span>
           </div>
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> EDTECH &amp; E-LEARNING</li>
+            <li><i class="fas fa-check-circle"></i> Interface operacional rápida sem frontend dedicado</li>
+            <li><i class="fas fa-check-circle"></i> GZIP+Base64 no payload (exigência ADN)</li>
+            <li><i class="fas fa-check-circle"></i> PDF → XML SPED com assinatura digital</li>
           </ul>
           <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/ampliare" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a href="https://github.com/pikulitomarkin/AuraFiscal-" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
           </div>
         </div>
       </div>
 
-      <div class="project-card animate delay-1">
+      <div class="project-card featured animate">
         <div class="project-header">
-          <h4>🚕 AutomaSisTaxi — Automação Logística Taxi</h4>
-          <p>Plataforma de automação logística para frota de táxi com integração de APIs, gestão de corridas e relatórios operacionais.</p>
+          <h4>🚕 Automação de Táxi — E-mail → Despacho</h4>
+          <p>Automação ponta a ponta de pedidos de táxi recebidos por e-mail: LLM só na interpretação; cálculo/despacho determinístico com fallback de geocodificação.</p>
+          <span class="project-status">Em produção · polling 5–15 min</span>
           <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Firebase</span>
-            <span>REST API</span>
+            <span>Python</span>
+            <span>IMAP</span>
+            <span>OpenAI GPT-4</span>
+            <span>Nominatim / Google Maps</span>
+            <span>API MinasTaxi</span>
+            <span>Streamlit</span>
           </div>
         </div>
         <div class="project-body">
           <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> AUTOMAÇÃO LOGÍSTICA E APIS</li>
+            <li><i class="fas fa-check-circle"></i> LLM isolada da etapa de despacho</li>
+            <li><i class="fas fa-check-circle"></i> Fallback Nominatim → Google Maps</li>
+            <li><i class="fas fa-check-circle"></i> Retry com backoff na API MinasTaxi</li>
           </ul>
           <div class="project-links">
             <a href="https://github.com/pikulitomarkin/automa-oparasistemataxi" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
@@ -1497,434 +1447,379 @@
         </div>
       </div>
 
-      <div class="project-card animate delay-2">
+      <div class="project-card featured animate delay-1">
+        <div class="project-header">
+          <h4>🎓 VintageCodeAcademy — EdTech Gamificada</h4>
+          <p>Plataforma gratuita de ensino de programação com XP, badges e rankings. Módulo de IA converte PDFs em lições/quizzes com seeding determinístico.</p>
+          <span class="project-status">Docs v1.0 e v2.0 concluídas</span>
+          <div class="tech-stack">
+            <span>Blazor WASM</span>
+            <span>ASP.NET Core</span>
+            <span>Supabase</span>
+            <span>DeepSeek V3</span>
+            <span>Bunny.net</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features">
+            <li><i class="fas fa-check-circle"></i> WASM no browser do aluno (custo por usuário baixo)</li>
+            <li><i class="fas fa-check-circle"></i> Geração de conteúdo via LLM a partir de PDFs</li>
+            <li><i class="fas fa-check-circle"></i> Anti-compartilhamento de respostas de quiz</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <!-- OUTROS / CASES -->
+    <div class="projects-subsection">
+      <div class="projects-subsection-title">
+        <h3>Outros Projetos &amp; Cases</h3>
+        <p>SaaS, automações, field ops, auditorias e sites — formato compacto</p>
+      </div>
+      <div class="projects-grid">
+
+      <div class="project-card compact animate">
+        <div class="project-header">
+          <h4>🏷️ Commit ERP — Consignação Multi-tenant</h4>
+          <p>SaaS de consignação com isolamento por tenant via search_path e app Flutter para força de vendas.</p>
+          <div class="tech-stack"><span>NestJS</span><span>PostgreSQL</span><span>TypeORM</span><span>Flutter</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Fase 1 + bônus de Fase 2</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/Commit" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-1">
+        <div class="project-header">
+          <h4>💇 MarqueOn — SaaS para Salões</h4>
+          <p>Multi-tenant por slug: agendamento, WhatsApp e gateway PIX. QA com 115 casos; evolução do módulo de pagamentos planejada.</p>
+          <div class="tech-stack"><span>Next.js 14</span><span>Supabase</span><span>Evolution/Z-API</span><span>PIX</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> SaaS · Wellness / Beleza</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-2">
+        <div class="project-header">
+          <h4>🍽️ Menusis — Cardápio &amp; Pedidos</h4>
+          <p>Evolução do Minidata Food: cardápio digital, pedidos, impressão térmica e integrações iFood/99Food.</p>
+          <div class="tech-stack"><span>NestJS</span><span>PostgreSQL</span><span>Redis</span><span>MinIO</span><span>Docker</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> menusis.com.br · VPS self-hosted</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-3">
+        <div class="project-header">
+          <h4>🌾 SGP — Gestão de Propriedades Rurais</h4>
+          <p>Financeiro + estoque de grãos, open finance (Pluggy), NF-e (Focus) e filas BullMQ.</p>
+          <div class="tech-stack"><span>Next.js 14</span><span>NestJS 10</span><span>PostgreSQL 16</span><span>BullMQ</span><span>Pluggy</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> SaaS multi-tenant · Agronegócio</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate">
+        <div class="project-header">
+          <h4>⚖️ GEMS — Jurídico + Leilões</h4>
+          <p>Gestão de processos e leilões com RPA (PJe/E-SAJ), monitoramento por IA e escaneamento 3D LiDAR.</p>
+          <div class="tech-stack"><span>RPA</span><span>Certificado A1/A3</span><span>IA</span><span>LiDAR</span><span>White-label</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> 22 funcionalidades em 3 fases</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-1">
+        <div class="project-header">
+          <h4>📺 PlayMooh — DOOH com Agentes IA</h4>
+          <p>SaaS de mídia out-of-home com 5 agentes especialistas, Chatwoot e base em Google Docs cacheada no Redis.</p>
+          <div class="tech-stack"><span>OpenClaw</span><span>Chatwoot</span><span>Redis</span><span>Evolution API</span><span>VPS</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Contrato em 6 etapas</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-2">
+        <div class="project-header">
+          <h4>📡 Middleware RFID Impinj × Wiclax</h4>
+          <p>Embarcado em Raspberry Pi: LLRP/Octane, debounce na borda, SQLite e protocolo Generic Acquisition do Wiclax.</p>
+          <div class="tech-stack"><span>Raspberry Pi</span><span>LLRP</span><span>SQLite</span><span>TCP</span><span>Python/C++</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Cronometragem esportiva · Workana</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate delay-3">
+        <div class="project-header">
+          <h4>🚚 Grupo Terra Comercial (SigaSul)</h4>
+          <p>Monitoramento de força de vendas offline-first, com SQLCipher, certificate pinning e anti-fraude de localização.</p>
+          <div class="tech-stack"><span>Flutter</span><span>Next.js 14</span><span>NestJS</span><span>PostGIS</span><span>SQLCipher</span></div>
+        </div>
+        <div class="project-body">
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Marcos 1 e 2 entregues</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
+        </div>
+      </div>
+
+      <div class="project-card compact animate">
         <div class="project-header">
           <h4>🔒 FortePix — Análise de Risco Pix</h4>
-          <p>App mobile de análise de risco para pagamentos Pix. Auditoria de segurança completa (score 45/100) + plano de remediação 21 dias, integração Stripe e Firestore.</p>
-          <div class="tech-stack">
-            <span>Flutter</span>
-            <span>Firebase</span>
-            <span>Stripe</span>
-            <span>Firestore</span>
-          </div>
+          <p>App Flutter de risco em Pix. Auditoria de 6.141 arquivos; score de segurança elevado de 45 para 82/100.</p>
+          <div class="tech-stack"><span>Flutter</span><span>Firebase</span><span>Stripe</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> FINTECH &amp; SEGURANÇA</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/fortepixv1" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Fintech · Hardening</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/fortepixv1" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card compact animate delay-1">
         <div class="project-header">
-          <h4>📊 LeadsPos Automate — Automação de Leads</h4>
-          <p>Sistema de automação para captação e nutrição de leads com integração multicanal e workflows inteligentes.</p>
-          <div class="tech-stack">
-            <span>Node.js</span>
-            <span>n8n</span>
-            <span>PostgreSQL</span>
-            <span>REST API</span>
-          </div>
+          <h4>📖 Livoreto — Conteúdo Digital (Bloco 1)</h4>
+          <p>eBooks, cursos e comunidade: auth/RBAC, painel do criador e marketplace público (sem checkout no Bloco 1).</p>
+          <div class="tech-stack"><span>Next.js</span><span>Supabase</span><span>Bunny.net</span><span>Resend</span><span>Vercel</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> AUTOMAÇÃO &amp; CRM</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/leadsposautomate" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Escopo Bloco 1 fechado</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card compact animate delay-2">
         <div class="project-header">
-          <h4>✨ AstraSeduction — Plataforma de Conteúdo</h4>
-          <p>Plataforma digital de conteúdo com sistema de assinaturas, gestão de membros e entrega de conteúdo exclusivo.</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Stripe</span>
-            <span>PostgreSQL</span>
-          </div>
+          <h4>🎫 BilheteJá — Ticketing</h4>
+          <p>Venda de ingressos em monorepo; migração Railway/Vercel → VPS Hetzner com Docker Compose e CI/CD.</p>
+          <div class="tech-stack"><span>Turborepo</span><span>Next.js 14</span><span>NestJS</span><span>PostgreSQL</span><span>Redis</span><span>EUPAGO</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SAAS - CONTEÚDO DIGITAL</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/astrasedution" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Monorepo · VPS Hetzner</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-1">
+      <div class="project-card compact animate delay-3">
         <div class="project-header">
-          <h4>📅 AstraAgenda — Agendamento Online</h4>
-          <p>Plataforma de agendamento online com múltiplos profissionais, notificações automáticas e gestão de disponibilidade.</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Supabase</span>
-            <span>Node.js</span>
-            <span>Vercel</span>
-          </div>
+          <h4>🏛️ Athena Pesquisas — Site Institucional</h4>
+          <p>Site com identidade visual de antiguidade grega, focado em presença e conversão.</p>
+          <div class="tech-stack"><span>Next.js 14</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SAAS - AGENDAMENTO</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/astraagenda.site" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Institucional · 2 semanas</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-2">
+      <div class="project-card compact animate">
         <div class="project-header">
-          <h4>🛡️ CRM SeguroJá — CRM de Seguros</h4>
-          <p>CRM especializado para corretoras de seguros com gestão de apólices, clientes, renovações e pipeline de vendas.</p>
-          <div class="tech-stack">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>PostgreSQL</span>
-            <span>Railway</span>
-          </div>
+          <h4>✨ AstraSeduction — Next.js 16 / React 19</h4>
+          <p>Aplicação em auditoria (nota 6.7/10) com plano de ação até a preview do código.</p>
+          <div class="tech-stack"><span>Next.js 16</span><span>React 19</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> CRM &amp; SEGUROS</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/crmseguroja" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Auditoria · plano em andamento</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/astrasedution" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card compact animate delay-1">
         <div class="project-header">
-          <h4>⚙️ NextCustom — Plataforma Custom</h4>
-          <p>Plataforma SaaS customizável com arquitetura multi-tenant, sistema de temas e configurações por cliente.</p>
-          <div class="tech-stack">
-            <span>Next.js</span>
-            <span>PostgreSQL</span>
-            <span>Docker</span>
-            <span>Railway</span>
-          </div>
+          <h4>📚 Ampliare — EdTech</h4>
+          <p>Plataforma educacional em Next.js (detalhes de diferenciais em validação com o cliente).</p>
+          <div class="tech-stack"><span>Next.js</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SAAS - PERSONALIZAÇÃO</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin/nextcustom" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> EdTech · detalhes sob confirmação</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/ampliare" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card compact animate delay-2">
         <div class="project-header">
-          <h4>🌾 SGP — Sistema de Gestão Rural</h4>
-          <p>SaaS multi-tenant para fazendas: controle financeiro, estoque de grãos, NF-e, integração B3/Cepea e Pluggy open finance.</p>
-          <div class="tech-stack">
-            <span>Next.js 14</span><span>NestJS</span><span>PostgreSQL</span><span>BullMQ</span><span>Docker</span>
-          </div>
+          <h4>🗓️ GAS B2B Events — Cadência de Eventos</h4>
+          <p>9 scripts de comunicação automática (save the date, lembretes, NPS) integrados ao Slack.</p>
+          <div class="tech-stack"><span>Google Apps Script</span><span>Slack</span><span>Sheets/Calendar</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SaaS Multi-tenant / Agronegócio</li>
-            <li><i class="fas fa-check-circle"></i> Integração B3, Cepea e Pluggy open finance</li>
-            <li><i class="fas fa-check-circle"></i> Emissão de NF-e integrada</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> 43 eventos 2026 pré-cadastrados</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-1">
+      <div class="project-card compact animate delay-3">
         <div class="project-header">
-          <h4>⚖️ LawFlow CRM — Gestão Jurídica</h4>
-          <p>CRM para escritórios de advocacia com gestão de processos, clientes, notificações e arquitetura multi-tenant.</p>
-          <div class="tech-stack">
-            <span>React</span><span>TypeScript</span><span>Supabase</span>
-          </div>
+          <h4>🛒 OpenClaw — Arbitragem Amazon × AliExpress</h4>
+          <p>Comparação de preços e checkout com human-in-the-loop; fila congela o carrinho até aprovação no WhatsApp.</p>
+          <div class="tech-stack"><span>Docker</span><span>Evolution API</span><span>Redis/BullMQ</span><span>Proxy residencial</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> CRM / LegalTech</li>
-            <li><i class="fas fa-check-circle"></i> Multi-tenant com controle de acesso por role</li>
-            <li><i class="fas fa-check-circle"></i> crm-law-flow.vercel.app</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Escopo fechado · Workana</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-2">
+      <div class="project-card compact animate">
         <div class="project-header">
-          <h4>🔐 Cibersegurança — Bot Attack Mitigation</h4>
-          <p>Mitigação de ataques de bots em múltiplas plataformas (WhatsApp, landing pages). Forensics, monitoramento e hardening.</p>
-          <div class="tech-stack">
-            <span>DevOps</span><span>WAF</span><span>Python</span><span>Análise de Logs</span>
-          </div>
+          <h4>🛡️ CilGroup — Auditoria + Deploy SaaS</h4>
+          <p>Hardening e deploy: API key no bundle, rotas desprotegidas, JWT em localStorage e URLs localhost corrigidos. Auth com Protheus/TOTVS.</p>
+          <div class="tech-stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span><span>KingHost VPS</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Segurança / DevSecOps</li>
-            <li><i class="fas fa-check-circle"></i> Análise forense e resposta a incidentes</li>
-            <li><i class="fas fa-check-circle"></i> Cliente: Saddam Christian Teotonio</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Segurança · ERP TOTVS</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card compact animate delay-1">
         <div class="project-header">
-          <h4>🎓 VintageCodeAcademy — EdTech com IA</h4>
-          <p>Plataforma educacional gamificada (XP, badges, rankings). Módulo IA: geração de quizzes e quests a partir de PDFs via DeepSeek V3.</p>
-          <div class="tech-stack">
-            <span>Blazor WASM</span><span>ASP.NET Core</span><span>Supabase</span><span>DeepSeek V3</span>
-          </div>
+          <h4>🔏 Rota da Tattoo — Hardening &amp; Bots</h4>
+          <p>Investigação de ataque de bots (falsificação de atendimento WhatsApp via Google Ads) + Turnstile e reputação de IP.</p>
+          <div class="tech-stack"><span>Vercel</span><span>Cloudflare Turnstile</span><span>WAF</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> EdTech / Gamificação / IA</li>
-            <li><i class="fas fa-check-circle"></i> Geração de conteúdo via LLM a partir de PDFs</li>
-            <li><i class="fas fa-check-circle"></i> Sistema de XP, badges e rankings</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> DevSecOps · forensics</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card compact animate delay-2">
         <div class="project-header">
-          <h4>📈 Nexus Station — Plataforma de Trading</h4>
-          <p>Migração Streamlit → React 18 + FastAPI para trading automatizado com 1.238 parâmetros configuráveis e integração MQL5.</p>
-          <div class="tech-stack">
-            <span>React 18</span><span>FastAPI</span><span>Python</span><span>MQL5</span>
-          </div>
+          <h4>⚖️ LawFlow CRM — Análise Multi-tenant</h4>
+          <p>Bug de trigger multi-tenant no Supabase (não no TS); imutabilidade de proposta como risco jurídico crítico.</p>
+          <div class="tech-stack"><span>React</span><span>TypeScript</span><span>Supabase</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> FinTech / Trading Automatizado</li>
-            <li><i class="fas fa-check-circle"></i> 1.238 parâmetros configuráveis</li>
-            <li><i class="fas fa-check-circle"></i> Integração MetaTrader 5 via MQL5</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> CRM jurídico · relatório técnico</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-1">
+      <div class="project-card compact animate delay-3">
         <div class="project-header">
-          <h4>🎨 Vertten Platform — Gestão de Agência</h4>
-          <p>Plataforma interna para agência de design: CRM, projetos, propostas com PDF, controle financeiro e briefing público.</p>
-          <div class="tech-stack">
-            <span>Next.js 14</span><span>Supabase</span><span>Vercel</span>
-          </div>
+          <h4>🎮 Gaming Digital Marketplace</h4>
+          <p>Marketplace gamer com filtro anti-bypass de chat e migração Pagar.me → Mercado Pago.</p>
+          <div class="tech-stack"><span>Next.js 14</span><span>Supabase</span><span>Mercado Pago</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SaaS / Gestão de Agência</li>
-            <li><i class="fas fa-check-circle"></i> Geração de propostas em PDF</li>
-            <li><i class="fas fa-check-circle"></i> Briefing público + controle financeiro</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Marketplace · anti-fraude de contato</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-2">
+      <div class="project-card compact animate">
         <div class="project-header">
-          <h4>🥗 METRIQ — Assistente Nutricional via WhatsApp</h4>
-          <p>SaaS de assistente metabólico e nutricional via WhatsApp com planos alimentares personalizados, controle de macros e histórico do usuário.</p>
-          <div class="tech-stack">
-            <span>PHP</span><span>MySQL</span><span>WhatsApp API</span><span>Hostinger VPS</span>
-          </div>
+          <h4>🎁 NexoBrindes — Brindes Corporativos</h4>
+          <p>Gestão e venda B2B com catálogo personalizado e painel administrativo.</p>
+          <div class="tech-stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> SaaS / IA / Automação</li>
-            <li><i class="fas fa-check-circle"></i> Cliente: Sarah Nemetala</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> E-commerce B2B</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/nexobrindes" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card compact animate delay-1">
         <div class="project-header">
-          <h4>🖥️ Site Institucional — Web Artificial</h4>
-          <p>Desenvolvimento de site institucional moderno com Next.js e TypeScript, responsivo e otimizado para SEO.</p>
-          <div class="tech-stack">
-            <span>Next.js</span><span>TypeScript</span><span>Node.js</span><span>CSS3</span>
-          </div>
+          <h4>🌐 Integrix — Site Institucional SEO</h4>
+          <p>Site B2B focado em performance, indexação orgânica e geração de leads.</p>
+          <div class="tech-stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Site Institucional</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Institucional · SEO</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/Integrix" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate">
+      <div class="project-card compact animate delay-2">
         <div class="project-header">
-          <h4>🚁 Website + Presença Digital — Negócio de Drones</h4>
-          <p>Criação de site institucional e configuração completa de presença digital para empresa de serviços com drones.</p>
-          <div class="tech-stack">
-            <span>WordPress</span><span>PHP</span><span>MySQL</span><span>JavaScript</span><span>cPanel</span>
-          </div>
+          <h4>🏠 EasyLoc — Gestão de Locações</h4>
+          <p>Contratos, inquilinos, cobranças e relatórios financeiros para locações.</p>
+          <div class="tech-stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Site Institucional</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> SaaS imobiliário</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/EasyLoc" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-1">
+      <div class="project-card compact animate delay-3">
         <div class="project-header">
-          <h4>💰 Planilha de Precificação com Automação</h4>
-          <p>Planilha profissional para precificação de serviços com automação de cálculos, cenários de margem e proposta comercial imprimível.</p>
-          <div class="tech-stack">
-            <span>Python</span><span>openpyxl</span><span>Excel</span><span>Google Sheets</span>
-          </div>
+          <h4>🛡️ CRM SeguroJá — Corretoras</h4>
+          <p>CRM de apólices, renovações e pipeline; também variante WhatsApp+IA (FastAPI/Claude).</p>
+          <div class="tech-stack"><span>React</span><span>Node.js</span><span>PostgreSQL</span><span>Evolution API</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Automação / Planilhas</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> CRM · Seguros</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin/crmseguroja" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-2">
+      <div class="project-card compact animate">
         <div class="project-header">
-          <h4>🩺 Sistema de Agendamento Online de Consultas Médicas</h4>
-          <p>Plataforma web para agendamento de consultas médicas com gestão de horários, especialidades e confirmação automatizada.</p>
-          <div class="tech-stack">
-            <span>React</span><span>Supabase</span><span>JavaScript</span><span>REST API</span>
-          </div>
+          <h4>🌿 Corte e Poda — Gestão de Vegetação</h4>
+          <p>Atividades de campo com auth por níveis, sync em tempo real e dashboard mobile-first.</p>
+          <div class="tech-stack"><span>React</span><span>Firebase</span><span>REST API</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Sistema Web / Saúde</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Field ops · Eletrobras</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate delay-3">
+      <div class="project-card compact animate delay-1">
         <div class="project-header">
-          <h4>🔌 Website Institucional — Elétrica e Eletrônica Industrial</h4>
-          <p>Site completo para empresa de elétrica e eletrônica industrial com portfólio de serviços, responsivo e otimizado.</p>
-          <div class="tech-stack">
-            <span>WordPress</span><span>PHP</span><span>MySQL</span><span>JavaScript</span><span>HTML5</span>
-          </div>
+          <h4>⚡ Onde a Linha Desligou — Torres LT</h4>
+          <p>Consulta de torres por quilometragem com mapas, GPX e deploy cloud.</p>
+          <div class="tech-stack"><span>Python</span><span>Flask</span><span>Railway</span><span>JavaScript</span></div>
         </div>
         <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Site Institucional</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
+          <ul class="project-features"><li><i class="fas fa-check-circle"></i> Infraestrutura · Eletrobras</li></ul>
+          <div class="project-links"><a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a></div>
         </div>
       </div>
 
-      <div class="project-card animate">
-        <div class="project-header">
-          <h4>🗂️ Planilha Online — Gestão de RH e Controle de Ponto</h4>
-          <p>Sistema colaborativo em planilha online para gestão de RH, controle de ponto e relatórios de equipe.</p>
-          <div class="tech-stack">
-            <span>JavaScript</span><span>PHP</span><span>MySQL</span><span>Google Sheets API</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Automação / Gestão</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
       </div>
-
-      <div class="project-card animate delay-1">
-        <div class="project-header">
-          <h4>💬 Chatbot IA para WhatsApp — Vendas e Pós-Venda</h4>
-          <p>Chatbot inteligente para WhatsApp com automação de vendas, pós-venda e handoff humano, utilizando NLP e Machine Learning.</p>
-          <div class="tech-stack">
-            <span>Python</span><span>NLP</span><span>Machine Learning</span><span>WhatsApp API</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> IA / Automação</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-2">
-        <div class="project-header">
-          <h4>📋 Smart Report — App Mobile + Painel Web</h4>
-          <p>Sistema completo com aplicativo mobile e painel web administrativo para geração de relatórios inteligentes em campo.</p>
-          <div class="tech-stack">
-            <span>React Native</span><span>React</span><span>Node.js</span><span>MySQL</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> App Mobile / Sistema Web</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card animate delay-3">
-        <div class="project-header">
-          <h4>🚀 Deploy — App React com API Gemini e Upload de Imagens</h4>
-          <p>Deploy e configuração de aplicação web React integrada com API Gemini (Google AI) e solução de upload de imagens em produção.</p>
-          <div class="tech-stack">
-            <span>React</span><span>Gemini API</span><span>Node.js</span><span>Vercel</span>
-          </div>
-        </div>
-        <div class="project-body">
-          <ul class="project-features">
-            <li><i class="fas fa-check-circle"></i> Deploy / IA</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/pikulitomarkin" class="code" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <!-- TRAJETÓRIA -->
+    <div class="projects-subsection">
+      <div class="projects-subsection-title">
+        <h3>Trajetória — Primeiros Projetos</h3>
+        <p>Legado e evolução do portfólio (timeline compacta)</p>
+      </div>
+      <div class="trajetoria-grid">
+        <div class="trajetoria-item animate"><strong>METRIQ</strong><span>Assistente nutricional via WhatsApp · PHP</span></div>
+        <div class="trajetoria-item animate delay-1"><strong>KingBarber</strong><span>Migração de PWA para React Native</span></div>
+        <div class="trajetoria-item animate delay-2"><strong>Santa Decor</strong><span>Otimização de loja na plataforma Tray</span></div>
+        <div class="trajetoria-item animate delay-3"><strong>Vertten Platform</strong><span>CRM interno de gestão de agência · Next.js + Supabase</span></div>
+        <div class="trajetoria-item animate"><strong>B2G ERP (Controle CLT Pro)</strong><span>Sistema de gestão trabalhista</span></div>
+        <div class="trajetoria-item animate delay-1"><strong>Projeto Alpha</strong><span>Sistema jurídico com RAG para jurisprudência</span></div>
+        <div class="trajetoria-item animate delay-2"><strong>BI Marketplace Platform</strong><span>Dashboard multi-CNPJ · ML / Shopee / Amazon</span></div>
+        <div class="trajetoria-item animate delay-3"><strong>VamosDeBet</strong><span>Plataforma de afiliados iGaming</span></div>
+        <div class="trajetoria-item animate"><strong>Nexus Station</strong><span>Trading: migração Streamlit → React 18 + FastAPI</span></div>
+        <div class="trajetoria-item animate delay-1"><strong>Workana Prospecting</strong><span>n8n + Gemini + aprovação humana via WhatsApp (interno)</span></div>
+        <div class="trajetoria-item animate delay-2"><strong>LeadsPos Automate</strong><span>Captação e nutrição de leads multicanal</span></div>
+        <div class="trajetoria-item animate delay-3"><strong>AstraAgenda / NextCustom</strong><span>Agendamento online e SaaS multi-tenant customizável</span></div>
+      </div>
+    </div>
+
   </section>
 
   <!-- CERTIFICAÇÕES & FORMAÇÃO -->
