@@ -138,6 +138,7 @@ export function initVintage() {
       "  on            — turn on monitor",
       "  matrix        — easter egg",
       "  cv            — abrir currículo / portfolio",
+      "  login         — abrir assistente Vintage DevStack",
       "  clear         — clear screen",
       "  exit          — close terminal"
     ],
@@ -199,6 +200,7 @@ export function initVintage() {
     cv: () => 'CV',
     curriculo: () => 'CV',
     curícuro: () => 'CV',
+    login: () => 'LOGIN',
     konami: () => ["↑ ↑ ↓ ↓ ← → ← → B A   — tente!"],
   };
 
@@ -307,6 +309,7 @@ export function initVintage() {
     }
     if (out === 'MATRIX') { runMatrix(); return; }
     if (out === 'CV') { openCV(); return; }
+    if (out === 'LOGIN') { openLogin(); return; }
     if (out === 'PLAY_KISS') { playTrackById('kiss'); return; }
     if (out === 'PLAY_CLASH') { playTrackById('clash'); return; }
     if (Array.isArray(out)) {
@@ -320,6 +323,14 @@ export function initVintage() {
     termPrintHtml('<a href="/curriculo.html" target="_blank">[ click here if it doesn’t open automatically ]</a>', 'p');
     chord([523, 659, 784, 1047], 0.1);
     setTimeout(() => { window.open('/curriculo.html', '_blank'); }, 500);
+  }
+
+  function openLogin() {
+    const url = 'https://assistente.vintagedevstack.com.br';
+    termPrint("opening assistente.vintagedevstack.com.br ...", 'ok');
+    termPrintHtml(`<a href="${url}" target="_blank" rel="noopener noreferrer">[ click here if it doesn’t open automatically ]</a>`, 'p');
+    chord([523, 659, 784], 0.1);
+    setTimeout(() => { window.open(url, '_blank', 'noopener,noreferrer'); }, 500);
   }
 
   function runMatrix() {
