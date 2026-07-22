@@ -426,29 +426,28 @@ export default function App() {
           <div className="about-grid">
             <div className="about-text">
               <p>
-                A <strong>Vintage DevStack</strong> nasce da fusão única entre a
-                <span className="acc">engenharia clássica de precisão</span> e o desenvolvimento de
-                software moderno. Inspirados pela elegante simplicidade da{" "}
-                <span className="serif" style={{ fontStyle: 'italic' }}>Máquina de Turing</span>, aplicamos
-                os mesmos princípios de excelência, durabilidade e atenção aos detalhes em cada
-                linha de código.
+                A <strong>Vintage DevStack</strong> mistura o melhor de dois mundos:
+                a <span className="acc">disciplina da engenharia clássica</span> com o ritmo do
+                software moderno. A ideia é simples — e bem Turing: sistemas claros, bem
+                pensados e sem firula desnecessária. Cada linha de código precisa fazer sentido
+                e aguentar o tranco em produção.
               </p>
 
               <blockquote className="pull">
-                Assim como um engenheiro mecânico desenha cada componente com precisão milimétrica,
-                arquitetamos sistemas que não apenas funcionam, mas que são construídos para durar.
+                A gente não entrega só “código que funciona”. Entrega arquitetura que escala,
+                integra e continua fácil de manter daqui a meses — sem gambiarra escondida.
               </blockquote>
 
               <p>
-                Nossa abordagem combina <span className="acc-2">precisão técnica</span> —
-                cada decisão arquitetural fundamentada em princípios sólidos — com{" "}
-                <span className="acc">inovação moderna</span> em IA, automação e cloud-native, e{" "}
-                <span className="acc-2">qualidade atemporal</span> em soluções escaláveis.
+                Na prática, isso vira <span className="acc-2">decisões técnicas sólidas</span> —
+                stack certa, APIs bem definidas, banco e deploy sob controle — somadas a{" "}
+                <span className="acc">IA, automação e cloud-native</span> quando faz diferença de
+                verdade. Resultado: <span className="acc-2">produto estável</span>, rápido de evoluir
+                e pronto para crescer com o negócio.
               </p>
 
               <p style={{ color: 'var(--ink-3)', fontSize: '14px' }}>
-                → Transformar complexidade técnica em soluções elegantes, onde cada componente
-                é projetado com a mesma atenção que um mestre engenheiro dedicaria a uma obra-prima mecânica.
+                → Traduzir problema complexo em solução limpa: menos ruído, mais engenharia.
               </p>
             </div>
 
