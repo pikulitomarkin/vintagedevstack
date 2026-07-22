@@ -15,6 +15,26 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
+    document.body.classList.toggle('nav-open', isMobileMenuOpen);
+    return () => document.body.classList.remove('nav-open');
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 880) setIsMobileMenuOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('resize', onResize);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleCrtAction = (e) => {
       const act = e.detail;
       if(act === 'mario') { setCrtChannel(2); setCrtPower(true); }
@@ -28,6 +48,9 @@ export default function App() {
 
   useEffect(() => {
     const audio = new Audio(PLAYLIST[0].src);
+    audio.preload = 'metadata';
+    audio.setAttribute('playsinline', 'true');
+    audio.setAttribute('webkit-playsinline', 'true');
     audioRef.current = audio;
     trackIndexRef.current = 0;
 
@@ -36,9 +59,15 @@ export default function App() {
       if (!track || !audioRef.current) return;
       trackIndexRef.current = idx;
       audioRef.current.src = track.src;
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch((e) => console.error('Audio play failed:', e));
+      audioRef.current.load();
+      const playPromise = audioRef.current.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise
+          .then(() => setIsPlaying(true))
+          .catch((e) => console.error('Audio play failed:', e));
+      } else {
+        setIsPlaying(true);
+      }
     };
 
     const onEnded = () => {
@@ -493,7 +522,7 @@ export default function App() {
                 </div>
                 <div className="video-frame">
                   <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&modestbranding=1`}
+                    src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&modestbranding=1&playsinline=1`}
                     title={video.title}
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -652,7 +681,7 @@ export default function App() {
           <div className="l">
             <span className="blink-dot"></span>
             <span id="term-bar-label">TERMINAL · marcos@vintage</span>
-            <span className="hint">— click or press <b>/</b> to open · ESC to close</span>
+            <span className="hint hide-mobile">— click or press <b>/</b> to open · ESC to close</span>
           </div>
           <div className="r" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <button onClick={(e) => { e.stopPropagation(); togglePower(); }} style={{ background: 'transparent', color: crtPower ? 'var(--accent)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
