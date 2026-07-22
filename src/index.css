@@ -1227,6 +1227,62 @@ section { position: relative; padding: 88px 0 24px; }
 [data-theme="dark"] .seg button.on { color: #0f1418; }
 
 /* =========================================================
+   VÍDEOS / DEMOS
+   ========================================================= */
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.video-card {
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.video-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 18px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+.video-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.video-card-meta .stamp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+}
+.video-card-meta h3 {
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+.video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 .mobile-menu-btn { display: none; }
@@ -1237,6 +1293,7 @@ section { position: relative; padding: 88px 0 24px; }
   .services { grid-template-columns: repeat(2, 1fr); }
   .svc--auto, .svc--ai { grid-column: span 2; grid-row: auto; }
   .svc--saas, .svc--consult, .svc--stack { grid-column: span 2; }
+  .videos-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .nav { display: none; }
   .section-head { grid-template-columns: 1fr; gap: 8px; }
