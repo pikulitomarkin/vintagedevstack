@@ -73,8 +73,9 @@ export default function App() {
           <nav className="nav">
             <a href="#servicos"><span className="br">[</span>02<span className="br">]</span> Serviços</a>
             <a href="#sobre"><span className="br">[</span>03<span className="br">]</span> Sobre</a>
-            <a href="#contato"><span className="br">[</span>04<span className="br">]</span> Contato</a>
-            <a href="/curriculo.html"><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
+            <a href="#videos"><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
+            <a href="#contato"><span className="br">[</span>05<span className="br">]</span> Contato</a>
+            <a href="/curriculo.html"><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
@@ -97,8 +98,9 @@ export default function App() {
         <nav className="mobile-nav-links">
           <a href="#servicos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>02<span className="br">]</span> Serviços</a>
           <a href="#sobre" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>03<span className="br">]</span> Sobre</a>
-          <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Contato</a>
-          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
+          <a href="#videos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
+          <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Contato</a>
+          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
           <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
         </nav>
       </div>
@@ -431,10 +433,47 @@ export default function App() {
         </section>
 
 
-        {/* ============== CONTATO ============== */}
-        <section id="contato" data-screen-label="04 Contato">
+        {/* ============== VÍDEOS ============== */}
+        <section id="videos" data-screen-label="04 Vídeos">
           <header className="section-head">
             <div className="num">04</div>
+            <div className="meta">
+              <span className="sub">[MEDIA] — DEMOS EM TRANSMISSÃO</span>
+              <h2>Vídeos &amp; demos</h2>
+            </div>
+          </header>
+
+          <div className="videos-grid">
+            {[
+              { id: '1gJw0tZKE1g', title: 'Bilhete Já', stamp: 'VID-001' },
+              { id: 'N9FDvke5Uhc', title: 'MenuSis', stamp: 'VID-002' },
+              { id: '96xuFDS52W8', title: 'MarqueOn', stamp: 'VID-003' },
+            ].map((video) => (
+              <article key={video.id} className="video-card">
+                <div className="video-card-meta">
+                  <span className="stamp">{video.stamp}</span>
+                  <h3>{video.title}</h3>
+                </div>
+                <div className="video-frame">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&modestbranding=1`}
+                    title={video.title}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+
+        {/* ============== CONTATO ============== */}
+        <section id="contato" data-screen-label="05 Contato">
+          <header className="section-head">
+            <div className="num">05</div>
             <div className="meta">
               <span className="sub">[CONTACT] — TRANSMIT &amp; CONNECT</span>
               <h2>Vamos construir algo
