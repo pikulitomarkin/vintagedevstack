@@ -268,7 +268,7 @@ export function initVintage() {
 
   const TRACK_LABELS = {
     kiss: "I Was Made for Lovin' You — KISS",
-    clash: 'The Clash — faixa do AUDIO',
+    clash: "Should I Stay or Should I Go — The Clash",
   };
 
   function playTrackById(id) {
