@@ -163,7 +163,7 @@ const COMMANDS = {
     "[02] Agentes de IA          — WhatsApp, Telegram, NLP",
     "[03] Desenvolvimento SaaS   — cloud-native, microsvc",
     "[04] Consultoria Eng. Soft. — arquitetura, code review",
-    "[05] Stack: Python · TS · Go · Rust · K8s · LLMs"
+    "[05] Stack: Python · TS/Node · C#/.NET · React · Next · NestJS · Blazor · Flutter · PGSQL · Docker · Supabase · LLMs"
   ],
   contact: () => [
     "WhatsApp ......... +55 (11) 9 ____-____",
