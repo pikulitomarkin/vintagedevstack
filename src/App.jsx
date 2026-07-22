@@ -74,6 +74,7 @@ export default function App() {
             <a href="#servicos"><span className="br">[</span>02<span className="br">]</span> Serviços</a>
             <a href="#sobre"><span className="br">[</span>03<span className="br">]</span> Sobre</a>
             <a href="#contato"><span className="br">[</span>04<span className="br">]</span> Contato</a>
+            <a href="/curriculo.html"><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
@@ -97,6 +98,7 @@ export default function App() {
           <a href="#servicos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>02<span className="br">]</span> Serviços</a>
           <a href="#sobre" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>03<span className="br">]</span> Sobre</a>
           <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Contato</a>
+          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Portfólio</a>
           <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
         </nav>
       </div>
@@ -326,9 +328,15 @@ export default function App() {
               <div className="chips">
                 <span className="chip"><strong>Py</strong>thon</span>
                 <span className="chip"><strong>TS</strong>/Node</span>
-                <span className="chip"><strong>Go</strong>lang</span>
-                <span className="chip"><strong>K8s</strong></span>
+                <span className="chip"><strong>C#</strong>/.NET</span>
+                <span className="chip"><strong>React</strong></span>
+                <span className="chip"><strong>Next</strong>.js</span>
+                <span className="chip"><strong>Nest</strong>JS</span>
+                <span className="chip"><strong>Blazor</strong></span>
+                <span className="chip"><strong>Flutter</strong></span>
                 <span className="chip"><strong>PG</strong>SQL</span>
+                <span className="chip"><strong>Docker</strong></span>
+                <span className="chip"><strong>Supabase</strong></span>
                 <span className="chip"><strong>LLM</strong>s</span>
               </div>
             </article>
