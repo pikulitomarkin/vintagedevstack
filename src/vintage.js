@@ -131,6 +131,7 @@ export function initVintage() {
       "  date          — system time",
       "  theme [n|a]   — switch theme (neon / amber)",
       "  sound [on|off]— toggle audio",
+      "  kiss          — play I Was Made for Lovin' You",
       "  mario         — play super mario bros",
       "  off           — turn off monitor",
       "  on            — turn on monitor",
@@ -183,6 +184,7 @@ export function initVintage() {
       if (arg === 'off') { setSound(false); return ["sound → OFF"]; }
       return ["usage: sound [on|off]"];
     },
+    kiss: () => 'PLAY_KISS',
     ls: () => ["hero/  serviços/  sobre/  contato/  ./README.md"],
     cat: (arg) => arg === 'README.md' ? [
       "# Vintage DevStack",
@@ -228,10 +230,44 @@ export function initVintage() {
     });
   }
 
+  function matchSongCommand(raw) {
+    const n = String(raw || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const aliases = [
+      'i was made for loving you',
+      'i was made for lovin you',
+      'i was made for lovin you kiss',
+      'kiss i was made for lovin you',
+      'kiss i was made for loving you',
+      'i was made for loving',
+      'i was made for lovin',
+    ];
+    if (n === 'kiss' || aliases.some((a) => n === a || n.includes(a))) return 'kiss';
+    return null;
+  }
+
+  function playKissTrack() {
+    window.dispatchEvent(new CustomEvent('play-track', { detail: 'kiss' }));
+    termPrint("♪ now playing: I Was Made for Lovin' You — KISS", 'ok');
+    chord([392, 494, 587], 0.1);
+  }
+
   function execCommand(raw) {
     const trimmed = raw.trim();
     if (!trimmed) return;
     termPrint(`marcos@vintage:~$ ${escapeHtml(trimmed)}`, 'p');
+
+    if (matchSongCommand(trimmed)) {
+      playKissTrack();
+      return;
+    }
+
     const [cmd, ...rest] = trimmed.split(/\s+/);
     const arg = rest.join(' ');
     const handler = COMMANDS[cmd.toLowerCase()];
@@ -251,6 +287,7 @@ export function initVintage() {
     }
     if (out === 'MATRIX') { runMatrix(); return; }
     if (out === 'CV') { openCV(); return; }
+    if (out === 'PLAY_KISS') { playKissTrack(); return; }
     if (Array.isArray(out)) {
       out.forEach(l => termPrint(l, cmd === 'about' || cmd === 'services' ? 'p' : 'p'));
     }
