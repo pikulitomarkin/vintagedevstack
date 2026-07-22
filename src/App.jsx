@@ -1,14 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { initVintage } from './vintage';
 
+const PLAYLIST = [
+  { id: 'clash', src: '/clash.webm', title: 'Clash' },
+  { id: 'kiss', src: '/kiss-i-was-made-for-lovin-you.webm', title: "I Was Made for Lovin' You — KISS" },
+];
+
 export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
   const marioContainerRef = useRef(null);
   const audioRef = useRef(null);
+  const trackIndexRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   useEffect(() => {
     const handleCrtAction = (e) => {
       const act = e.detail;
@@ -22,13 +27,45 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    audioRef.current = new Audio('/clash.webm');
-    audioRef.current.addEventListener('ended', () => setIsPlaying(false));
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
+    const audio = new Audio(PLAYLIST[0].src);
+    audioRef.current = audio;
+    trackIndexRef.current = 0;
+
+    const playIndex = (idx) => {
+      const track = PLAYLIST[idx];
+      if (!track || !audioRef.current) return;
+      trackIndexRef.current = idx;
+      audioRef.current.src = track.src;
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch((e) => console.error('Audio play failed:', e));
+    };
+
+    const onEnded = () => {
+      const next = trackIndexRef.current + 1;
+      if (next < PLAYLIST.length) {
+        playIndex(next);
+      } else {
+        trackIndexRef.current = 0;
+        audio.src = PLAYLIST[0].src;
+        setIsPlaying(false);
       }
+    };
+
+    const onPlayTrack = (e) => {
+      const id = String(e.detail || '').toLowerCase();
+      const idx = PLAYLIST.findIndex((t) => t.id === id);
+      if (idx >= 0) playIndex(idx);
+    };
+
+    audio.addEventListener('ended', onEnded);
+    window.addEventListener('play-track', onPlayTrack);
+
+    return () => {
+      audio.removeEventListener('ended', onEnded);
+      window.removeEventListener('play-track', onPlayTrack);
+      audio.pause();
+      audio.src = '';
     };
   }, []);
 
