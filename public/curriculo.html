@@ -272,7 +272,7 @@
       height: 280px;
     }
     
-    .hero-avatar-video {
+    .hero-avatar-img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -280,41 +280,7 @@
       box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
       border: 5px solid rgba(0, 212, 255, 0.4);
       background: var(--dark-light);
-    }
-    
-    .hero-avatar-audio-overlay {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: rgba(15, 23, 42, 0.85);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    
-    .hero-avatar-audio-overlay:hover {
-      background: rgba(15, 23, 42, 0.75);
-    }
-    
-    .hero-avatar-audio-overlay.hidden {
-      display: none;
-    }
-    
-    .hero-avatar-audio-overlay i {
-      font-size: 2rem;
-      color: white;
-    }
-    
-    .hero-avatar-audio-overlay span {
-      font-size: 0.75rem;
-      color: white;
-      font-weight: 500;
-      text-align: center;
-      padding: 0 1rem;
+      display: block;
     }
     
     @keyframes pulse {
@@ -975,14 +941,7 @@
         width: 220px;
         height: 220px;
       }
-      
-      .hero-avatar-audio-overlay i {
-        font-size: 1.5rem;
-      }
-      
-      .hero-avatar-audio-overlay span {
-        font-size: 0.65rem;
-      }
+
       
       .about-grid {
         grid-template-columns: 1fr;
@@ -1097,21 +1056,13 @@
       </div>
       <div class="hero-image animate delay-1">
         <div class="hero-avatar-wrap">
-          <video
-            id="heroAvatarVideo"
-            class="hero-avatar-video"
-            src="/kling_20260218_Build_Avatar_Standing_c_3310_0.mp4"
-            autoplay
-            muted
-            playsinline
-            preload="auto"
-          >
-            Seu navegador não suporta vídeo.
-          </video>
-          <div id="heroAvatarAudioOverlay" class="hero-avatar-audio-overlay" title="Clique para ativar o áudio">
-            <i class="fas fa-volume-mute"></i>
-            <span>Clique para ativar o áudio</span>
-          </div>
+          <img
+            class="hero-avatar-img"
+            src="/avatar-curriculo.png"
+            alt="Marcos Padilha — Vintage DevStack"
+            width="640"
+            height="640"
+          />
         </div>
       </div>
     </div>
@@ -2043,21 +1994,6 @@
       observer.observe(el);
     });
     
-    // Vídeo do avatar: tenta tocar com som; se o navegador bloquear, mostra overlay "Clique para ativar o áudio".
-    const heroVideo = document.getElementById('heroAvatarVideo');
-    const audioOverlay = document.getElementById('heroAvatarAudioOverlay');
-    if (heroVideo) {
-      heroVideo.addEventListener('ended', function() {
-        heroVideo.pause();
-      });
-      if (audioOverlay) {
-        audioOverlay.addEventListener('click', function() {
-          heroVideo.muted = false;
-          heroVideo.currentTime = 0;
-          heroVideo.play();
-          audioOverlay.classList.add('hidden');
-        });
-      }
       // Tenta tocar com som logo ao abrir (alguns navegadores permitem)
       heroVideo.muted = false;
       heroVideo.play().then(function() {
