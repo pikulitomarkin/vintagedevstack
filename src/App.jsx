@@ -158,6 +158,7 @@ export default function App() {
             <a href="#videos"><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
             <a href="#contato"><span className="br">[</span>05<span className="br">]</span> Contato</a>
             <a href="/curriculo.html"><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
+            <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer"><span className="br">[</span>07<span className="br">]</span> Orçamento</a>
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
@@ -183,6 +184,7 @@ export default function App() {
           <a href="#videos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
           <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Contato</a>
           <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
+          <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>07<span className="br">]</span> Orçamento</a>
           <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
         </nav>
       </div>
