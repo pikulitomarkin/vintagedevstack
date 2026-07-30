@@ -263,7 +263,7 @@ export default function App() {
                     <div className="crt-game" ref={gameContainerRef}>
                       <iframe
                         className="crt-game-frame"
-                        src="/games/metal-slug.html"
+                        src="/games/metal-slug/index.html"
                         title="Metal Slug"
                         allow="fullscreen; gamepad; autoplay"
                         allowFullScreen
