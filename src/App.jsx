@@ -38,8 +38,12 @@ export default function App() {
   useEffect(() => {
     const handleCrtAction = (e) => {
       const act = e.detail;
-      if (act === 'mario' || act === 'metalslug' || act === 'slug') {
+      if (act === 'metal' || act === 'metalslug' || act === 'slug' || act === 'mario') {
         setCrtChannel(2);
+        setCrtPower(true);
+      }
+      if (act === 'metal3' || act === 'metalslug3') {
+        setCrtChannel(3);
         setCrtPower(true);
       }
       if(act === 'off') setCrtPower(false);
@@ -263,8 +267,21 @@ export default function App() {
                     <div className="crt-game" ref={gameContainerRef}>
                       <iframe
                         className="crt-game-frame"
-                        src="/games/metal-slug/index.html"
+                        src="/games/metal-slug/index.html?v=1"
                         title="Metal Slug"
+                        allow="fullscreen; gamepad; autoplay"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                      <button className="crt-game-fs" onClick={toggleFullscreen} type="button">⛶ Fullscreen</button>
+                    </div>
+                  )}
+                  {crtChannel === 3 && (
+                    <div className="crt-game" ref={gameContainerRef}>
+                      <iframe
+                        className="crt-game-frame"
+                        src="/games/metal-slug/index.html?v=3"
+                        title="Metal Slug 3"
                         allow="fullscreen; gamepad; autoplay"
                         allowFullScreen
                         loading="lazy"
@@ -277,6 +294,7 @@ export default function App() {
                   <div className="knobs">
                     <div className="knob" style={{ transform: crtChannel === 1 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(1)} title="Canal 1 (Terminal)"></div>
                     <div className="knob" style={{ transform: crtChannel === 2 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(2)} title="Canal 2 (Metal Slug)"></div>
+                    <div className="knob" style={{ transform: crtChannel === 3 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(3)} title="Canal 3 (Metal Slug 3)"></div>
                     <div className="knob" style={{ transform: 'rotate(15deg)', cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"></div>
                   </div>
                   <div className="meter">CH·{crtChannel} ─ 50Hz ─ AC</div>
@@ -723,8 +741,8 @@ export default function App() {
             <button onClick={(e) => { e.stopPropagation(); togglePower(); }} style={{ background: 'transparent', color: crtPower ? 'var(--accent)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
               PWR {crtPower ? 'ON' : 'OFF'}
             </button>
-            <button onClick={(e) => { e.stopPropagation(); setChannel(crtChannel === 2 ? 1 : 2); }} style={{ background: 'transparent', color: crtChannel === 2 ? 'var(--accent-2)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
-              SLUG
+            <button onClick={(e) => { e.stopPropagation(); setChannel(crtChannel === 1 ? 2 : crtChannel === 2 ? 3 : 1); }} style={{ background: 'transparent', color: crtChannel >= 2 ? 'var(--accent-2)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
+              {crtChannel === 3 ? 'MS3' : 'METAL'}
             </button>
             <div className="chev" style={{ marginLeft: '6px' }}>▲</div>
           </div>
