@@ -3,6 +3,9 @@ import PlayGame from './scenes/PlayGame.js'
 import GameOver from './scenes/GameOver.js'
 import TitleGame from './scenes/TitleGame.js'
 
+const params = new URLSearchParams(window.location.search)
+const initialVersion = params.get('v') === '3' ? 3 : 1
+
 const config = {
   type: Phaser.AUTO,
   parent: 'game',
@@ -12,6 +15,13 @@ const config = {
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: 700,
+    height: 400,
+  },
+  render: {
+    antialias: false,
+    pixelArt: true,
+    roundPixels: true,
   },
   fps: {
     target: 30,
@@ -26,4 +36,5 @@ const config = {
   },
 }
 
-new Phaser.Game(config)
+const game = new Phaser.Game(config)
+game.registry.set('metalVersion', initialVersion)
