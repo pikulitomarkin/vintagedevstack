@@ -263,7 +263,7 @@ export default function App() {
                     <div className="crt-game" ref={gameContainerRef}>
                       <iframe
                         className="crt-game-frame"
-                        src="https://classicjoy.games/embed/games/metal-slug"
+                        src="/games/metal-slug.html"
                         title="Metal Slug"
                         allow="fullscreen; gamepad; autoplay"
                         allowFullScreen
