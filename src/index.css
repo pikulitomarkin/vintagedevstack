@@ -591,25 +591,24 @@ h1, h2, h3, h4 { margin: 0; }
   }
   .crt-now-playing .np-title { font-size: 17px; }
 }
-.mario-container {
+.crt-game {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 14px;
   background: #000;
-  position: relative;
   z-index: 1;
 }
-.mario-scaler {
-  width: 800px;
-  height: 600px;
-  transform: scale(0.65);
-  transform-origin: center center;
+.crt-game-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
 }
-.mario-fs-btn {
+.crt-game-fs {
   position: absolute;
   bottom: 12px;
   right: 12px;
@@ -625,15 +624,13 @@ h1, h2, h3, h4 { margin: 0; }
   text-transform: uppercase;
   transition: all 0.2s ease;
 }
-.mario-fs-btn:hover {
+.crt-game-fs:hover {
   background: var(--accent-2);
   color: #000;
 }
-.mario-container:fullscreen .mario-scaler {
+.crt-game:fullscreen .crt-game-frame {
   width: 100vw;
   height: 100vh;
-  transform: none;
-  transform-origin: center;
 }
 .crt-line { white-space: pre-wrap; }
 .crt-line .ok { color: #94e878; text-shadow: 0 0 6px #94e878; }
@@ -1602,7 +1599,7 @@ section[id] {
 
   .crt { padding: 12px 12px 8px; border-radius: 14px 14px 18px 18px; }
   .crt-screen { height: 220px; font-size: 14px; padding: 10px; }
-  .mario-scaler { transform: scale(0.4); transform-origin: top center; }
+  .crt-game-fs { bottom: 8px; right: 8px; font-size: 9px; padding: 3px 6px; }
 
   .statusbar-inner { gap: 6px; }
   .brand { font-size: 10px; letter-spacing: 0.08em; }
