@@ -2,66 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Metal Slug — CRT</title>
-  <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
-    }
-    iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-      background: #000;
-    }
-    .fallback {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      z-index: 5;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .fallback a {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #9fefc0;
-      text-decoration: none;
-      border: 1px solid #9fefc0;
-      background: rgba(0, 0, 0, 0.72);
-      padding: 5px 8px;
-    }
-    .fallback a:hover {
-      background: #9fefc0;
-      color: #000;
-    }
-  </style>
+  <meta http-equiv="refresh" content="0; url=./metal-slug/index.html" />
+  <title>Metal Slug</title>
+  <script>location.replace('./metal-slug/index.html');</script>
 </head>
-<body>
-  <!--
-    Página local (mesma origem) para preencher o CRT.
-    Player: WebMulator (IPv4) — ClassicJoy falhava com DNS em algumas redes.
-  -->
-  <iframe
-    id="game"
-    title="Metal Slug"
-    src="https://downloads.webmulator.com/play.php?emulator=1&console_slug=mame&rom_url=%2Froms%2Fmslug.zip&rom_slug=metal-slug-super-vehicle"
-    allow="fullscreen; gamepad; autoplay"
-    allowfullscreen
-  ></iframe>
-  <div class="fallback">
-    <a href="https://www.webmulator.com/games/mame/metal-slug-super-vehicle" target="_blank" rel="noopener noreferrer">Abrir WebMulator ↗</a>
-    <a href="https://archive.org/details/arcade_mslug" target="_blank" rel="noopener noreferrer">Archive.org ↗</a>
-  </div>
+<body style="margin:0;background:#000;color:#9fefc0;font-family:monospace;padding:12px;">
+  Carregando Metal Slug…
+  <a href="./metal-slug/index.html" style="color:#9fefc0;">Abrir</a>
 </body>
 </html>

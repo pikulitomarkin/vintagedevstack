@@ -1,0 +1,8 @@
+MetalSlug CRT embed
+===================
+
+Jogo HTML5 local (sem DNS externo) baseado no clone Phaser 3 de
+https://github.com/willianmarquess/metalslugclonephaser3
+
+Créditos ao autor original do clone didático.
+Phaser 3: https://phaser.io (MIT)
