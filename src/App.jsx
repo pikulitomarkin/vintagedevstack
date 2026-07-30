@@ -9,7 +9,7 @@ const PLAYLIST = [
 export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
-  const marioContainerRef = useRef(null);
+  const gameContainerRef = useRef(null);
   const audioRef = useRef(null);
   const trackIndexRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,7 +38,10 @@ export default function App() {
   useEffect(() => {
     const handleCrtAction = (e) => {
       const act = e.detail;
-      if(act === 'mario') { setCrtChannel(2); setCrtPower(true); }
+      if (act === 'mario' || act === 'metalslug' || act === 'slug') {
+        setCrtChannel(2);
+        setCrtPower(true);
+      }
       if(act === 'off') setCrtPower(false);
       if(act === 'on') setCrtPower(true);
     };
@@ -130,7 +133,7 @@ export default function App() {
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      marioContainerRef.current?.requestFullscreen().catch(err => {
+      gameContainerRef.current?.requestFullscreen().catch(err => {
         console.warn(`Error attempting to enable fullscreen: ${err.message}`);
       });
     } else {
@@ -257,18 +260,23 @@ export default function App() {
                     </div>
                   )}
                   {crtChannel === 2 && (
-                    <div className="mario-container" ref={marioContainerRef}>
-                      <div className="mario-scaler">
-                        <iframe src="https://supermarioemulator.com/mario.php" title="Super Mario Bros" style={{ width: '100%', height: '100%', border: 'none' }} />
-                      </div>
-                      <button className="mario-fs-btn" onClick={toggleFullscreen}>⛶ Fullscreen</button>
+                    <div className="crt-game" ref={gameContainerRef}>
+                      <iframe
+                        className="crt-game-frame"
+                        src="https://classicjoy.games/embed/games/metal-slug"
+                        title="Metal Slug"
+                        allow="fullscreen; gamepad; autoplay"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                      <button className="crt-game-fs" onClick={toggleFullscreen} type="button">⛶ Fullscreen</button>
                     </div>
                   )}
                 </div>
                 <div className="crt-base">
                   <div className="knobs">
                     <div className="knob" style={{ transform: crtChannel === 1 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(1)} title="Canal 1 (Terminal)"></div>
-                    <div className="knob" style={{ transform: crtChannel === 2 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(2)} title="Canal 2 (Mario)"></div>
+                    <div className="knob" style={{ transform: crtChannel === 2 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(2)} title="Canal 2 (Metal Slug)"></div>
                     <div className="knob" style={{ transform: 'rotate(15deg)', cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"></div>
                   </div>
                   <div className="meter">CH·{crtChannel} ─ 50Hz ─ AC</div>
@@ -716,7 +724,7 @@ export default function App() {
               PWR {crtPower ? 'ON' : 'OFF'}
             </button>
             <button onClick={(e) => { e.stopPropagation(); setChannel(crtChannel === 2 ? 1 : 2); }} style={{ background: 'transparent', color: crtChannel === 2 ? 'var(--accent-2)' : 'var(--ink-2)', border: '1px solid', padding: '2px 8px', fontSize: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
-              MARIO
+              SLUG
             </button>
             <div className="chev" style={{ marginLeft: '6px' }}>▲</div>
           </div>
