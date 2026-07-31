@@ -156,7 +156,7 @@ const COMMANDS = {
     "VINTAGE DEVSTACK — Engenharia de software de precisão",
     "Fundimos a robustez de máquinas dos anos 80 com",
     "tecnologias modernas: IA, automação, cloud-native, SaaS.",
-    "50 projetos entregues · 5.0★ avaliação · Top 11 BR"
+    "50 projetos entregues · 5.0★ avaliação · Top 50 BR"
   ],
   services: () => [
     "[01] Automação Logística    — rotas, frotas, APIs",
@@ -170,7 +170,7 @@ const COMMANDS = {
     "Email ............ marcos.padilha@vintagedevstack.com.br",
     "LinkedIn ......... /in/marcos-padilha",
     "GitHub ........... @marcospadilha",
-    "Workana .......... HERO level · ranked #11 BR"
+    "Workana .......... HERO level · Top 50 BR"
   ],
   whoami: () => ["marcos@padilha-systems  ·  cientista da computação  ·  CEO"],
   date: () => [new Date().toString()],

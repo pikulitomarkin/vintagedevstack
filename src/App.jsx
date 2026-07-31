@@ -525,7 +525,7 @@ export default function App() {
                 <dt>Calls</dt>
                 <dd>EN · PT · ES</dd>
                 <dt>Workana</dt>
-                <dd>5.0★ · #11 BR</dd>
+                <dd>5.0★ · Top 50 BR</dd>
                 <dt>Status</dt>
                 <dd style={{ color: 'var(--accent-3)' }}>▮ aceitando projetos</dd>
               </dl>
@@ -542,7 +542,7 @@ export default function App() {
               <div className="l">Avaliação Workana</div>
             </div>
             <div className="stat">
-              <div className="v">#11</div>
+              <div className="v">Top 50</div>
               <div className="l">Ranking TI Brasil</div>
             </div>
             <div className="stat">
