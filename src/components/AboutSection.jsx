@@ -84,7 +84,7 @@ const AboutSection = () => {
             <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Avaliação Workana</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">#11</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">Top 50</p>
             <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Ranking TI Brasil</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">
