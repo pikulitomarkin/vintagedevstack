@@ -76,7 +76,7 @@ const AboutSection = () => {
         {/* Especificações Técnicas — Workana 25/04/2026 */}
         <div className="mt-6 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <div className="blueprint-border p-3 md:p-4 text-center">
-            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">33</p>
+            <p className="font-mono text-xl md:text-2xl font-bold text-electric-blue mb-1">50</p>
             <p className="font-mono text-[10px] md:text-xs text-tech-white/60 uppercase">Projetos Entregues</p>
           </div>
           <div className="blueprint-border p-3 md:p-4 text-center">

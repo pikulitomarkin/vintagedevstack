@@ -205,7 +205,7 @@ export default function App() {
             <span className="stamp"><span className="dot"></span>ONLINE</span>
             <span>Londrina · PR</span>
             <span>·</span>
-            <span>EST. 2025 — 38 PROJETOS</span>
+            <span>EST. 2025 — 50 PROJETOS</span>
           </div>
 
           <div className="hero-grid">
@@ -534,7 +534,7 @@ export default function App() {
 
           <div className="stats">
             <div className="stat">
-              <div className="v">38</div>
+              <div className="v">50</div>
               <div className="l">Projetos entregues</div>
             </div>
             <div className="stat">
