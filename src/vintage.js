@@ -148,7 +148,7 @@ export function initVintage() {
       "VINTAGE DEVSTACK — Engenharia de software de precisão",
       "Fundimos a robustez de máquinas dos anos 80 com",
       "tecnologias modernas: IA, automação, cloud-native, SaaS.",
-      "33 projetos entregues · 5.0★ avaliação · Top 11 BR"
+      "50 projetos entregues · 5.0★ avaliação · Top 11 BR"
     ],
     services: () => [
       "[01] Automação Logística    — rotas, frotas, APIs",
