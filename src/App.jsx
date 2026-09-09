@@ -164,8 +164,9 @@ export default function App() {
             <a href="#sobre"><span className="br">[</span>03<span className="br">]</span> Sobre</a>
             <a href="#videos"><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
             <a href="#contato"><span className="br">[</span>05<span className="br">]</span> Contato</a>
-            <a href="/curriculo.html"><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
-            <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer"><span className="br">[</span>07<span className="br">]</span> Orçamento</a>
+            <a href="/agenda"><span className="br">[</span>06<span className="br">]</span> Agenda</a>
+            <a href="/curriculo.html"><span className="br">[</span>07<span className="br">]</span> Portfólio</a>
+            <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer"><span className="br">[</span>08<span className="br">]</span> Orçamento</a>
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
@@ -190,8 +191,9 @@ export default function App() {
           <a href="#sobre" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>03<span className="br">]</span> Sobre</a>
           <a href="#videos" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>04<span className="br">]</span> Vídeos</a>
           <a href="#contato" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>05<span className="br">]</span> Contato</a>
-          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>06<span className="br">]</span> Portfólio</a>
-          <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>07<span className="br">]</span> Orçamento</a>
+          <a href="/agenda" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>06<span className="br">]</span> Agenda</a>
+          <a href="/curriculo.html" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>07<span className="br">]</span> Portfólio</a>
+          <a href="https://assistente.vintagedevstack.com.br" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>08<span className="br">]</span> Orçamento</a>
           <a href="#" data-open-term onClick={() => setIsMobileMenuOpen(false)}><span className="br">[</span>_<span className="br">]</span> Terminal</a>
         </nav>
       </div>
@@ -607,6 +609,18 @@ export default function App() {
               <div className="card">
                 <div className="stamp">[ CHANNELS / TRANSMISSORES ]</div>
                 <div className="channels">
+                  <a className="channel" href="/agenda">
+                    <span className="ic">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="18" rx="1" />
+                        <path d="M8 2v4M16 2v4M3 10h18" />
+                      </svg>
+                    </span>
+                    <span>
+                      <div className="l1">Agenda</div>
+                      <div className="l2">videochamada 17h–22h · seg–qui</div>
+                    </span>
+                  </a>
                   <a className="channel" href="https://wa.me/5543988713278" target="_blank" rel="noopener">
                     <span className="ic">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

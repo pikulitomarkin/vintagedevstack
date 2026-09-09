@@ -2,31 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.vintagedevstack.com.br/</loc>
-    <lastmod>2026-04-28T22:36:55.024Z</lastmod>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.vintagedevstack.com.br/#about</loc>
-    <lastmod>2026-04-28T22:36:55.024Z</lastmod>
+    <loc>https://www.vintagedevstack.com.br/agenda</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.vintagedevstack.com.br/#services</loc>
-    <lastmod>2026-04-28T22:36:55.024Z</lastmod>
+    <loc>https://www.vintagedevstack.com.br/#servicos</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.vintagedevstack.com.br/#portfolio</loc>
-    <lastmod>2026-04-28T22:36:55.024Z</lastmod>
+    <loc>https://www.vintagedevstack.com.br/#sobre</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.vintagedevstack.com.br/#contact</loc>
-    <lastmod>2026-04-28T22:36:55.024Z</lastmod>
+    <loc>https://www.vintagedevstack.com.br/#videos</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.vintagedevstack.com.br/#contato</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.vintagedevstack.com.br/curriculo.html</loc>
+    <lastmod>2026-09-09T12:29:34.083Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
