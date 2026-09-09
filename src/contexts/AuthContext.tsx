@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
-import { supabase } from '../lib/supabase'
+import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import type { Profile } from '../lib/supabase'
 
 interface AuthContextValue {
@@ -25,37 +25,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   async function fetchProfile(userId: string) {
+    if (!isSupabaseConfigured) {
+      setProfile(null)
+      return
+    }
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
     if (!error && data) setProfile(data as Profile)
+    else setProfile(null)
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    let mounted = true
+
+    if (!isSupabaseConfigured) {
+      setLoading(false)
+      return () => {
+        mounted = false
+      }
+    }
+
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!mounted) return
       setSession(session)
       setUser(session?.user ?? null)
-      if (session?.user) fetchProfile(session.user.id)
-      setLoading(false)
+      if (session?.user) await fetchProfile(session.user.id)
+      else setProfile(null)
+      if (mounted) setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        fetchProfile(session.user.id)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
+      setSession(nextSession)
+      setUser(nextSession?.user ?? null)
+      if (nextSession?.user) {
+        await fetchProfile(nextSession.user.id)
       } else {
         setProfile(null)
       }
       setLoading(false)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [])
 
   async function signUp(email: string, password: string, fullName: string) {
+    if (!isSupabaseConfigured) throw new Error('Supabase não configurado')
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -73,13 +93,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signIn(email: string, password: string) {
+    if (!isSupabaseConfigured) {
+      throw new Error('Supabase não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.')
+    }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) throw error
+    const { data } = await supabase.auth.getUser()
+    if (data.user) await fetchProfile(data.user.id)
   }
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
+    if (isSupabaseConfigured) {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+    }
+    setProfile(null)
   }
 
   async function updateProfile(data: Partial<Profile>) {

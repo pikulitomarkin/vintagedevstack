@@ -10,8 +10,8 @@ export function AdminRoute({ children }: AdminRouteProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-navy-dark flex items-center justify-center">
-        <p className="font-mono text-electric-blue animate-pulse">[LOADING...]</p>
+      <div className="agenda-page">
+        <p className="agenda-status" style={{ padding: '4rem', textAlign: 'center' }}>[LOADING...]</p>
       </div>
     )
   }
@@ -21,7 +21,7 @@ export function AdminRoute({ children }: AdminRouteProps) {
   }
 
   if (!isAdmin) {
-    return <Navigate to="/candidato/dashboard" replace />
+    return <Navigate to="/agenda" replace />
   }
 
   return <>{children}</>

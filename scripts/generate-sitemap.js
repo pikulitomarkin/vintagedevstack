@@ -14,10 +14,12 @@ if (!process.env.SITE_URL && !process.argv[2]) {
 
 const routes = [
   '/',
-  '/#about',
-  '/#services',
-  '/#portfolio',
-  '/#contact'
+  '/agenda',
+  '/#servicos',
+  '/#sobre',
+  '/#videos',
+  '/#contato',
+  '/curriculo.html'
 ];
 
 const now = new Date().toISOString();

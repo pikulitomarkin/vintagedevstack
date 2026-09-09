@@ -1683,3 +1683,244 @@ section[id] {
   60% { transform: scale(1, 0.001) translate3d(0, 0, 0); opacity: 1; filter: brightness(10); }
   100% { transform: scale(0, 0.001) translate3d(0, 0, 0); opacity: 0; filter: brightness(0); }
 }
+
+/* ============== AGENDA ============== */
+.agenda-page {
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+}
+.agenda-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px clamp(16px, 4vw, 40px);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg) 88%, #000);
+}
+.agenda-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: var(--ink);
+}
+.agenda-brand .v { color: var(--accent); margin-right: 6px; }
+.agenda-topbar nav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+}
+.agenda-topbar a, .agenda-linkbtn {
+  color: var(--ink-2);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.agenda-topbar a:hover, .agenda-linkbtn:hover { color: var(--accent); }
+.agenda-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px clamp(16px, 4vw, 40px) 64px;
+}
+.agenda-shell--narrow { max-width: 420px; }
+.agenda-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+.agenda-hero h1 {
+  font-family: 'VT323', monospace;
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1;
+  margin: 0 0 10px;
+}
+.agenda-lead {
+  max-width: 58ch;
+  color: var(--ink-2);
+  margin: 0 0 24px;
+  line-height: 1.45;
+}
+.agenda-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+}
+@media (max-width: 880px) {
+  .agenda-grid { grid-template-columns: 1fr; }
+}
+.agenda-panel {
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg-2) 92%, #000);
+  padding: 16px;
+}
+.agenda-panel h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  color: var(--accent-2);
+}
+.agenda-days, .agenda-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.agenda-day, .agenda-slot, .agenda-filters button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.agenda-day.is-active, .agenda-slot.is-active, .agenda-filters button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 40%, transparent);
+}
+.agenda-slot:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.agenda-form {
+  display: grid;
+  gap: 12px;
+}
+.agenda-form label {
+  display: grid;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.agenda-form input {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+  width: 100%;
+}
+.agenda-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink);
+  padding: 10px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.agenda-btn.primary {
+  border-color: var(--accent);
+  color: #001410;
+  background: var(--accent);
+}
+.agenda-btn.danger { border-color: #ff6b6b; color: #ff6b6b; }
+.agenda-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.agenda-summary, .agenda-muted, .agenda-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.agenda-error {
+  border: 1px solid #ff6b6b;
+  color: #ffb4b4;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}
+.agenda-success {
+  border: 1px solid var(--accent);
+  padding: 18px;
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+.agenda-success h2 {
+  margin: 0 0 8px;
+  font-family: 'VT323', monospace;
+  font-size: 34px;
+}
+.pill {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+}
+.pill.pending { border-color: var(--accent-2); color: var(--accent-2); }
+.pill.confirmed { border-color: var(--accent); color: var(--accent); }
+.pill.cancelled { border-color: #ff6b6b; color: #ff6b6b; }
+.pill.completed { border-color: var(--ink-3); color: var(--ink-3); }
+.agenda-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.agenda-admin-list { display: grid; gap: 12px; }
+.agenda-admin-card {
+  border: 1px solid var(--border);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 14px;
+  background: color-mix(in oklab, var(--bg-2) 92%, #000);
+}
+@media (max-width: 880px) {
+  .agenda-admin-card { grid-template-columns: 1fr; }
+}
+.agenda-admin-card h3 {
+  margin: 0 0 6px;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+}
+.agenda-admin-actions {
+  display: grid;
+  gap: 10px;
+}
+.agenda-admin-actions label {
+  display: grid;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.agenda-admin-actions input {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+}
+.agenda-admin-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
