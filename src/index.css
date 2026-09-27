@@ -591,6 +591,202 @@ h1, h2, h3, h4 { margin: 0; }
   }
   .crt-now-playing .np-title { font-size: 17px; }
 }
+
+/* Spotify Embed no CRT */
+.crt-screen.has-spotify {
+  height: 420px;
+  padding: 12px;
+}
+.crt-spotify {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  overflow: hidden;
+  pointer-events: auto;
+}
+.crt-spotify-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.crt-spotify-head .np-label { color: var(--ink-3); opacity: 0.9; }
+.crt-spotify-auth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+}
+.crt-spotify-user {
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crt-spotify-linkbtn {
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 40%, transparent);
+  background: transparent;
+  color: var(--crt-fg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.crt-spotify-linkbtn.primary {
+  border-color: #1db954;
+  color: #1db954;
+}
+.crt-spotify-linkbtn:hover {
+  box-shadow: 0 0 10px color-mix(in oklab, var(--crt-glow) 30%, transparent);
+}
+.crt-spotify-sdk-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  border: 1px dashed color-mix(in oklab, var(--crt-fg) 35%, transparent);
+  padding: 6px 8px;
+  flex-shrink: 0;
+}
+.crt-spotify-playlists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-shrink: 0;
+  max-height: 52px;
+  overflow: auto;
+}
+.crt-spotify-pl {
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 25%, transparent);
+  background: color-mix(in oklab, var(--crt-bg) 60%, #000);
+  color: var(--crt-fg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  cursor: pointer;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crt-spotify-pl.is-active,
+.crt-spotify-pl:hover {
+  border-color: #1db954;
+  color: #1db954;
+}
+.crt-spotify-embed {
+  flex-shrink: 0;
+  min-height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 30%, transparent);
+  background: #000;
+  position: relative;
+  z-index: 5;
+}
+.crt-spotify-embed iframe {
+  display: block;
+  width: 100% !important;
+  border: 0;
+  border-radius: 8px;
+}
+.crt-spotify-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 5;
+  scrollbar-width: thin;
+  scrollbar-color: var(--crt-fg) transparent;
+}
+.crt-spotify-track {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 28px 1fr 18px;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 22%, transparent);
+  background: color-mix(in oklab, var(--crt-bg) 70%, #000);
+  color: var(--crt-fg);
+  padding: 6px 8px;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.crt-spotify-track:hover,
+.crt-spotify-track.is-active {
+  border-color: color-mix(in oklab, var(--crt-fg) 70%, transparent);
+  background: color-mix(in oklab, var(--crt-bg) 40%, #000);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--crt-glow) 25%, transparent);
+}
+.crt-spotify-track .idx {
+  opacity: 0.55;
+  font-size: 11px;
+}
+.crt-spotify-track .meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.crt-spotify-track .title {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crt-spotify-track .artist {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.crt-spotify-track .cue {
+  text-align: center;
+  color: var(--accent);
+}
+.crt-spotify-error {
+  margin: 0;
+  color: #ff6b6b;
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.crt-spotify-hint {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.65;
+  font-family: 'IBM Plex Mono', monospace;
+}
+@media (max-width: 520px) {
+  .crt-screen.has-spotify { height: 380px; }
+  .crt-spotify-track .title { font-size: 15px; }
+}
+
 .crt-game {
   position: absolute;
   inset: 0;

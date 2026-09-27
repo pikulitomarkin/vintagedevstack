@@ -1,19 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { initVintage } from './vintage';
+import { SPOTIFY_TRACKS, findTrackById } from './lib/spotify';
+import CrtSpotifyPanel from './components/CrtSpotifyPanel';
 
-const PLAYLIST = [
-  { id: 'clash', src: '/clash.webm', title: "Should I Stay or Should I Go — The Clash" },
-  { id: 'kiss', src: '/kiss-i-was-made-for-lovin-you.webm', title: "I Was Made for Lovin' You — KISS" },
-];
+const SPOTIFY_CHANNEL = 4;
 
 export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
   const gameContainerRef = useRef(null);
-  const audioRef = useRef(null);
-  const trackIndexRef = useRef(0);
+  const spotifyPanelRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [nowPlaying, setNowPlaying] = useState(null);
+  const [activeTrackId, setActiveTrackId] = useState(SPOTIFY_TRACKS[0]?.id || null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
     document.body.classList.toggle('nav-open', isMobileMenuOpen);
@@ -35,6 +34,29 @@ export default function App() {
     };
   }, []);
 
+  const openSpotifyChannel = useCallback((trackId) => {
+    const track = findTrackById(trackId) || SPOTIFY_TRACKS[0];
+    if (track) {
+      setActiveTrackId(track.id);
+      setNowPlaying({ title: `${track.title} — ${track.artist}`, status: 'PLAY' });
+    }
+    setCrtPower(true);
+    setCrtChannel(SPOTIFY_CHANNEL);
+    // defer: painel monta e recebe openWithTrack
+    requestAnimationFrame(() => {
+      spotifyPanelRef.current?.openWithTrack?.(track?.id || trackId);
+    });
+  }, []);
+
+  // Retorno do OAuth Spotify → abre o CRT no canal AUDIO
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('spotify') === 'connected') {
+      openSpotifyChannel(SPOTIFY_TRACKS[0]?.id);
+      window.history.replaceState({}, '', '/');
+    }
+  }, [openSpotifyChannel]);
+
   useEffect(() => {
     const handleCrtAction = (e) => {
       const act = e.detail;
@@ -46,93 +68,37 @@ export default function App() {
         setCrtChannel(3);
         setCrtPower(true);
       }
-      if(act === 'off') setCrtPower(false);
-      if(act === 'on') setCrtPower(true);
+      if (act === 'spotify' || act === 'audio') {
+        openSpotifyChannel(SPOTIFY_TRACKS[0]?.id);
+      }
+      if (act === 'off') setCrtPower(false);
+      if (act === 'on') setCrtPower(true);
     };
     window.addEventListener('crt-action', handleCrtAction);
     let t = setTimeout(() => { initVintage(); }, 100);
     return () => { clearTimeout(t); window.removeEventListener('crt-action', handleCrtAction); };
-  }, []);
+  }, [openSpotifyChannel]);
 
   useEffect(() => {
-    const audio = new Audio(PLAYLIST[0].src);
-    audio.preload = 'metadata';
-    audio.setAttribute('playsinline', 'true');
-    audio.setAttribute('webkit-playsinline', 'true');
-    audioRef.current = audio;
-    trackIndexRef.current = 0;
-
-    const playIndex = (idx) => {
-      const track = PLAYLIST[idx];
-      if (!track || !audioRef.current) return;
-      trackIndexRef.current = idx;
-      audioRef.current.src = track.src;
-      audioRef.current.load();
-      setCrtChannel(1);
-      setCrtPower(true);
-      setNowPlaying({ title: track.title, status: 'PLAY' });
-      const playPromise = audioRef.current.play();
-      if (playPromise && typeof playPromise.then === 'function') {
-        playPromise
-          .then(() => setIsPlaying(true))
-          .catch((e) => {
-            console.error('Audio play failed:', e);
-            setNowPlaying({ title: track.title, status: 'ERROR' });
-          });
-      } else {
-        setIsPlaying(true);
-      }
-    };
-
-    const onEnded = () => {
-      const next = trackIndexRef.current + 1;
-      if (next < PLAYLIST.length) {
-        playIndex(next);
-      } else {
-        trackIndexRef.current = 0;
-        audio.src = PLAYLIST[0].src;
-        setIsPlaying(false);
-        setNowPlaying((prev) => (prev ? { ...prev, status: 'STOP' } : null));
-      }
-    };
-
     const onPlayTrack = (e) => {
       const id = String(e.detail || '').toLowerCase();
-      const idx = PLAYLIST.findIndex((t) => t.id === id);
-      if (idx >= 0) playIndex(idx);
+      if (!findTrackById(id)) return;
+      openSpotifyChannel(id);
+      setTimeout(() => spotifyPanelRef.current?.playTrackById?.(id), 120);
     };
-
-    audio.addEventListener('ended', onEnded);
     window.addEventListener('play-track', onPlayTrack);
-
-    return () => {
-      audio.removeEventListener('ended', onEnded);
-      window.removeEventListener('play-track', onPlayTrack);
-      audio.pause();
-      audio.src = '';
-    };
-  }, []);
+    return () => window.removeEventListener('play-track', onPlayTrack);
+  }, [openSpotifyChannel]);
 
   const togglePower = () => setCrtPower(p => !p);
   const setChannel = (ch) => { setCrtPower(true); setCrtChannel(ch); };
 
   const toggleAudio = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      setNowPlaying((prev) => {
-        const track = PLAYLIST[trackIndexRef.current];
-        return { title: prev?.title || track?.title || 'AUDIO', status: 'PAUSE' };
-      });
-    } else {
-      const track = PLAYLIST[trackIndexRef.current] || PLAYLIST[0];
-      setCrtChannel(1);
-      setCrtPower(true);
-      setNowPlaying({ title: track.title, status: 'PLAY' });
-      audioRef.current.play().catch(e => console.error('Audio play failed:', e));
-      setIsPlaying(true);
+    if (crtChannel !== SPOTIFY_CHANNEL || !crtPower) {
+      openSpotifyChannel(activeTrackId || SPOTIFY_TRACKS[0]?.id);
+      return;
     }
+    spotifyPanelRef.current?.togglePlay?.();
   };
 
   const toggleFullscreen = () => {
@@ -170,8 +136,8 @@ export default function App() {
             <a href="#" data-open-term><span className="br">[</span>_<span className="br">]</span> Terminal</a>
           </nav>
           <div className="right">
-            <span onClick={toggleAudio} style={{ cursor: 'pointer', color: isPlaying ? 'var(--accent)' : 'inherit' }}>
-              <span id="sound-icon" className={isPlaying ? 'glow-pulse' : ''}>·</span> AUDIO
+            <span onClick={toggleAudio} style={{ cursor: 'pointer', color: isPlaying || crtChannel === SPOTIFY_CHANNEL ? 'var(--accent)' : 'inherit' }} title="Abrir Spotify no CRT">
+              <span id="sound-icon" className={isPlaying ? 'glow-pulse' : ''}>{isPlaying ? '♪' : '·'}</span> AUDIO
             </span>
             <span className="hide-mobile">·</span>
             <span id="clock" className="mono hide-mobile">00:00:00</span>
@@ -252,19 +218,23 @@ export default function App() {
                   <span className="label">VINTAGE-CRT MODEL 87</span>
                   <span className="pwr" style={{ cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"><span className="pwr-dot" style={{ background: crtPower ? 'var(--accent)' : 'transparent', boxShadow: crtPower ? '0 0 8px var(--accent)' : 'none' }}></span>PWR</span>
                 </div>
-                <div className={`crt-screen ${!crtPower ? 'screen-off' : ''}`}>
+                <div className={`crt-screen ${!crtPower ? 'screen-off' : ''} ${crtChannel === SPOTIFY_CHANNEL ? 'has-spotify' : ''}`}>
                   <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
-                  {crtChannel === 1 && nowPlaying && (
-                    <div className={`crt-now-playing ${nowPlaying.status === 'PLAY' ? 'is-playing' : ''}`} aria-live="polite">
-                      <div className="np-row">
-                        <span className="np-label">AUDIO</span>
-                        <span className={`np-status status-${nowPlaying.status.toLowerCase()}`}>
-                          {nowPlaying.status === 'PLAY' ? '▶ PLAY' : nowPlaying.status === 'PAUSE' ? '⏸ PAUSE' : nowPlaying.status === 'STOP' ? '■ STOP' : nowPlaying.status}
-                        </span>
-                      </div>
-                      <div className="np-title">{nowPlaying.title}</div>
-                    </div>
-                  )}
+                  <CrtSpotifyPanel
+                    ref={spotifyPanelRef}
+                    active={crtChannel === SPOTIFY_CHANNEL}
+                    power={crtPower}
+                    initialTrackId={activeTrackId}
+                    onPlayingChange={setIsPlaying}
+                    onNowPlayingChange={(np) => {
+                      if (typeof np === 'function') setNowPlaying(np)
+                      else setNowPlaying(np)
+                      if (np?.title) {
+                        const match = SPOTIFY_TRACKS.find((t) => np.title.includes(t.title))
+                        if (match) setActiveTrackId(match.id)
+                      }
+                    }}
+                  />
                   {crtChannel === 2 && (
                     <div className="crt-game" ref={gameContainerRef}>
                       <iframe
@@ -297,9 +267,9 @@ export default function App() {
                     <div className="knob" style={{ transform: crtChannel === 1 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(1)} title="Canal 1 (Terminal)"></div>
                     <div className="knob" style={{ transform: crtChannel === 2 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(2)} title="Canal 2 (Metal Slug)"></div>
                     <div className="knob" style={{ transform: crtChannel === 3 ? 'rotate(-30deg)' : 'rotate(0deg)', cursor: 'pointer' }} onClick={() => setChannel(3)} title="Canal 3 (Metal Slug 3)"></div>
-                    <div className="knob" style={{ transform: 'rotate(15deg)', cursor: 'pointer' }} onClick={togglePower} title="Ligar/Desligar"></div>
+                    <div className="knob" style={{ transform: crtChannel === SPOTIFY_CHANNEL ? 'rotate(-30deg)' : 'rotate(15deg)', cursor: 'pointer' }} onClick={() => openSpotifyChannel(activeTrackId)} title="Canal Spotify (AUDIO)"></div>
                   </div>
-                  <div className="meter">CH·{crtChannel} ─ 50Hz ─ AC</div>
+                  <div className="meter">CH·{crtChannel === SPOTIFY_CHANNEL ? 'SP' : crtChannel} ─ 50Hz ─ AC</div>
                 </div>
               </div>
             </div>
