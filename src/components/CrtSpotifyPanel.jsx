@@ -21,9 +21,10 @@ import {
   transferPlayback,
 } from '../lib/spotifyApi'
 import { createWebPlayer } from '../lib/spotifyPlayer'
+import { formatSpotifyError, isForbiddenError, isPremiumAccount } from '../lib/spotifyErrors'
 
 /**
- * Canal Spotify do CRT: Embed (visitantes) + Web API/Playback SDK (conta conectada).
+ * Canal Spotify do CRT: Embed (sempre funciona) + SDK se Premium.
  */
 const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
   { active, power, initialTrackId, onPlayingChange, onNowPlayingChange },
@@ -35,12 +36,15 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
   const deviceIdRef = useRef(null)
   const pendingPlayRef = useRef(false)
   const pendingUriRef = useRef(getDefaultSpotifyUri())
+  const cancelledRef = useRef(false)
 
   const [connected, setConnected] = useState(() => hasSpotifySession())
   const [userLabel, setUserLabel] = useState('')
+  const [isPremium, setIsPremium] = useState(false)
   const [mode, setMode] = useState('embed') // embed | sdk
   const [ready, setReady] = useState(false)
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const [isPlaying, setIsPlaying] = useState(false)
   const [activeTrackId, setActiveTrackId] = useState(initialTrackId || SPOTIFY_TRACKS[0]?.id)
   const [tracks, setTracks] = useState(SPOTIFY_TRACKS)
@@ -68,167 +72,238 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
     embedCtrlRef.current = null
   }, [])
 
-  const loadUserLibrary = useCallback(async () => {
-    setLoadingLib(true)
-    setError('')
+  const loadPlaylistTracksSafe = useCallback(async (playlistId) => {
     try {
-      const me = await fetchSpotifyMe()
-      setUserLabel(me?.display_name || me?.id || 'Spotify')
-      setConnected(true)
-      const pls = await fetchMyPlaylists(12)
-      setPlaylists(pls)
-      if (pls[0]) {
-        setActivePlaylistId(pls[0].id)
-        const list = await fetchPlaylistTracks(pls[0].id, 40)
-        if (list.length) setTracks(list)
-      }
+      const list = await fetchPlaylistTracks(playlistId, 40)
+      return list
     } catch (e) {
-      setError(e.message || 'Falha ao carregar biblioteca')
-      if (/token|auth|401|conectado/i.test(e.message || '')) {
-        clearSpotifySession()
-        setConnected(false)
-      }
-    } finally {
-      setLoadingLib(false)
+      // Várias playlists geradas/bloqueadas retornam 403 — não derruba a sessão
+      console.warn('playlist tracks:', e.message)
+      return []
     }
   }, [])
 
-  const selectPlaylist = async (playlistId) => {
-    setActivePlaylistId(playlistId)
+  const loadUserLibrary = useCallback(async () => {
     setLoadingLib(true)
     try {
-      const list = await fetchPlaylistTracks(playlistId, 40)
-      if (list.length) setTracks(list)
+      const me = await fetchSpotifyMe()
+      setUserLabel(me?.display_name || me?.id || 'Spotify')
+      setIsPremium(isPremiumAccount(me))
+      setConnected(true)
+
+      const pls = await fetchMyPlaylists(12)
+      setPlaylists(pls)
+
+      for (const p of pls) {
+        const list = await loadPlaylistTracksSafe(p.id)
+        if (list.length) {
+          setActivePlaylistId(p.id)
+          setTracks(list)
+          break
+        }
+      }
+      return me
     } catch (e) {
-      setError(e.message || 'Falha ao carregar playlist')
+      const friendly = formatSpotifyError(e)
+      setError(friendly)
+      if (/token|auth|401|expirada|conectado/i.test(friendly)) {
+        clearSpotifySession()
+        setConnected(false)
+      }
+      return null
+    } finally {
+      setLoadingLib(false)
+    }
+  }, [loadPlaylistTracksSafe])
+
+  const mountEmbed = useCallback((uri) => {
+    let tries = 0
+    const run = () => {
+      if (cancelledRef.current) return
+      const host = embedHostRef.current
+      if (!host) {
+        if (tries++ < 30) {
+          requestAnimationFrame(run)
+          return
+        }
+        setError('Player Spotify indisponível')
+        return
+      }
+
+      destroyEmbed()
+      const height = SPOTIFY_PLAYLIST_URI || String(uri || '').includes('playlist') ? 152 : 80
+      createSpotifyEmbed(host, { uri: uri || pendingUriRef.current || getDefaultSpotifyUri(), height })
+        .then((ctrl) => {
+          if (cancelledRef.current) {
+            try { ctrl.destroy?.() } catch { /* ignore */ }
+            return
+          }
+          embedCtrlRef.current = ctrl
+          setReady(true)
+          setMode('embed')
+
+          ctrl.addListener('ready', () => {
+            if (pendingPlayRef.current) {
+              pendingPlayRef.current = false
+              try { ctrl.play() } catch { /* ignore */ }
+            }
+          })
+          ctrl.addListener('playback_started', (e) => {
+            const matched = findTrackByUri(e?.data?.playingURI) || findTrackById(activeTrackId)
+            if (matched) {
+              setActiveTrackId(matched.id)
+              emitNow({ title: `${matched.title} — ${matched.artist}`, status: 'PLAY' })
+            }
+            emitPlaying(true)
+          })
+          ctrl.addListener('playback_update', (e) => {
+            const paused = Boolean(e?.data?.isPaused)
+            emitPlaying(!paused)
+            const matched = findTrackByUri(e?.data?.playingURI) || findTrackById(activeTrackId)
+            if (matched) {
+              emitNow({
+                title: `${matched.title} — ${matched.artist}`,
+                status: paused ? 'PAUSE' : 'PLAY',
+              })
+            }
+          })
+          if (pendingPlayRef.current) {
+            try { ctrl.play(); pendingPlayRef.current = false } catch { /* ignore */ }
+          }
+        })
+        .catch((err) => {
+          if (!cancelledRef.current) setError(formatSpotifyError(err))
+        })
+    }
+    run()
+  }, [activeTrackId, destroyEmbed, emitNow, emitPlaying])
+
+  const selectPlaylist = async (playlist) => {
+    const playlistId = typeof playlist === 'string' ? playlist : playlist?.id
+    const playlistUri = typeof playlist === 'object' ? playlist?.uri : playlists.find((p) => p.id === playlistId)?.uri
+    setActivePlaylistId(playlistId)
+    setLoadingLib(true)
+    setError('')
+    try {
+      const list = await loadPlaylistTracksSafe(playlistId)
+      if (list.length) {
+        setTracks(list)
+      } else if (playlistUri) {
+        setNotice('Playlist bloqueada na API — abrindo no Embed')
+        pendingUriRef.current = playlistUri
+        pendingPlayRef.current = true
+        destroySdk()
+        setMode('embed')
+        // remount embed with playlist
+        setTimeout(() => mountEmbed(playlistUri), 0)
+      } else {
+        setNotice('Não foi possível ler as faixas desta playlist')
+      }
     } finally {
       setLoadingLib(false)
     }
   }
 
-  // Mount player when channel active
+  // Mount when channel active
   useEffect(() => {
     if (!active || !power) return undefined
 
-    let cancelled = false
-    let raf = 0
+    cancelledRef.current = false
     setReady(false)
     setError('')
+    setNotice('')
 
     const boot = async () => {
       const token = await getValidAccessToken().catch(() => null)
-      if (cancelled) return
+      if (cancelledRef.current) return
 
-      if (token) {
-        setConnected(true)
-        try {
-          const { player, deviceId } = await createWebPlayer({
-            name: 'Vintage CRT · DevStack',
-            onState: (state) => {
-              if (!state) {
-                emitPlaying(false)
-                return
-              }
-              emitPlaying(!state.paused)
-              const t = state.track_window?.current_track
-              if (t) {
-                const title = `${t.name} — ${(t.artists || []).map((a) => a.name).join(', ')}`
-                emitNow({ title, status: state.paused ? 'PAUSE' : 'PLAY' })
-                setActiveTrackId(t.id)
-              }
-            },
-            onError: (msg) => setError(msg || 'Erro no player'),
-          })
-          if (cancelled) {
-            player.disconnect()
-            return
-          }
-          sdkPlayerRef.current = player
-          deviceIdRef.current = deviceId
-          setMode('sdk')
-          setReady(true)
-          await transferPlayback(deviceId, false).catch(() => {})
-          await loadUserLibrary()
-          if (pendingPlayRef.current && pendingUriRef.current) {
-            pendingPlayRef.current = false
-            await playOnDevice(deviceId, [pendingUriRef.current]).catch((e) => setError(e.message))
-          }
-          return
-        } catch (e) {
-          // Premium/SDK falhou → fallback Embed
-          destroySdk()
-          setMode('embed')
-          setError(e.message || 'SDK indisponível — usando Embed')
-          if (token) await loadUserLibrary().catch(() => {})
-        }
-      } else {
+      if (!token) {
         setConnected(false)
+        setIsPremium(false)
         setMode('embed')
         setTracks(SPOTIFY_TRACKS)
         setPlaylists([])
+        mountEmbed(pendingUriRef.current || getDefaultSpotifyUri())
+        return
       }
 
-      // Embed fallback / visitantes
-      const mountEmbed = (tries = 0) => {
-        if (cancelled) return
-        const host = embedHostRef.current
-        if (!host) {
-          if (tries < 30) raf = requestAnimationFrame(() => mountEmbed(tries + 1))
-          else setError('Player Spotify indisponível')
-          return
-        }
-        const uri = pendingUriRef.current || getDefaultSpotifyUri()
-        const height = SPOTIFY_PLAYLIST_URI ? 152 : 80
-        createSpotifyEmbed(host, { uri, height })
-          .then((ctrl) => {
-            if (cancelled) {
-              try { ctrl.destroy?.() } catch { /* ignore */ }
+      setConnected(true)
+      const me = await loadUserLibrary()
+      if (cancelledRef.current) return
+
+      const premium = isPremiumAccount(me)
+      setIsPremium(premium)
+
+      if (!premium) {
+        // Conta free: Embed + playlists (SDK sempre dá Forbidden)
+        setNotice('Conta sem Premium — tocando via Embed (sem SDK)')
+        destroySdk()
+        setMode('embed')
+        mountEmbed(pendingUriRef.current || getDefaultSpotifyUri())
+        return
+      }
+
+      try {
+        const { player, deviceId } = await createWebPlayer({
+          name: 'Vintage CRT · DevStack',
+          onState: (state) => {
+            if (!state) {
+              emitPlaying(false)
               return
             }
-            embedCtrlRef.current = ctrl
-            setReady(true)
-            setMode('embed')
-            ctrl.addListener('ready', () => {
-              if (pendingPlayRef.current) {
-                pendingPlayRef.current = false
-                try { ctrl.play() } catch { /* ignore */ }
-              }
-            })
-            ctrl.addListener('playback_started', (e) => {
-              const matched = findTrackByUri(e?.data?.playingURI) || findTrackById(activeTrackId)
-              if (matched) {
-                setActiveTrackId(matched.id)
-                emitNow({ title: `${matched.title} — ${matched.artist}`, status: 'PLAY' })
-              }
-              emitPlaying(true)
-            })
-            ctrl.addListener('playback_update', (e) => {
-              const paused = Boolean(e?.data?.isPaused)
-              emitPlaying(!paused)
-              const matched = findTrackByUri(e?.data?.playingURI) || findTrackById(activeTrackId)
-              if (matched) {
-                emitNow({
-                  title: `${matched.title} — ${matched.artist}`,
-                  status: paused ? 'PAUSE' : 'PLAY',
-                })
-              }
-            })
-            if (pendingPlayRef.current) {
-              try { ctrl.play(); pendingPlayRef.current = false } catch { /* ignore */ }
+            emitPlaying(!state.paused)
+            const t = state.track_window?.current_track
+            if (t) {
+              const title = `${t.name} — ${(t.artists || []).map((a) => a.name).join(', ')}`
+              emitNow({ title, status: state.paused ? 'PAUSE' : 'PLAY' })
+              setActiveTrackId(t.id)
             }
-          })
-          .catch((err) => {
-            if (!cancelled) setError(err.message || 'Falha ao abrir Spotify')
-          })
+          },
+          onError: (msg) => {
+            const friendly = formatSpotifyError(msg)
+            if (isForbiddenError({ message: msg })) {
+              setNotice(friendly)
+              return
+            }
+            setError(friendly)
+          },
+        })
+        if (cancelledRef.current) {
+          player.disconnect()
+          return
+        }
+        sdkPlayerRef.current = player
+        deviceIdRef.current = deviceId
+        setMode('sdk')
+        setReady(true)
+        setNotice('')
+        // Transfer sem autoplay — evita Forbidden no boot
+        await transferPlayback(deviceId, false).catch(() => {})
+        // Se o usuário pediu play ao abrir, tenta; se 403, cai no Embed
+        if (pendingPlayRef.current && pendingUriRef.current) {
+          pendingPlayRef.current = false
+          try {
+            await playOnDevice(deviceId, [pendingUriRef.current])
+          } catch (e) {
+            setNotice(formatSpotifyError(e))
+            destroySdk()
+            setMode('embed')
+            pendingPlayRef.current = true
+            mountEmbed(pendingUriRef.current)
+          }
+        }
+      } catch (e) {
+        destroySdk()
+        setNotice(formatSpotifyError(e))
+        setMode('embed')
+        mountEmbed(pendingUriRef.current || getDefaultSpotifyUri())
       }
-      mountEmbed()
     }
 
     boot()
 
     return () => {
-      cancelled = true
-      if (raf) cancelAnimationFrame(raf)
+      cancelledRef.current = true
       destroyEmbed()
       destroySdk()
     }
@@ -244,40 +319,54 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
     }
   }, [initialTrackId])
 
+  const playViaEmbed = useCallback((uri) => {
+    pendingUriRef.current = uri
+    pendingPlayRef.current = true
+    const ctrl = embedCtrlRef.current
+    if (ctrl && mode === 'embed') {
+      try {
+        if (typeof ctrl.loadEntity === 'function') ctrl.loadEntity(uri)
+        else ctrl.loadUri(uri)
+        ctrl.play()
+        emitPlaying(true)
+        return
+      } catch { /* remount below */ }
+    }
+    destroySdk()
+    setMode('embed')
+    setTimeout(() => mountEmbed(uri), 0)
+  }, [mode, destroySdk, mountEmbed, emitPlaying])
+
   const playTrack = useCallback(async (track) => {
     if (!track) return
     setActiveTrackId(track.id)
     pendingUriRef.current = track.uri
+    setError('')
     emitNow({ title: `${track.title} — ${track.artist}`, status: 'PLAY' })
 
     if (mode === 'sdk' && deviceIdRef.current) {
       try {
         await playOnDevice(deviceIdRef.current, [track.uri])
         emitPlaying(true)
+        setNotice('')
+        return
       } catch (e) {
-        setError(e.message || 'Falha ao tocar')
+        setNotice(formatSpotifyError(e))
+        playViaEmbed(track.uri)
+        return
       }
-      return
     }
 
-    const ctrl = embedCtrlRef.current
-    if (ctrl) {
-      try {
-        if (typeof ctrl.loadEntity === 'function') ctrl.loadEntity(track.uri)
-        else ctrl.loadUri(track.uri)
-        ctrl.play()
-        emitPlaying(true)
-      } catch (e) {
-        setError(e.message || 'Falha no Embed')
-      }
-    } else {
-      pendingPlayRef.current = true
-    }
-  }, [mode, emitNow, emitPlaying])
+    playViaEmbed(track.uri)
+  }, [mode, emitNow, emitPlaying, playViaEmbed])
 
   const togglePlay = useCallback(async () => {
     if (mode === 'sdk' && sdkPlayerRef.current) {
-      await sdkPlayerRef.current.togglePlay()
+      try {
+        await sdkPlayerRef.current.togglePlay()
+      } catch (e) {
+        setNotice(formatSpotifyError(e))
+      }
       return
     }
     const ctrl = embedCtrlRef.current
@@ -296,7 +385,7 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
         emitPlaying(true)
       }
     } catch (e) {
-      setError(e.message)
+      setError(formatSpotifyError(e))
     }
   }, [mode, isPlaying, tracks, activeTrackId, emitPlaying, emitNow])
 
@@ -325,11 +414,16 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
     clearSpotifySession()
     setConnected(false)
     setUserLabel('')
+    setIsPremium(false)
     setPlaylists([])
     setTracks(SPOTIFY_TRACKS)
     setMode('embed')
     setError('')
+    setNotice('')
     destroySdk()
+    pendingUriRef.current = getDefaultSpotifyUri()
+    pendingPlayRef.current = false
+    setTimeout(() => mountEmbed(getDefaultSpotifyUri()), 0)
   }
 
   if (!active) return null
@@ -337,7 +431,10 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
   return (
     <div className="crt-spotify" aria-label="Spotify player">
       <div className="crt-spotify-head">
-        <span className="np-label">CH·SPOTIFY / {mode === 'sdk' ? 'SDK' : 'EMBED'}</span>
+        <span className="np-label">
+          CH·SPOTIFY / {mode === 'sdk' ? 'SDK' : 'EMBED'}
+          {connected && !isPremium ? ' · FREE' : ''}
+        </span>
         <span className={`np-status status-${isPlaying ? 'play' : 'pause'}`}>
           {!ready && !error ? 'LOAD…' : isPlaying ? '▶ PLAY' : '⏸ READY'}
         </span>
@@ -346,7 +443,10 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
       <div className="crt-spotify-auth">
         {connected ? (
           <>
-            <span className="crt-spotify-user">{userLabel || 'conectado'}</span>
+            <span className="crt-spotify-user">
+              {userLabel || 'conectado'}
+              {isPremium ? ' · PREMIUM' : ' · FREE'}
+            </span>
             <button type="button" className="crt-spotify-linkbtn" onClick={disconnect}>Sair</button>
           </>
         ) : (
@@ -357,12 +457,13 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
       </div>
 
       {error && <p className="crt-spotify-error">{error}</p>}
+      {notice && !error && <p className="crt-spotify-notice">{notice}</p>}
 
-      {mode === 'embed' && (
+      {(mode === 'embed' || !isPremium) && (
         <div className="crt-spotify-embed" ref={embedHostRef} />
       )}
 
-      {mode === 'sdk' && (
+      {mode === 'sdk' && isPremium && (
         <div className="crt-spotify-sdk-badge">
           Web Playback SDK · Vintage CRT
           {loadingLib ? ' · sync…' : ''}
@@ -376,7 +477,7 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
               key={p.id}
               type="button"
               className={`crt-spotify-pl ${activePlaylistId === p.id ? 'is-active' : ''}`}
-              onClick={() => selectPlaylist(p.id)}
+              onClick={() => selectPlaylist(p)}
               title={`${p.tracksTotal} faixas`}
             >
               {p.name}
@@ -404,10 +505,6 @@ const CrtSpotifyPanel = forwardRef(function CrtSpotifyPanel(
             </li>
           ))}
         </ul>
-      )}
-
-      {SPOTIFY_PLAYLIST_URI && mode === 'embed' && (
-        <p className="crt-spotify-hint">Playlist Spotify · use o player acima</p>
       )}
     </div>
   )

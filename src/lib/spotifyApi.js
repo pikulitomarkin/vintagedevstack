@@ -1,4 +1,5 @@
 import { getValidAccessToken } from './spotifyAuth'
+import { formatSpotifyError } from './spotifyErrors'
 
 async function spotifyFetch(path, options = {}) {
   const token = await getValidAccessToken()
@@ -17,8 +18,12 @@ async function spotifyFetch(path, options = {}) {
 
   const data = await res.json().catch(() => ({}))
   if (!res.ok) {
-    const msg = data?.error?.message || data?.error_description || `Spotify API ${res.status}`
-    throw new Error(msg)
+    const err = new Error(
+      formatSpotifyError(data?.error?.message || data?.error_description || `Spotify API ${res.status}`)
+    )
+    err.status = res.status
+    err.spotifyReason = data?.error?.reason || data?.error?.status
+    throw err
   }
   return data
 }
@@ -30,18 +35,22 @@ export async function fetchSpotifyMe() {
 /** Playlists do usuário (até 20) */
 export async function fetchMyPlaylists(limit = 12) {
   const data = await spotifyFetch(`/me/playlists?limit=${limit}`)
-  return (data?.items || []).map((p) => ({
-    id: p.id,
-    uri: p.uri,
-    name: p.name,
-    tracksTotal: p.tracks?.total ?? 0,
-    image: p.images?.[0]?.url || null,
-  }))
+  return (data?.items || [])
+    .filter(Boolean)
+    .map((p) => ({
+      id: p.id,
+      uri: p.uri,
+      name: p.name,
+      tracksTotal: p.tracks?.total ?? 0,
+      image: p.images?.[0]?.url || null,
+    }))
 }
 
 /** Faixas de uma playlist */
 export async function fetchPlaylistTracks(playlistId, limit = 30) {
-  const data = await spotifyFetch(`/playlists/${playlistId}/tracks?limit=${limit}`)
+  const data = await spotifyFetch(
+    `/playlists/${encodeURIComponent(playlistId)}/tracks?limit=${limit}&market=from_token`
+  )
   return (data?.items || [])
     .map((item) => item?.track)
     .filter((t) => t && t.id && !t.is_local)
