@@ -130,9 +130,11 @@ export function initVintage() {
       "  whoami        — current operator",
       "  date          — system time",
       "  theme [n|a]   — switch theme (neon / amber)",
-      "  sound [on|off]— toggle audio",
-      "  clash / crash  — play The Clash (faixa do AUDIO)",
-      "  kiss          — play I Was Made for Lovin' You",
+      "  sound [on|off]— toggle UI beeps",
+      "  audio/spotify — abrir player Spotify no CRT",
+      "  clash / crash  — The Clash no Spotify (CRT)",
+      "  kiss          — KISS no Spotify (CRT)",
+      "  ramones       — Blitzkrieg Bop no Spotify (CRT)",
       "  metal         — play metal slug (crt ch 2)",
       "  metal3        — play metal slug 3 (crt ch 3)",
       "  metalslug     — alias for metal",
@@ -195,6 +197,9 @@ export function initVintage() {
     kiss: () => 'PLAY_KISS',
     clash: () => 'PLAY_CLASH',
     crash: () => 'PLAY_CLASH',
+    ramones: () => 'PLAY_RAMONES',
+    audio: () => { window.dispatchEvent(new CustomEvent('crt-action', { detail: 'spotify' })); return ["CH SP: OPENING SPOTIFY EMBED..."]; },
+    spotify: () => { window.dispatchEvent(new CustomEvent('crt-action', { detail: 'spotify' })); return ["CH SP: OPENING SPOTIFY EMBED..."]; },
     ls: () => ["hero/  serviços/  sobre/  contato/  ./README.md"],
     cat: (arg) => arg === 'README.md' ? [
       "# Vintage DevStack",
@@ -271,12 +276,16 @@ export function initVintage() {
     ];
     if (clashAliases.some((a) => n === a || n.includes(a))) return 'clash';
 
+    const ramonesAliases = ['ramones', 'blitzkrieg bop', 'blitzkrieg'];
+    if (ramonesAliases.some((a) => n === a || n.includes(a))) return 'ramones';
+
     return null;
   }
 
   const TRACK_LABELS = {
     kiss: "I Was Made for Lovin' You — KISS",
     clash: "Should I Stay or Should I Go — The Clash",
+    ramones: 'Blitzkrieg Bop — Ramones',
   };
 
   function playTrackById(id) {
@@ -318,6 +327,7 @@ export function initVintage() {
     if (out === 'LOGIN') { openLogin(); return; }
     if (out === 'PLAY_KISS') { playTrackById('kiss'); return; }
     if (out === 'PLAY_CLASH') { playTrackById('clash'); return; }
+    if (out === 'PLAY_RAMONES') { playTrackById('ramones'); return; }
     if (Array.isArray(out)) {
       out.forEach(l => termPrint(l, cmd === 'about' || cmd === 'services' ? 'p' : 'p'));
     }
