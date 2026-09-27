@@ -1,13 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { initVintage } from './vintage';
-import {
-  SPOTIFY_PLAYLIST_URI,
-  SPOTIFY_TRACKS,
-  createSpotifyEmbed,
-  findTrackById,
-  findTrackByUri,
-  getDefaultSpotifyUri,
-} from './lib/spotify';
+import { SPOTIFY_TRACKS, findTrackById } from './lib/spotify';
+import CrtSpotifyPanel from './components/CrtSpotifyPanel';
 
 const SPOTIFY_CHANNEL = 4;
 
@@ -15,15 +9,10 @@ export default function App() {
   const [crtPower, setCrtPower] = useState(true);
   const [crtChannel, setCrtChannel] = useState(1);
   const gameContainerRef = useRef(null);
-  const spotifyHostRef = useRef(null);
-  const spotifyCtrlRef = useRef(null);
-  const pendingPlayRef = useRef(false);
-  const pendingUriRef = useRef(getDefaultSpotifyUri());
+  const spotifyPanelRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [nowPlaying, setNowPlaying] = useState(null);
   const [activeTrackId, setActiveTrackId] = useState(SPOTIFY_TRACKS[0]?.id || null);
-  const [spotifyReady, setSpotifyReady] = useState(false);
-  const [spotifyError, setSpotifyError] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   useEffect(() => {
     document.body.classList.toggle('nav-open', isMobileMenuOpen);
@@ -49,15 +38,24 @@ export default function App() {
     const track = findTrackById(trackId) || SPOTIFY_TRACKS[0];
     if (track) {
       setActiveTrackId(track.id);
-      pendingUriRef.current = SPOTIFY_PLAYLIST_URI || track.uri;
       setNowPlaying({ title: `${track.title} — ${track.artist}`, status: 'PLAY' });
-    } else if (SPOTIFY_PLAYLIST_URI) {
-      pendingUriRef.current = SPOTIFY_PLAYLIST_URI;
     }
     setCrtPower(true);
     setCrtChannel(SPOTIFY_CHANNEL);
-    pendingPlayRef.current = true;
+    // defer: painel monta e recebe openWithTrack
+    requestAnimationFrame(() => {
+      spotifyPanelRef.current?.openWithTrack?.(track?.id || trackId);
+    });
   }, []);
+
+  // Retorno do OAuth Spotify → abre o CRT no canal AUDIO
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('spotify') === 'connected') {
+      openSpotifyChannel(SPOTIFY_TRACKS[0]?.id);
+      window.history.replaceState({}, '', '/');
+    }
+  }, [openSpotifyChannel]);
 
   useEffect(() => {
     const handleCrtAction = (e) => {
@@ -81,146 +79,26 @@ export default function App() {
     return () => { clearTimeout(t); window.removeEventListener('crt-action', handleCrtAction); };
   }, [openSpotifyChannel]);
 
-  // Spotify Embed no CRT (canal 4)
-  useEffect(() => {
-    if (crtChannel !== SPOTIFY_CHANNEL || !crtPower) return undefined;
-
-    let cancelled = false;
-    let raf = 0;
-    setSpotifyError('');
-    setSpotifyReady(false);
-
-    const height = SPOTIFY_PLAYLIST_URI ? 152 : 80;
-    const uri = pendingUriRef.current || getDefaultSpotifyUri();
-
-    const mount = (tries = 0) => {
-      if (cancelled) return;
-      const host = spotifyHostRef.current;
-      if (!host) {
-        if (tries < 30) raf = requestAnimationFrame(() => mount(tries + 1));
-        else setSpotifyError('Player Spotify indisponível');
-        return;
-      }
-
-      createSpotifyEmbed(host, { uri, height })
-        .then((ctrl) => {
-          if (cancelled) {
-            try { ctrl.destroy?.(); } catch { /* ignore */ }
-            return;
-          }
-          spotifyCtrlRef.current = ctrl;
-          setSpotifyReady(true);
-
-          ctrl.addListener('ready', () => {
-            if (pendingPlayRef.current) {
-              pendingPlayRef.current = false;
-              try { ctrl.play(); } catch { /* autoplay pode bloquear */ }
-            }
-          });
-
-          ctrl.addListener('playback_started', (e) => {
-            const playingUri = e?.data?.playingURI;
-            const matched = findTrackByUri(playingUri) || findTrackById(activeTrackId);
-            if (matched) {
-              setActiveTrackId(matched.id);
-              setNowPlaying({ title: `${matched.title} — ${matched.artist}`, status: 'PLAY' });
-            }
-            setIsPlaying(true);
-          });
-
-          ctrl.addListener('playback_update', (e) => {
-            const paused = Boolean(e?.data?.isPaused);
-            setIsPlaying(!paused);
-            setNowPlaying((prev) => (
-              prev ? { ...prev, status: paused ? 'PAUSE' : 'PLAY' } : prev
-            ));
-          });
-
-          if (pendingPlayRef.current) {
-            try { ctrl.play(); pendingPlayRef.current = false; } catch { /* ignore */ }
-          }
-        })
-        .catch((err) => {
-          if (!cancelled) setSpotifyError(err.message || 'Falha ao abrir Spotify');
-        });
-    };
-
-    mount();
-
-    return () => {
-      cancelled = true;
-      if (raf) cancelAnimationFrame(raf);
-      try { spotifyCtrlRef.current?.destroy?.(); } catch { /* ignore */ }
-      spotifyCtrlRef.current = null;
-    };
-  }, [crtChannel, crtPower]); // eslint-disable-line react-hooks/exhaustive-deps -- remount só ao entrar no canal
-
   useEffect(() => {
     const onPlayTrack = (e) => {
       const id = String(e.detail || '').toLowerCase();
-      const track = findTrackById(id);
-      if (!track) return;
-      openSpotifyChannel(track.id);
-      const ctrl = spotifyCtrlRef.current;
-      if (ctrl && crtChannel === SPOTIFY_CHANNEL) {
-        try {
-          ctrl.loadUri(track.uri);
-          ctrl.play();
-        } catch { /* ignore */ }
-      }
+      if (!findTrackById(id)) return;
+      openSpotifyChannel(id);
+      setTimeout(() => spotifyPanelRef.current?.playTrackById?.(id), 120);
     };
     window.addEventListener('play-track', onPlayTrack);
     return () => window.removeEventListener('play-track', onPlayTrack);
-  }, [openSpotifyChannel, crtChannel]);
+  }, [openSpotifyChannel]);
 
   const togglePower = () => setCrtPower(p => !p);
   const setChannel = (ch) => { setCrtPower(true); setCrtChannel(ch); };
-
-  const playSpotifyTrack = (track) => {
-    if (!track) return;
-    setActiveTrackId(track.id);
-    pendingUriRef.current = track.uri;
-    setNowPlaying({ title: `${track.title} — ${track.artist}`, status: 'PLAY' });
-    setCrtPower(true);
-    setCrtChannel(SPOTIFY_CHANNEL);
-    const ctrl = spotifyCtrlRef.current;
-    if (ctrl && crtChannel === SPOTIFY_CHANNEL) {
-      try {
-        if (typeof ctrl.loadEntity === 'function') ctrl.loadEntity(track.uri);
-        else ctrl.loadUri(track.uri);
-        ctrl.play();
-        setIsPlaying(true);
-      } catch (e) {
-        console.error('Spotify play failed:', e);
-      }
-    } else {
-      pendingPlayRef.current = true;
-    }
-  };
 
   const toggleAudio = () => {
     if (crtChannel !== SPOTIFY_CHANNEL || !crtPower) {
       openSpotifyChannel(activeTrackId || SPOTIFY_TRACKS[0]?.id);
       return;
     }
-    const ctrl = spotifyCtrlRef.current;
-    if (!ctrl) {
-      pendingPlayRef.current = true;
-      return;
-    }
-    try {
-      if (isPlaying) {
-        ctrl.pause();
-        setIsPlaying(false);
-        setNowPlaying((prev) => (prev ? { ...prev, status: 'PAUSE' } : prev));
-      } else {
-        ctrl.resume?.() ?? ctrl.play();
-        setIsPlaying(true);
-        setNowPlaying((prev) => (prev ? { ...prev, status: 'PLAY' } : prev));
-      }
-    } catch (e) {
-      console.error('Spotify toggle failed:', e);
-    }
+    spotifyPanelRef.current?.togglePlay?.();
   };
 
   const toggleFullscreen = () => {
@@ -342,41 +220,21 @@ export default function App() {
                 </div>
                 <div className={`crt-screen ${!crtPower ? 'screen-off' : ''} ${crtChannel === SPOTIFY_CHANNEL ? 'has-spotify' : ''}`}>
                   <div className="scroll" id="crt-scroll" style={{ display: crtChannel === 1 ? 'block' : 'none' }}></div>
-                  {crtChannel === SPOTIFY_CHANNEL && (
-                    <div className="crt-spotify" aria-label="Spotify player">
-                      <div className="crt-spotify-head">
-                        <span className="np-label">CH·SPOTIFY / AUDIO</span>
-                        <span className={`np-status status-${(nowPlaying?.status || 'STOP').toLowerCase()}`}>
-                          {!spotifyReady && !spotifyError ? 'LOAD…' : nowPlaying?.status === 'PLAY' ? '▶ PLAY' : nowPlaying?.status === 'PAUSE' ? '⏸ PAUSE' : '■ READY'}
-                        </span>
-                      </div>
-                      {spotifyError && <p className="crt-spotify-error">{spotifyError}</p>}
-                      <div className="crt-spotify-embed" ref={spotifyHostRef} />
-                      {!SPOTIFY_PLAYLIST_URI && (
-                        <ul className="crt-spotify-list">
-                          {SPOTIFY_TRACKS.map((t, i) => (
-                            <li key={t.id}>
-                              <button
-                                type="button"
-                                className={`crt-spotify-track ${activeTrackId === t.id ? 'is-active' : ''}`}
-                                onClick={() => playSpotifyTrack(t)}
-                              >
-                                <span className="idx">{String(i + 1).padStart(2, '0')}</span>
-                                <span className="meta">
-                                  <span className="title">{t.title}</span>
-                                  <span className="artist">{t.artist}</span>
-                                </span>
-                                <span className="cue">{activeTrackId === t.id && isPlaying ? '▶' : '○'}</span>
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      {SPOTIFY_PLAYLIST_URI && (
-                        <p className="crt-spotify-hint">Playlist Spotify · use o player acima</p>
-                      )}
-                    </div>
-                  )}
+                  <CrtSpotifyPanel
+                    ref={spotifyPanelRef}
+                    active={crtChannel === SPOTIFY_CHANNEL}
+                    power={crtPower}
+                    initialTrackId={activeTrackId}
+                    onPlayingChange={setIsPlaying}
+                    onNowPlayingChange={(np) => {
+                      if (typeof np === 'function') setNowPlaying(np)
+                      else setNowPlaying(np)
+                      if (np?.title) {
+                        const match = SPOTIFY_TRACKS.find((t) => np.title.includes(t.title))
+                        if (match) setActiveTrackId(match.id)
+                      }
+                    }}
+                  />
                   {crtChannel === 2 && (
                     <div className="crt-game" ref={gameContainerRef}>
                       <iframe

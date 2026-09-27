@@ -1,10 +1,8 @@
 /**
- * Spotify Embeds + iFrame API
+ * Spotify Embeds + iFrame API (fallback / visitantes)
  * Docs: https://developer.spotify.com/documentation/embeds
- *       https://developer.spotify.com/documentation/embeds/references/iframe-api
  *
- * Embeds funcionam sem OAuth/Premium do visitante.
- * Web Playback SDK exigiria login Premium — inadequado para o CRT público.
+ * Conta conectada usa Web API + Web Playback SDK (ver spotifyAuth / spotifyPlayer).
  */
 
 export const SPOTIFY_IFRAME_API_SRC = 'https://open.spotify.com/embed/iframe-api/v1'

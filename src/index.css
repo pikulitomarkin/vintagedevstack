@@ -620,6 +620,77 @@ h1, h2, h3, h4 { margin: 0; }
   flex-shrink: 0;
 }
 .crt-spotify-head .np-label { color: var(--ink-3); opacity: 0.9; }
+.crt-spotify-auth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+}
+.crt-spotify-user {
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crt-spotify-linkbtn {
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 40%, transparent);
+  background: transparent;
+  color: var(--crt-fg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.crt-spotify-linkbtn.primary {
+  border-color: #1db954;
+  color: #1db954;
+}
+.crt-spotify-linkbtn:hover {
+  box-shadow: 0 0 10px color-mix(in oklab, var(--crt-glow) 30%, transparent);
+}
+.crt-spotify-sdk-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  border: 1px dashed color-mix(in oklab, var(--crt-fg) 35%, transparent);
+  padding: 6px 8px;
+  flex-shrink: 0;
+}
+.crt-spotify-playlists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex-shrink: 0;
+  max-height: 52px;
+  overflow: auto;
+}
+.crt-spotify-pl {
+  border: 1px solid color-mix(in oklab, var(--crt-fg) 25%, transparent);
+  background: color-mix(in oklab, var(--crt-bg) 60%, #000);
+  color: var(--crt-fg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  cursor: pointer;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crt-spotify-pl.is-active,
+.crt-spotify-pl:hover {
+  border-color: #1db954;
+  color: #1db954;
+}
 .crt-spotify-embed {
   flex-shrink: 0;
   min-height: 80px;
