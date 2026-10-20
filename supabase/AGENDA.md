@@ -9,7 +9,7 @@ Frontend usa `VITE_API_URL=/api` (sem depender do Supabase).
 - Admin `/admin/agenda` — confirmar e gerar sala Vintage
 - Call `/call/:id` — videochamada Jitsi no site
 - Login `/auth/login`
-- Janela: **segunda a quinta, 17h–22h (America/Sao_Paulo)**, slots de **30 min**
+- Janela: **segunda a quinta, 09h–18h (America/Sao_Paulo)**, slots de **30 min**
 - Status inicial: **pending** (você confirma)
 - Antecedência mínima: 2h · horizonte: 14 dias
 

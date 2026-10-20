@@ -588,7 +588,7 @@ export default function App() {
                     </span>
                     <span>
                       <div className="l1">Agenda</div>
-                      <div className="l2">videochamada 17h–22h · seg–qui</div>
+                      <div className="l2">videochamada 09h–18h · seg–qui</div>
                     </span>
                   </a>
                   <a className="channel" href="https://wa.me/5543988713278" target="_blank" rel="noopener">

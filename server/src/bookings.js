@@ -72,7 +72,7 @@ export async function createBooking({ startsAt, name, email, whatsapp, topic }) 
 
   const slot = rule.slot_minutes
   if (minute < rule.start_minute || minute + slot > rule.end_minute) {
-    throw new Error('HORARIO: fora da janela 17h–22h')
+    throw new Error('HORARIO: fora da janela 09h–18h')
   }
   if ((minute - rule.start_minute) % slot !== 0) throw new Error('SLOT: horário inválido')
 

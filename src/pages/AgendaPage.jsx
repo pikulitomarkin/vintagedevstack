@@ -107,7 +107,7 @@ export default function AgendaPage() {
           <p className="agenda-kicker">[ AGENDA / VIDEO CALL ]</p>
           <h1>Agendar videochamada</h1>
           <p className="agenda-lead">
-            Segunda a quinta, das 17h às 22h (horário de Brasília). Slots de {SLOT_MINUTES} minutos.
+            Segunda a quinta, das 09h às 18h (horário de Brasília). Slots de {SLOT_MINUTES} minutos.
             Após o pedido, confirmamos e enviamos o link da call.
           </p>
         </header>
