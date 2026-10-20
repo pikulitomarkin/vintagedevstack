@@ -127,14 +127,21 @@ app.get('/api/agenda/bookings/:id', async (req, res) => {
   }
 })
 
+function normalizeAdminLogin(raw) {
+  const value = String(raw || '').trim().toLowerCase()
+  if (!value) return ''
+  if (value.includes('@')) return value
+  return `${value}@vintagedevstack.com.br`
+}
+
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const email = String(req.body?.email || '').trim().toLowerCase()
+    const email = normalizeAdminLogin(req.body?.email || req.body?.username)
     const password = String(req.body?.password || '')
     const { rows } = await query(`select * from admins where email = $1`, [email])
     const admin = rows[0]
     if (!admin || !(await bcrypt.compare(password, admin.password_hash))) {
-      return res.status(401).json({ error: 'E-mail ou senha inválidos' })
+      return res.status(401).json({ error: 'Usuário ou senha inválidos' })
     }
     const token = jwt.sign(
       { sub: admin.id, email: admin.email, name: admin.full_name, is_admin: true },

@@ -17,11 +17,24 @@ const STATUS_LABEL = {
   completed: 'Concluído',
 }
 
+function callUrlFor(booking) {
+  if (booking.meeting_url) return booking.meeting_url
+  if (typeof window !== 'undefined') return `${window.location.origin}/call/${booking.id}`
+  return `/call/${booking.id}`
+}
+
+function waDigits(whatsapp) {
+  const digits = String(whatsapp || '').replace(/\D/g, '')
+  if (!digits) return ''
+  return digits.startsWith('55') ? digits : `55${digits}`
+}
+
 export default function AdminAgendaPage() {
   const { signOut, profile } = useAuth()
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const [filter, setFilter] = useState('upcoming')
 
   const load = useCallback(async () => {
@@ -42,8 +55,10 @@ export default function AdminAgendaPage() {
 
   async function confirm(id) {
     try {
-      await adminConfirmBooking(id)
+      const updated = await adminConfirmBooking(id)
       await load()
+      const url = callUrlFor(updated)
+      setNotice(`Confirmado. Link da call: ${url}`)
     } catch (e) {
       setError(e.message || 'Falha ao confirmar')
     }
@@ -51,8 +66,9 @@ export default function AdminAgendaPage() {
 
   async function ensureRoom(id) {
     try {
-      await adminEnsureRoom(id)
+      const updated = await adminEnsureRoom(id)
       await load()
+      setNotice(`Sala pronta: ${callUrlFor(updated)}`)
     } catch (e) {
       setError(e.message || 'Falha ao gerar sala')
     }
@@ -65,6 +81,26 @@ export default function AdminAgendaPage() {
     } catch (e) {
       setError(e.message || 'Falha ao atualizar')
     }
+  }
+
+  async function copyLink(booking) {
+    const url = callUrlFor(booking)
+    try {
+      await navigator.clipboard.writeText(url)
+      setNotice(`Link copiado: ${url}`)
+    } catch {
+      setNotice(`Copie manualmente: ${url}`)
+    }
+  }
+
+  function whatsappShare(booking) {
+    const url = callUrlFor(booking)
+    const when = `${formatSpDate(booking.starts_at)} às ${formatSpTime(booking.starts_at)}`
+    const text = `Olá ${booking.client_name}! Sua videochamada Vintage DevStack está confirmada para ${when}. Acesse: ${url}`
+    const phone = waDigits(booking.client_whatsapp)
+    return phone
+      ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+      : `https://wa.me/?text=${encodeURIComponent(text)}`
   }
 
   return (
@@ -82,8 +118,8 @@ export default function AdminAgendaPage() {
           <p className="agenda-kicker">[ ADMIN / AGENDA ]</p>
           <h1>Videochamadas</h1>
           <p className="agenda-lead">
-            Olá{profile?.full_name ? `, ${profile.full_name}` : ''}. Confirme pedidos — a sala Jitsi abre em{' '}
-            <code>/call/:id</code> no próprio site.
+            Olá{profile?.full_name ? `, ${profile.full_name}` : ''}. Confirme o pedido, copie o link{' '}
+            <code>/call/:id</code> e envie ao cliente (WhatsApp ou e-mail).
           </p>
         </header>
 
@@ -93,6 +129,7 @@ export default function AdminAgendaPage() {
           <button type="button" className="agenda-btn" onClick={load}>Atualizar</button>
         </div>
 
+        {notice && <p className="agenda-success" role="status">{notice}</p>}
         {error && <p className="agenda-error">{error}</p>}
         {loading && <p className="agenda-status">Carregando…</p>}
 
@@ -106,10 +143,10 @@ export default function AdminAgendaPage() {
                 <p className="agenda-muted">{b.client_email} · {b.client_whatsapp}</p>
                 {b.topic && <p>Assunto: {b.topic}</p>}
                 <p><span className={`pill ${b.status}`}>{STATUS_LABEL[b.status] || b.status}</span></p>
-                {b.meeting_url && (
+                {(b.meeting_url || b.status === 'confirmed') && (
                   <p className="agenda-muted">
-                    Sala:{' '}
-                    <a href={b.meeting_url} target="_blank" rel="noopener noreferrer">{b.meeting_url}</a>
+                    Link do cliente:{' '}
+                    <a href={callUrlFor(b)} target="_blank" rel="noopener noreferrer">{callUrlFor(b)}</a>
                   </p>
                 )}
               </div>
@@ -122,7 +159,11 @@ export default function AdminAgendaPage() {
                   )}
                   {(b.status === 'confirmed' || b.status === 'completed') && (
                     <>
-                      <a className="agenda-btn primary" href={b.meeting_url || `/call/${b.id}`}>Entrar na call</a>
+                      <a className="agenda-btn primary" href={callUrlFor(b)}>Entrar na call</a>
+                      <button type="button" className="agenda-btn" onClick={() => copyLink(b)}>Copiar link</button>
+                      <a className="agenda-btn" href={whatsappShare(b)} target="_blank" rel="noopener noreferrer">
+                        Enviar no WhatsApp
+                      </a>
                       <button type="button" className="agenda-btn" onClick={() => ensureRoom(b.id)}>Regenerar sala</button>
                     </>
                   )}
@@ -132,7 +173,6 @@ export default function AdminAgendaPage() {
                   {b.status === 'confirmed' && (
                     <button type="button" className="agenda-btn" onClick={() => setStatus(b.id, 'completed')}>Concluir</button>
                   )}
-                  <a className="agenda-btn" href={`https://wa.me/55${String(b.client_whatsapp).replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
                 </div>
               </div>
             </article>
