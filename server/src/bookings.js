@@ -91,6 +91,28 @@ export async function createBooking({ startsAt, name, email, whatsapp, topic }) 
   )
   if (dup.length) throw new Error('DUPLICADO: você já possui um agendamento ativo com este e-mail')
 
+  // Bloqueia horário já reservado (pending/confirmed) ou bloqueado pelo admin
+  const { rows: clash } = await query(
+    `
+    select 1 from bookings
+    where status in ('pending', 'confirmed')
+      and starts_at < $2 and ends_at > $1
+    limit 1
+    `,
+    [start.toISOString(), endsAt]
+  )
+  if (clash.length) throw new Error('OCUPADO: este horário já foi reservado')
+
+  const { rows: blocked } = await query(
+    `
+    select 1 from availability_blocks
+    where starts_at < $2 and ends_at > $1
+    limit 1
+    `,
+    [start.toISOString(), endsAt]
+  )
+  if (blocked.length) throw new Error('OCUPADO: este horário está bloqueado')
+
   try {
     const { rows } = await query(
       `
@@ -110,6 +132,7 @@ export async function createBooking({ startsAt, name, email, whatsapp, topic }) 
     )
     return rows[0]
   } catch (e) {
+    // Corrida: outro cliente inseriu no mesmo instante (excl. gist bookings_no_overlap)
     if (e.code === '23P01') throw new Error('OCUPADO: este horário acabou de ser reservado')
     throw e
   }

@@ -141,11 +141,14 @@ export function buildSlotsForDay(day, rules, busy) {
     const taken = busy.some((b) =>
       overlaps(startMs, endMs, new Date(b.starts_at).getTime(), new Date(b.ends_at).getTime())
     )
+    const tooSoon = startMs < minStart
     slots.push({
       startsAt,
       endsAt,
       label: `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`,
-      available: !taken && startMs >= minStart,
+      taken,
+      tooSoon,
+      available: !taken && !tooSoon,
     })
   }
   return slots
