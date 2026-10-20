@@ -53,6 +53,9 @@ JITSI_DOMAIN=meet.jit.si
 VITE_API_URL=/api
 ```
 
-## DNS
-Aponte `www.vintagedevstack.com.br` e o apex (A) para `216.22.27.191` quando for cortar o Vercel.
-Enquanto o DNS apontar para a Vercel, o health local em `127.0.0.1:8090` já valida a stack.
+## DNS + Caddy (ordem importante)
+1. Stack sobe em `127.0.0.1:8090` e `vintage-web-1` na rede `clube_clube` — valide com `curl http://127.0.0.1:8090/api/health`.
+2. Aponte `www.vintagedevstack.com.br` e o apex (A) para `216.22.27.191` (corte o Vercel).
+3. Só então cole/ative o bloco de `deploy/Caddyfile.example` em `/opt/clube/Caddyfile` **e** `/opt/clube/src/Caddyfile`, e rode `docker exec clube-caddy-1 caddy reload --config /etc/caddy/Caddyfile`.
+
+Ativar o bloco Caddy com DNS ainda na Vercel faz o ACME falhar.

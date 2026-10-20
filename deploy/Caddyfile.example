@@ -1,7 +1,8 @@
-# Blocos para colar em /opt/clube/Caddyfile e /opt/clube/src/Caddyfile
-# (fonte de verdade do Caddy compartilhado). Depois: docker exec clube-caddy-1 caddy reload --config /etc/caddy/Caddyfile
+# Cole em /opt/clube/Caddyfile e /opt/clube/src/Caddyfile (fonte de verdade).
+# Só ative DEPOIS de apontar DNS A de www + apex para 216.22.27.191
+# (enquanto apontar para Vercel, o ACME/Let's Encrypt falha e gera rate-limit).
 #
-# DNS: aponte A de www/apex para 216.22.27.191 antes do TLS (Let's Encrypt).
+# Depois: docker exec clube-caddy-1 caddy reload --config /etc/caddy/Caddyfile
 
 www.vintagedevstack.com.br, vintagedevstack.com.br {
 	encode gzip
