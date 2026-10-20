@@ -10,6 +10,7 @@ import {
   adminUpdateBooking,
   formatSpDate,
   formatSpTime,
+  spLocalToUtcIso,
   spParts,
 } from '../../lib/agenda'
 
@@ -50,12 +51,7 @@ function defaultScheduleDate() {
 function localInputToUtcIso(dateStr, timeStr) {
   const [y, m, d] = dateStr.split('-').map(Number)
   const [hh, mm] = timeStr.split(':').map(Number)
-  // Reusa conversão SP → UTC do módulo agenda via Date local guess
-  const guess = new Date(Date.UTC(y, m - 1, d, hh + 3, mm, 0))
-  const sp = new Date(guess.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
-  const utc = new Date(guess.toLocaleString('en-US', { timeZone: 'UTC' }))
-  const offset = sp.getTime() - utc.getTime()
-  return new Date(Date.UTC(y, m - 1, d, hh, mm, 0) - offset).toISOString()
+  return spLocalToUtcIso(y, m, d, hh, mm)
 }
 
 export default function AdminAgendaPage() {
