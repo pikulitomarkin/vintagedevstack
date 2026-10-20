@@ -2001,6 +2001,19 @@ section[id] {
   cursor: not-allowed;
   text-decoration: line-through;
 }
+.agenda-slot.is-taken {
+  opacity: 0.45;
+  text-decoration: none;
+  border-style: dashed;
+}
+.agenda-slot-tag {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 2px;
+}
 .agenda-form {
   display: grid;
   gap: 12px;
