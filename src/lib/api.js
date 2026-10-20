@@ -25,7 +25,23 @@ export async function apiFetch(path, options = {}) {
   if (token) headers.Authorization = `Bearer ${token}`
 
   const res = await fetch(`${API_URL}${path}`, { ...options, headers })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data.error || `API ${res.status}`)
+  const text = await res.text()
+  let data = {}
+  try {
+    data = text ? JSON.parse(text) : {}
+  } catch {
+    data = {}
+  }
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error(data.error || 'Não autenticado — faça login novamente')
+    }
+    if (!text || text.trimStart().startsWith('<')) {
+      throw new Error(
+        `API indisponível (HTTP ${res.status}). Confirme que o DNS aponta para a VPS e atualize a página (Ctrl+F5).`
+      )
+    }
+    throw new Error(data.error || `API ${res.status}`)
+  }
   return data
 }

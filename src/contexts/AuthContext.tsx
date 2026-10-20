@@ -147,13 +147,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   async function signIn(email: string, password: string) {
     if (isApiConfigured) {
+      const login = String(email || '').trim()
       const data = await apiFetch('/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: login, username: login, password }),
       })
+      if (!data?.token || !data?.user) {
+        throw new Error('Resposta de login inválida')
+      }
       setAdminToken(data.token)
-      setUser(localUserFromAdmin(data.user))
-      setProfile(localProfileFromAdmin(data.user))
+      // Garante flag admin mesmo se a API omitir o campo
+      const adminUser = { ...data.user, is_admin: true, full_name: data.user.full_name || data.user.name || login }
+      setUser(localUserFromAdmin(adminUser))
+      setProfile(localProfileFromAdmin(adminUser))
       setSession({ access_token: data.token } as Session)
       return
     }

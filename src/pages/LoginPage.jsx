@@ -38,7 +38,8 @@ export default function LoginPage() {
       <main className="agenda-shell agenda-shell--narrow">
         <h1>Admin login</h1>
         <p className="agenda-lead">Acesso à gestão de agendamentos e videochamadas.</p>
-        {error && <p className="agenda-error">{error}</p>}
+        <p className="agenda-muted">Usuário: <code>marcos.padilha</code> · se der erro, force atualizar (Ctrl+F5).</p>
+        {error && <p className="agenda-error" role="alert">{error}</p>}
         <form className="agenda-form" onSubmit={onSubmit}>
           <label>
             Usuário ou e-mail
