@@ -80,11 +80,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       apiFetch('/auth/me')
         .then((me) => {
           if (!mounted) return
-          setUser(localUserFromAdmin(me))
-          setProfile(localProfileFromAdmin(me))
+          const adminUser = { ...me, is_admin: true, full_name: me.full_name || me.name }
+          setUser(localUserFromAdmin(adminUser))
+          setProfile(localProfileFromAdmin(adminUser))
           setSession({ access_token: token } as Session)
         })
         .catch(() => {
+          // Token inválido/expirado → limpa e segue para login (não deixa 401 “preso”)
           setAdminToken(null)
           if (mounted) {
             setUser(null)
