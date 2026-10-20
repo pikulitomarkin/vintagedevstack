@@ -2182,74 +2182,220 @@ section[id] {
   gap: 8px;
 }
 
-/* Video call WebRTC nativa */
-.call-shell { max-width: 1100px; }
-.vintage-call-stage {
+/* ===== Meet-style WebRTC call ===== */
+.meet-call {
+  --meet-bg: #1b1b1f;
+  --meet-panel: #2d2e31;
+  --meet-accent: #8ab4f8;
+  --meet-danger: #ea4335;
+  --meet-ok: #81c995;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #2a3340 0%, transparent 55%),
+    var(--meet-bg);
+  color: #e8eaed;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+.meet-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  background: color-mix(in oklab, #000 35%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, #fff 8%, transparent);
+}
+.meet-topbar-left, .meet-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.meet-brand {
+  color: #e8eaed;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.meet-brand .v { color: var(--meet-accent); margin-right: 4px; }
+.meet-meta {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.meet-meta strong {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meet-meta span, .meet-status, .meet-room-hint, .meet-link {
+  font-size: 11px;
+  color: #9aa0a6;
+}
+.meet-link { color: var(--meet-accent); }
+.meet-rec-pill {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--meet-danger);
+  padding: 4px 8px;
+  border-radius: 999px;
+  animation: meet-pulse 1.4s ease-in-out infinite;
+}
+@keyframes meet-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.meet-stage {
   position: relative;
-  border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
-  border-radius: 8px;
-  overflow: hidden;
-  background: #050a09;
-  min-height: 420px;
-  aspect-ratio: 16 / 10;
-  box-shadow: 0 0 24px color-mix(in oklab, var(--crt-glow, var(--accent)) 20%, transparent);
+  padding: 16px;
+  display: grid;
+  place-items: center;
+  min-height: 0;
 }
-.vintage-call-remote,
-.vintage-call-local {
+.meet-tile {
+  position: relative;
+  width: min(1100px, 100%);
+  height: min(68vh, 720px);
+  background: #0f1113;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, #fff 8%, transparent);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.meet-tile-local {
   position: absolute;
-  inset: 0;
+  right: max(24px, 4vw);
+  bottom: max(24px, 3vh);
+  width: min(240px, 32vw);
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  z-index: 3;
+  border-color: color-mix(in oklab, var(--meet-accent) 40%, transparent);
 }
-.vintage-call-local {
-  inset: auto 12px 12px auto;
-  width: min(28%, 220px);
-  aspect-ratio: 4 / 3;
-  border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
-  border-radius: 6px;
-  overflow: hidden;
-  background: #000;
-  z-index: 2;
-}
-.vintage-call-video {
+.meet-video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: #0a1210;
+  background: #0f1113;
 }
-.vintage-call-placeholder {
+.meet-avatar-block {
   position: absolute;
   inset: 0;
   display: grid;
-  place-items: center;
-  margin: 0;
-  font-family: 'IBM Plex Mono', monospace;
+  place-content: center;
+  gap: 10px;
+  background: #202124;
+  text-align: center;
+  color: #9aa0a6;
   font-size: 13px;
-  color: var(--ink-3, #8a9a94);
-  pointer-events: none;
+  margin: 0;
 }
-.vintage-call-local-tag {
+.meet-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(145deg, #5f6368, #3c4043);
+}
+.meet-tile-local .meet-avatar { width: 56px; height: 56px; font-size: 18px; }
+.meet-tile-name {
   position: absolute;
-  left: 6px;
-  bottom: 4px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #dff7ea;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
   background: rgba(0, 0, 0, 0.55);
-  padding: 2px 6px;
+  font-size: 12px;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.vintage-call-controls {
+.meet-dock {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 14px 16px 22px;
+  background: color-mix(in oklab, #000 45%, transparent);
+  border-top: 1px solid color-mix(in oklab, #fff 8%, transparent);
+}
+.meet-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+  justify-content: center;
+  gap: 12px;
 }
-.call-room-id {
-  margin-top: 10px;
-  font-size: 12px;
+.meet-btn {
+  width: 64px;
+  min-height: 64px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--meet-panel);
+  color: #e8eaed;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.12s ease;
 }
-@media (max-width: 640px) {
-  .vintage-call-stage { min-height: 280px; aspect-ratio: 4 / 5; }
-  .vintage-call-local { width: 34%; }
+.meet-btn:hover { background: #3c4043; transform: translateY(-1px); }
+.meet-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.meet-btn.is-off { background: #ea4335; color: #fff; }
+.meet-btn.is-active { background: var(--meet-accent); color: #1b1b1f; }
+.meet-btn.is-rec { background: var(--meet-danger); color: #fff; box-shadow: 0 0 0 2px color-mix(in oklab, var(--meet-danger) 40%, transparent); }
+.meet-btn-end { background: var(--meet-danger); color: #fff; width: 72px; }
+.meet-btn-label {
+  font-size: 9px;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  max-width: 56px;
+  text-align: center;
+}
+.meet-join {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 28px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1b1b1f;
+  background: var(--meet-accent);
+}
+.meet-join:hover { filter: brightness(1.05); }
+.meet-gate {
+  display: grid;
+  place-content: center;
+  padding: 48px 20px;
+  text-align: center;
+  color: #9aa0a6;
+}
+.meet-error, .meet-error-banner {
+  color: #f28b82;
+  font-size: 13px;
+  margin: 0;
+}
+.meet-error-banner {
+  padding: 8px 18px;
+  background: color-mix(in oklab, var(--meet-danger) 18%, transparent);
+}
+@media (max-width: 720px) {
+  .meet-tile { height: min(58vh, 520px); border-radius: 12px; }
+  .meet-tile-local { width: min(148px, 40vw); right: 12px; bottom: 12px; }
+  .meet-btn { width: 56px; min-height: 56px; }
+  .meet-meta { display: none; }
 }

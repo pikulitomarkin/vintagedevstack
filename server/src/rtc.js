@@ -34,15 +34,31 @@ function leave(ws) {
 }
 
 export function iceServersFromEnv() {
-  // Opcional: ICE_SERVERS='[{"urls":"turn:SEU_IP:3478","username":"u","credential":"p"}]'
-  // Sem STUN/TURN externo por padrão — mídia P2P; TURN self-hosted se precisar atravessar NAT.
-  const raw = process.env.ICE_SERVERS || '[]'
-  try {
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
+  // 1) ICE_SERVERS JSON completo, ou
+  // 2) TURN_HOST + TURN_USER + TURN_PASS (coturn self-hosted na VPS)
+  const raw = (process.env.ICE_SERVERS || '').trim()
+  if (raw && raw !== '[]') {
+    try {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed) && parsed.length) return parsed
+    } catch {
+      /* fall through */
+    }
   }
+
+  const host = (process.env.TURN_HOST || '').trim()
+  const user = (process.env.TURN_USER || '').trim()
+  const pass = (process.env.TURN_PASS || '').trim()
+  if (!host || !user || !pass) return []
+
+  return [
+    { urls: [`stun:${host}:3478`] },
+    {
+      urls: [`turn:${host}:3478?transport=udp`, `turn:${host}:3478?transport=tcp`],
+      username: user,
+      credential: pass,
+    },
+  ]
 }
 
 export function attachRtcSignaling(httpServer) {

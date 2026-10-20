@@ -22,20 +22,31 @@ services:
       dockerfile: Dockerfile
     container_name: vintage-api-1
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       PORT: 8787
       DATABASE_URL: postgresql://vintage:${POSTGRES_PASSWORD}@db:5432/vintage_agenda
-      JWT_SECRET: ${JWT_SECRET:?set_JWT_SECRET}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@vintagedevstack.com.br}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set_ADMIN_PASSWORD}
-      ADMIN_NAME: ${ADMIN_NAME:-Marcos Padilha}
       PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
-      # Opcional: TURN/STUN self-hosted JSON — sem SaaS externo
       ICE_SERVERS: ${ICE_SERVERS:-[]}
+      TURN_HOST: ${TURN_HOST:-}
+      TURN_USER: ${TURN_USER:-vintage}
     depends_on:
       db:
         condition: service_healthy
     networks: [vintage]
+
+  # TURN/STUN self-hosted — credenciais só via .env (script), sem secrets no YAML
+  turn:
+    image: coturn/coturn:4.6.2-alpine
+    container_name: vintage-turn-1
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - ./deploy/start-coturn.sh:/start-coturn.sh:ro
+    entrypoint: ["/bin/sh", "/start-coturn.sh"]
 
   web:
     build:
@@ -49,7 +60,6 @@ services:
         SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
     container_name: vintage-web-1
     restart: unless-stopped
-    # Health local; Caddy na rede clube_clube fala com vintage-web-1:80
     ports:
       - "127.0.0.1:${HTTP_PORT:-8090}:80"
     depends_on:
@@ -61,7 +71,6 @@ volumes:
 
 networks:
   vintage:
-  # Rede do Caddy compartilhado (/opt/clube) — mesmo padrão do SGP
   clube_clube:
     external: true
     name: clube_clube

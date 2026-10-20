@@ -9,7 +9,8 @@ IP alvo: **216.22.27.191** (Caddy já responde HTTPS).
 | `api` (Node) | Agenda + login admin JWT + salas de vídeo |
 | `db` (Postgres 16) | Banco da agenda |
 
-Videochamadas usam **WebRTC P2P nativo** em `/call/:bookingId` (sinalização WebSocket `/api/rtc` na própria API — sem Jitsi/SaaS).
+Videochamadas usam **WebRTC P2P nativo** em `/call/:bookingId` (sinalização `/api/rtc` + **coturn** self-hosted na VPS — sem Jitsi/SaaS).
+Na sala: compartilhar tela e gravar **só áudio** (download `.webm` para transcrever depois).
 
 ## Pré-requisitos na VPS
 - Docker + Docker Compose plugin
@@ -50,9 +51,12 @@ ADMIN_EMAIL=admin@vintagedevstack.com.br
 ADMIN_PASSWORD=  # senha forte
 PUBLIC_SITE_URL=https://www.vintagedevstack.com.br
 VITE_API_URL=/api
-# Opcional — TURN self-hosted na VPS (NAT difícil):
-# ICE_SERVERS=[{"urls":"turn:216.22.27.191:3478","username":"vintage","credential":"..."}]
+TURN_HOST=216.22.27.191
+TURN_USER=vintage
+TURN_PASS=$(openssl rand -hex 16)
 ```
+
+Libere no firewall da VPS: **UDP/TCP 3478** e **UDP 49160–49200** (coturn).
 
 
 ## DNS + Caddy (ordem importante)
