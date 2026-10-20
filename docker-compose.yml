@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:16-alpine
+    container_name: vintage-db-1
     restart: unless-stopped
     environment:
       POSTGRES_DB: vintage_agenda
@@ -13,11 +14,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks: [vintage]
 
   api:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: vintage-api-1
     restart: unless-stopped
     environment:
       PORT: 8787
@@ -31,6 +34,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks: [vintage]
 
   web:
     build:
@@ -42,11 +46,21 @@ services:
         VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-}
         VITE_SPOTIFY_CLIENT_ID: ${VITE_SPOTIFY_CLIENT_ID:-}
         SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
+    container_name: vintage-web-1
     restart: unless-stopped
+    # Health local; Caddy na rede clube_clube fala com vintage-web-1:80
     ports:
-      - "${HTTP_PORT:-8080}:80"
+      - "127.0.0.1:${HTTP_PORT:-8090}:80"
     depends_on:
       - api
+    networks: [vintage, clube_clube]
 
 volumes:
   vintage_pg:
+
+networks:
+  vintage:
+  # Rede do Caddy compartilhado (/opt/clube) — mesmo padrão do SGP
+  clube_clube:
+    external: true
+    name: clube_clube

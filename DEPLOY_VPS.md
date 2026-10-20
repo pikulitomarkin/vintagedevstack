@@ -13,8 +13,9 @@ Videochamadas usam **Jitsi Meet** embutido em `/call/:bookingId` (estável, sem 
 
 ## Pré-requisitos na VPS
 - Docker + Docker Compose plugin
-- SSH (chave) para o usuário de deploy
-- (Opcional) Caddy apontando para `127.0.0.1:8080`
+- Rede Docker externa `clube_clube` (Caddy compartilhado do Clube)
+- SSH para o usuário de deploy
+- Porta host `8080` já é do Workana — Vintage usa `127.0.0.1:8090`
 
 ## Deploy rápido
 ```bash
@@ -28,11 +29,12 @@ Ou na própria VPS:
 cd /opt/vintagedevstack
 cp .env.vps.example .env && nano .env
 docker compose up -d --build
-curl http://127.0.0.1:8080/api/health
+curl http://127.0.0.1:8090/api/health
 ```
 
 ## Caddy (exemplo)
-Veja `deploy/Caddyfile.example` — reverse_proxy para a porta `HTTP_PORT` (default 8080).
+Veja `deploy/Caddyfile.example` — `reverse_proxy vintage-web-1:80` na rede `clube_clube`.
+Cole o bloco em `/opt/clube/Caddyfile` **e** `/opt/clube/src/Caddyfile` (deploys do Clube sobrescrevem).
 
 ## Admin
 - Login: `/auth/login`
@@ -52,4 +54,5 @@ VITE_API_URL=/api
 ```
 
 ## DNS
-Aponte `www.vintagedevstack.com.br` (A) para `216.22.27.191` quando for cortar o Vercel.
+Aponte `www.vintagedevstack.com.br` e o apex (A) para `216.22.27.191` quando for cortar o Vercel.
+Enquanto o DNS apontar para a Vercel, o health local em `127.0.0.1:8090` já valida a stack.

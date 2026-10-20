@@ -35,7 +35,7 @@ docker compose pull || true
 docker compose build --no-cache
 docker compose up -d
 docker compose ps
-curl -sf http://127.0.0.1:\${HTTP_PORT:-8080}/api/health || true
+curl -sf http://127.0.0.1:\${HTTP_PORT:-8090}/api/health || true
 EOF
 
-echo "==> OK. Aponte Caddy/nginx para 127.0.0.1:8080 (ver deploy/Caddyfile.example)"
+echo "==> OK. Cole o bloco de deploy/Caddyfile.example no Caddy do Clube (vintage-web-1:80)"
