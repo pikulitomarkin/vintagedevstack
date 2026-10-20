@@ -15,6 +15,8 @@ import {
   getBooking,
   updateBooking,
   confirmWithRoom,
+  createInstantCall,
+  createAdminBooking,
 } from './bookings.js'
 import { buildMeetingForBooking, publicSiteUrl } from './video.js'
 
@@ -171,6 +173,41 @@ app.get('/api/admin/bookings', auth, async (req, res) => {
     res.json(await listBookings({ fromIso: req.query.from }))
   } catch (e) {
     res.status(500).json({ error: e.message })
+  }
+})
+
+/** Videochamada instantânea (agora) com link Vintage */
+app.post('/api/admin/bookings/instant', auth, async (req, res) => {
+  try {
+    const body = req.body || {}
+    const booking = await createInstantCall({
+      name: body.name || body.client_name,
+      email: body.email || body.client_email,
+      whatsapp: body.whatsapp || body.client_whatsapp,
+      topic: body.topic,
+      durationMinutes: body.durationMinutes || body.duration_minutes || 60,
+    })
+    res.status(201).json(booking)
+  } catch (e) {
+    res.status(400).json({ error: e.message })
+  }
+})
+
+/** Agendar + gerar link (já confirmado com sala) */
+app.post('/api/admin/bookings/schedule', auth, async (req, res) => {
+  try {
+    const body = req.body || {}
+    const booking = await createAdminBooking({
+      startsAt: body.startsAt || body.starts_at,
+      durationMinutes: body.durationMinutes || body.duration_minutes || 30,
+      name: body.name || body.client_name,
+      email: body.email || body.client_email,
+      whatsapp: body.whatsapp || body.client_whatsapp,
+      topic: body.topic,
+    })
+    res.status(201).json(booking)
+  } catch (e) {
+    res.status(400).json({ error: e.message })
   }
 })
 

@@ -226,6 +226,26 @@ export async function adminConfirmBooking(id) {
   return adminUpdateBooking(id, { status: 'confirmed' })
 }
 
+/** Call imediata com link Vintage (admin) */
+export async function adminCreateInstantCall(payload = {}) {
+  assertBackend()
+  if (!isApiConfigured) throw new Error('Call instantânea exige API VPS')
+  return apiFetch('/admin/bookings/instant', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+/** Agendar + gerar link já confirmado (admin) */
+export async function adminScheduleWithLink(payload) {
+  assertBackend()
+  if (!isApiConfigured) throw new Error('Agendar com link exige API VPS')
+  return apiFetch('/admin/bookings/schedule', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export async function adminEnsureRoom(id) {
   assertBackend()
   if (isApiConfigured) {

@@ -186,3 +186,72 @@ export async function confirmWithRoom(id) {
     meeting_room: meeting.meeting_room,
   })
 }
+
+async function assertNoClash(startsAt, endsAt) {
+  const { rows: clash } = await query(
+    `
+    select 1 from bookings
+    where status in ('pending', 'confirmed')
+      and starts_at < $2 and ends_at > $1
+    limit 1
+    `,
+    [startsAt, endsAt]
+  )
+  if (clash.length) throw new Error('OCUPADO: já existe agendamento neste horário')
+}
+
+/**
+ * Criação pelo admin (pula regras públicas de antecedência/janela).
+ * Já nasce confirmed com sala Vintage.
+ */
+export async function createAdminBooking({
+  startsAt,
+  durationMinutes = 30,
+  name,
+  email,
+  whatsapp,
+  topic,
+}) {
+  const start = new Date(startsAt)
+  if (Number.isNaN(start.getTime())) throw new Error('HORARIO: inválido')
+  const mins = Math.min(180, Math.max(15, Number(durationMinutes) || 30))
+  const endsAt = new Date(start.getTime() + mins * 60000).toISOString()
+  await assertNoClash(start.toISOString(), endsAt)
+
+  const clientName = String(name || 'Convidado').trim() || 'Convidado'
+  const clientEmail = String(email || 'convidado@vintagedevstack.com.br').trim().toLowerCase()
+  const clientWhatsapp = String(whatsapp || '00000000000').trim()
+
+  const { rows } = await query(
+    `
+    insert into bookings (
+      starts_at, ends_at, client_name, client_email, client_whatsapp, topic, status
+    ) values ($1,$2,$3,$4,$5,$6,'confirmed')
+    returning *
+    `,
+    [
+      start.toISOString(),
+      endsAt,
+      clientName,
+      clientEmail,
+      clientWhatsapp,
+      topic ? String(topic).trim() : null,
+    ]
+  )
+  const booking = rows[0]
+  return confirmWithRoom(booking.id)
+}
+
+/** Call imediata: agora → +duration, confirmada com link */
+export async function createInstantCall({ name, email, whatsapp, topic, durationMinutes = 60 } = {}) {
+  // +15s evita “no passado” em relógios dessincronizados
+  const startsAt = new Date(Date.now() + 15_000).toISOString()
+  return createAdminBooking({
+    startsAt,
+    durationMinutes,
+    name: name || 'Call instantânea',
+    email,
+    whatsapp,
+    topic: topic || 'Videochamada instantânea',
+  })
+}

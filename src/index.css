@@ -2094,6 +2094,45 @@ section[id] {
 .pill.confirmed { border-color: var(--accent); color: var(--accent); }
 .pill.cancelled { border-color: #ff6b6b; color: #ff6b6b; }
 .pill.completed { border-color: var(--ink-3); color: var(--ink-3); }
+.agenda-admin-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+.agenda-admin-schedule {
+  margin-bottom: 20px;
+}
+.agenda-admin-schedule h2 {
+  margin: 0 0 8px;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+}
+.agenda-admin-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.agenda-admin-schedule-grid label {
+  display: grid;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.agenda-admin-schedule-grid input,
+.agenda-admin-schedule-grid select {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: normal;
+}
 .agenda-filters {
   display: flex;
   flex-wrap: wrap;
