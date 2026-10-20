@@ -30,7 +30,8 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set_ADMIN_PASSWORD}
       ADMIN_NAME: ${ADMIN_NAME:-Marcos Padilha}
       PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
-      JITSI_DOMAIN: ${JITSI_DOMAIN:-meet.jit.si}
+      # Opcional: TURN/STUN self-hosted JSON — sem SaaS externo
+      ICE_SERVERS: ${ICE_SERVERS:-[]}
     depends_on:
       db:
         condition: service_healthy

@@ -9,7 +9,7 @@ IP alvo: **216.22.27.191** (Caddy já responde HTTPS).
 | `api` (Node) | Agenda + login admin JWT + salas de vídeo |
 | `db` (Postgres 16) | Banco da agenda |
 
-Videochamadas usam **Jitsi Meet** embutido em `/call/:bookingId` (estável, sem API key).
+Videochamadas usam **WebRTC P2P nativo** em `/call/:bookingId` (sinalização WebSocket `/api/rtc` na própria API — sem Jitsi/SaaS).
 
 ## Pré-requisitos na VPS
 - Docker + Docker Compose plugin
@@ -49,9 +49,11 @@ JWT_SECRET=$(openssl rand -hex 32)
 ADMIN_EMAIL=admin@vintagedevstack.com.br
 ADMIN_PASSWORD=  # senha forte
 PUBLIC_SITE_URL=https://www.vintagedevstack.com.br
-JITSI_DOMAIN=meet.jit.si
 VITE_API_URL=/api
+# Opcional — TURN self-hosted na VPS (NAT difícil):
+# ICE_SERVERS=[{"urls":"turn:216.22.27.191:3478","username":"vintage","credential":"..."}]
 ```
+
 
 ## DNS + Caddy (ordem importante)
 1. Stack sobe em `127.0.0.1:8090` e `vintage-web-1` na rede `clube_clube` — valide com `curl http://127.0.0.1:8090/api/health`.

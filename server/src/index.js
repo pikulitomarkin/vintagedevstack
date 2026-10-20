@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import http from 'http'
 import express from 'express'
 import cors from 'cors'
 import bcrypt from 'bcryptjs'
@@ -19,6 +20,7 @@ import {
   createAdminBooking,
 } from './bookings.js'
 import { buildMeetingForBooking, publicSiteUrl } from './video.js'
+import { attachRtcSignaling, iceServersFromEnv } from './rtc.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -69,10 +71,24 @@ async function ensureSchemaAndAdmin() {
 app.get('/api/health', async (_req, res) => {
   try {
     await query('select 1')
-    res.json({ ok: true, site: publicSiteUrl() })
+    res.json({
+      ok: true,
+      site: publicSiteUrl(),
+      video: 'webrtc-p2p',
+      rtcPath: '/api/rtc',
+    })
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message })
   }
+})
+
+/** Config pública da call (ICE opcional self-hosted) */
+app.get('/api/rtc/config', (_req, res) => {
+  res.json({
+    path: '/api/rtc',
+    maxPeers: 2,
+    iceServers: iceServersFromEnv(),
+  })
 })
 
 app.get('/api/agenda/rules', async (_req, res) => {
@@ -247,7 +263,9 @@ app.post('/api/admin/bookings/:id/room', auth, async (req, res) => {
 
 ensureSchemaAndAdmin()
   .then(() => {
-    app.listen(PORT, () => {
+    const server = http.createServer(app)
+    attachRtcSignaling(server)
+    server.listen(PORT, () => {
       console.log(`[agenda-api] listening on :${PORT}`)
     })
   })
