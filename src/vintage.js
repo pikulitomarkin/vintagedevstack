@@ -143,6 +143,7 @@ export function initVintage() {
       "  matrix        — easter egg",
       "  cv            — abrir currículo / portfolio",
       "  login         — abrir assistente Vintage DevStack",
+      "  admin         — abrir admin da agenda / agendamento",
       "  clear         — clear screen",
       "  exit          — close terminal"
     ],
@@ -212,6 +213,8 @@ export function initVintage() {
     curriculo: () => 'CV',
     curícuro: () => 'CV',
     login: () => 'LOGIN',
+    admin: () => 'ADMIN',
+    agenda: () => 'ADMIN',
     konami: () => ["↑ ↑ ↓ ↓ ← → ← → B A   — tente!"],
   };
 
@@ -325,6 +328,7 @@ export function initVintage() {
     if (out === 'MATRIX') { runMatrix(); return; }
     if (out === 'CV') { openCV(); return; }
     if (out === 'LOGIN') { openLogin(); return; }
+    if (out === 'ADMIN') { openAdminAgenda(); return; }
     if (out === 'PLAY_KISS') { playTrackById('kiss'); return; }
     if (out === 'PLAY_CLASH') { playTrackById('clash'); return; }
     if (out === 'PLAY_RAMONES') { playTrackById('ramones'); return; }
@@ -347,6 +351,14 @@ export function initVintage() {
     termPrintHtml(`<a href="${url}" target="_blank" rel="noopener noreferrer">[ click here if it doesn’t open automatically ]</a>`, 'p');
     chord([523, 659, 784], 0.1);
     setTimeout(() => { window.open(url, '_blank', 'noopener,noreferrer'); }, 500);
+  }
+
+  function openAdminAgenda() {
+    const url = '/admin/agenda';
+    termPrint("opening admin da agenda ...", 'ok');
+    termPrintHtml(`<a href="${url}">[ click here if it doesn’t open automatically ]</a>`, 'p');
+    chord([523, 659, 784], 0.1);
+    setTimeout(() => { window.location.href = url; }, 400);
   }
 
   function runMatrix() {
