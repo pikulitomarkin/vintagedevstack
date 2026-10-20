@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vintage_agenda
+      POSTGRES_USER: vintage
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set_POSTGRES_PASSWORD}
+    volumes:
+      - vintage_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vintage -d vintage_agenda"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      PORT: 8787
+      DATABASE_URL: postgresql://vintage:${POSTGRES_PASSWORD}@db:5432/vintage_agenda
+      JWT_SECRET: ${JWT_SECRET:?set_JWT_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@vintagedevstack.com.br}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set_ADMIN_PASSWORD}
+      ADMIN_NAME: ${ADMIN_NAME:-Marcos Padilha}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
+      JITSI_DOMAIN: ${JITSI_DOMAIN:-meet.jit.si}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-/api}
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-}
+        VITE_SPOTIFY_CLIENT_ID: ${VITE_SPOTIFY_CLIENT_ID:-}
+        SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+    depends_on:
+      - api
+
+volumes:
+  vintage_pg:

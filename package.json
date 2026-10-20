@@ -10,7 +10,11 @@
     "start": "serve -s dist",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "postbuild": "node scripts/generate-sitemap.js",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "api:dev": "npm --prefix server run dev",
+    "vps:up": "docker compose up -d --build",
+    "vps:down": "docker compose down",
+    "deploy:vps": "bash scripts/deploy-vps.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.1",

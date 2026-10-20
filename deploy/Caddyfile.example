@@ -1,0 +1,12 @@
+# Exemplo para a VPS (Caddy na frente do Docker na porta 8080)
+# Substitua o domínio se apontar DNS para 216.22.27.191
+
+www.vintagedevstack.com.br, vintagedevstack.com.br {
+  encode gzip
+  reverse_proxy 127.0.0.1:8080
+}
+
+# Ou só por IP enquanto DNS não aponta:
+# 216.22.27.191 {
+#   reverse_proxy 127.0.0.1:8080
+# }

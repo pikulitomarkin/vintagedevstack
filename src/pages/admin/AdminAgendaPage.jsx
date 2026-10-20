@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import {
+  adminConfirmBooking,
+  adminEnsureRoom,
   adminListBookings,
   adminUpdateBooking,
   formatSpDate,
@@ -21,7 +23,6 @@ export default function AdminAgendaPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [filter, setFilter] = useState('upcoming')
-  const [meetingDrafts, setMeetingDrafts] = useState({})
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -39,24 +40,30 @@ export default function AdminAgendaPage() {
 
   useEffect(() => { load() }, [load])
 
-  async function setStatus(id, status) {
+  async function confirm(id) {
     try {
-      const meeting_url = meetingDrafts[id]
-      const patch = { status }
-      if (meeting_url) patch.meeting_url = meeting_url
-      await adminUpdateBooking(id, patch)
+      await adminConfirmBooking(id)
       await load()
     } catch (e) {
-      setError(e.message || 'Falha ao atualizar')
+      setError(e.message || 'Falha ao confirmar')
     }
   }
 
-  async function saveMeetingUrl(id) {
+  async function ensureRoom(id) {
     try {
-      await adminUpdateBooking(id, { meeting_url: meetingDrafts[id] || null })
+      await adminEnsureRoom(id)
       await load()
     } catch (e) {
-      setError(e.message || 'Falha ao salvar link')
+      setError(e.message || 'Falha ao gerar sala')
+    }
+  }
+
+  async function setStatus(id, status) {
+    try {
+      await adminUpdateBooking(id, { status })
+      await load()
+    } catch (e) {
+      setError(e.message || 'Falha ao atualizar')
     }
   }
 
@@ -75,7 +82,8 @@ export default function AdminAgendaPage() {
           <p className="agenda-kicker">[ ADMIN / AGENDA ]</p>
           <h1>Videochamadas</h1>
           <p className="agenda-lead">
-            Olá{profile?.full_name ? `, ${profile.full_name}` : ''}. Confirme pedidos, cole o link do Meet/Zoom e cancele horários.
+            Olá{profile?.full_name ? `, ${profile.full_name}` : ''}. Confirme pedidos — a sala Jitsi abre em{' '}
+            <code>/call/:id</code> no próprio site.
           </p>
         </header>
 
@@ -98,20 +106,25 @@ export default function AdminAgendaPage() {
                 <p className="agenda-muted">{b.client_email} · {b.client_whatsapp}</p>
                 {b.topic && <p>Assunto: {b.topic}</p>}
                 <p><span className={`pill ${b.status}`}>{STATUS_LABEL[b.status] || b.status}</span></p>
+                {b.meeting_url && (
+                  <p className="agenda-muted">
+                    Sala:{' '}
+                    <a href={b.meeting_url} target="_blank" rel="noopener noreferrer">{b.meeting_url}</a>
+                  </p>
+                )}
               </div>
               <div className="agenda-admin-actions">
-                <label>
-                  Link da call
-                  <input
-                    value={meetingDrafts[b.id] ?? b.meeting_url ?? ''}
-                    onChange={(e) => setMeetingDrafts((d) => ({ ...d, [b.id]: e.target.value }))}
-                    placeholder="https://meet.google.com/…"
-                  />
-                </label>
                 <div className="agenda-admin-btns">
-                  <button type="button" className="agenda-btn" onClick={() => saveMeetingUrl(b.id)}>Salvar link</button>
                   {b.status === 'pending' && (
-                    <button type="button" className="agenda-btn primary" onClick={() => setStatus(b.id, 'confirmed')}>Confirmar</button>
+                    <button type="button" className="agenda-btn primary" onClick={() => confirm(b.id)}>
+                      Confirmar + criar sala
+                    </button>
+                  )}
+                  {(b.status === 'confirmed' || b.status === 'completed') && (
+                    <>
+                      <a className="agenda-btn primary" href={b.meeting_url || `/call/${b.id}`}>Entrar na call</a>
+                      <button type="button" className="agenda-btn" onClick={() => ensureRoom(b.id)}>Regenerar sala</button>
+                    </>
                   )}
                   {(b.status === 'pending' || b.status === 'confirmed') && (
                     <button type="button" className="agenda-btn danger" onClick={() => setStatus(b.id, 'cancelled')}>Cancelar</button>

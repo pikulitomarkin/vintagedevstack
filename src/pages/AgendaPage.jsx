@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { isSupabaseConfigured } from '../lib/supabase'
 import {
   buildSlotsForDay,
   createBooking,
@@ -9,6 +8,7 @@ import {
   formatSpDate,
   formatSpTime,
   HORIZON_DAYS,
+  isAgendaConfigured,
   listBookableDays,
   SLOT_MINUTES,
 } from '../lib/agenda'
@@ -32,8 +32,8 @@ export default function AgendaPage() {
     async function load() {
       setLoading(true)
       setError('')
-      if (!isSupabaseConfigured) {
-        setError('Agenda em configuração: defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY e aplique a migration SQL.')
+      if (!isAgendaConfigured()) {
+        setError('Agenda em configuração: defina VITE_API_URL (VPS) ou VITE_SUPABASE_URL.')
         setLoading(false)
         return
       }
@@ -123,7 +123,10 @@ export default function AgendaPage() {
               <strong>{formatSpTime(success.starts_at)}</strong>
             </p>
             <p>Status: <span className="pill pending">pendente de confirmação</span></p>
-            <p>Você receberá o link da videochamada após a confirmação.</p>
+            <p>
+              Após a confirmação, a videochamada acontece aqui no site Vintage
+              {success.id ? <> — sala <code>/call/{success.id}</code></> : null}.
+            </p>
             <button type="button" className="agenda-btn" onClick={() => setSuccess(null)}>
               Agendar outro horário
             </button>
