@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { isSupabaseConfigured } from '../lib/supabase'
 import {
   buildSlotsForDay,
   createBooking,
@@ -9,6 +8,7 @@ import {
   formatSpDate,
   formatSpTime,
   HORIZON_DAYS,
+  isAgendaConfigured,
   listBookableDays,
   SLOT_MINUTES,
 } from '../lib/agenda'
@@ -27,22 +27,29 @@ export default function AgendaPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(null)
 
+  async function refreshBusy() {
+    const from = new Date()
+    const to = new Date(Date.now() + (HORIZON_DAYS + 1) * 86400000)
+    const b = await fetchBusySlots(from.toISOString(), to.toISOString())
+    setBusy(b)
+    return b
+  }
+
   useEffect(() => {
     let cancelled = false
     async function load() {
       setLoading(true)
       setError('')
-      if (!isSupabaseConfigured) {
-        setError('Agenda em configuração: defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY e aplique a migration SQL.')
+      if (!isAgendaConfigured()) {
+        setError('Agenda em configuração: defina VITE_API_URL (VPS) ou VITE_SUPABASE_URL.')
         setLoading(false)
         return
       }
       try {
         const from = new Date()
-        const to = new Date(Date.now() + (HORIZON_DAYS + 1) * 86400000)
         const [r, b] = await Promise.all([
           fetchAvailabilityRules(),
-          fetchBusySlots(from.toISOString(), to.toISOString()),
+          fetchBusySlots(from.toISOString(), new Date(Date.now() + (HORIZON_DAYS + 1) * 86400000).toISOString()),
         ])
         if (cancelled) return
         setRules(r)
@@ -57,7 +64,16 @@ export default function AgendaPage() {
       }
     }
     load()
-    return () => { cancelled = true }
+    // Atualiza ocupação a cada 30s enquanto a página está aberta
+    const timer = setInterval(() => {
+      if (!cancelled && isAgendaConfigured()) {
+        refreshBusy().catch(() => {})
+      }
+    }, 30000)
+    return () => {
+      cancelled = true
+      clearInterval(timer)
+    }
   }, [])
 
   const slots = useMemo(() => {
@@ -71,6 +87,15 @@ export default function AgendaPage() {
     setSubmitting(true)
     setError('')
     try {
+      // Revalida ocupação antes de enviar (outro cliente pode ter reservado)
+      const latestBusy = await refreshBusy()
+      const stillFree = buildSlotsForDay(selectedDay, rules, latestBusy).find(
+        (s) => s.startsAt === selectedSlot.startsAt && s.available
+      )
+      if (!stillFree) {
+        setSelectedSlot(null)
+        throw new Error('OCUPADO: este horário acabou de ser reservado. Escolha outro.')
+      }
       const booking = await createBooking({
         startsAt: selectedSlot.startsAt,
         name: form.name,
@@ -81,12 +106,10 @@ export default function AgendaPage() {
       setSuccess(booking)
       setForm(emptyForm)
       setSelectedSlot(null)
-      const from = new Date()
-      const to = new Date(Date.now() + (HORIZON_DAYS + 1) * 86400000)
-      const b = await fetchBusySlots(from.toISOString(), to.toISOString())
-      setBusy(b)
+      await refreshBusy()
     } catch (err) {
       setError(err.message || 'Não foi possível agendar')
+      refreshBusy().catch(() => {})
     } finally {
       setSubmitting(false)
     }
@@ -107,7 +130,7 @@ export default function AgendaPage() {
           <p className="agenda-kicker">[ AGENDA / VIDEO CALL ]</p>
           <h1>Agendar videochamada</h1>
           <p className="agenda-lead">
-            Segunda a quinta, das 17h às 22h (horário de Brasília). Slots de {SLOT_MINUTES} minutos.
+            Segunda a quinta, das 09h às 18h (horário de Brasília). Slots de {SLOT_MINUTES} minutos.
             Após o pedido, confirmamos e enviamos o link da call.
           </p>
         </header>
@@ -123,7 +146,10 @@ export default function AgendaPage() {
               <strong>{formatSpTime(success.starts_at)}</strong>
             </p>
             <p>Status: <span className="pill pending">pendente de confirmação</span></p>
-            <p>Você receberá o link da videochamada após a confirmação.</p>
+            <p>
+              Após a confirmação, a videochamada acontece aqui no site Vintage
+              {success.id ? <> — sala <code>/call/{success.id}</code></> : null}.
+            </p>
             <button type="button" className="agenda-btn" onClick={() => setSuccess(null)}>
               Agendar outro horário
             </button>
@@ -155,10 +181,12 @@ export default function AgendaPage() {
                     key={s.startsAt}
                     type="button"
                     disabled={!s.available}
-                    className={`agenda-slot ${selectedSlot?.startsAt === s.startsAt ? 'is-active' : ''}`}
+                    title={s.taken ? 'Horário já reservado' : s.tooSoon ? 'Antecedência mínima de 2h' : undefined}
+                    className={`agenda-slot ${selectedSlot?.startsAt === s.startsAt ? 'is-active' : ''} ${s.taken ? 'is-taken' : ''}`}
                     onClick={() => setSelectedSlot(s)}
                   >
                     {s.label}
+                    {s.taken ? <span className="agenda-slot-tag">ocupado</span> : null}
                   </button>
                 ))}
                 {selectedDay && !slots.some((s) => s.available) && (

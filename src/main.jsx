@@ -8,6 +8,7 @@ import AgendaPage from './pages/AgendaPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import AdminAgendaPage from './pages/admin/AdminAgendaPage.jsx'
 import SpotifyCallbackPage from './pages/SpotifyCallbackPage.jsx'
+import CallPage from './pages/CallPage.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/agenda" element={<AgendaPage />} />
+          <Route path="/call/:bookingId" element={<CallPage />} />
           <Route path="/callback" element={<SpotifyCallbackPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route

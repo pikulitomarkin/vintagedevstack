@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import type { Profile } from '../lib/supabase'
+import { apiFetch, getAdminToken, isApiConfigured, setAdminToken } from '../lib/api'
 
 interface AuthContextValue {
   user: User | null
@@ -17,6 +18,34 @@ interface AuthContextValue {
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
+
+function localUserFromAdmin(admin: { id: string; email: string; full_name: string }): User {
+  return {
+    id: admin.id,
+    email: admin.email,
+    app_metadata: {},
+    user_metadata: { full_name: admin.full_name },
+    aud: 'authenticated',
+    created_at: new Date().toISOString(),
+  } as User
+}
+
+function localProfileFromAdmin(admin: { id: string; email: string; full_name: string; is_admin?: boolean }): Profile {
+  return {
+    id: admin.id,
+    email: admin.email,
+    full_name: admin.full_name,
+    avatar_url: null,
+    phone: null,
+    linkedin_url: null,
+    github_url: null,
+    portfolio_url: null,
+    bio: null,
+    is_admin: admin.is_admin ?? true,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -41,11 +70,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let mounted = true
 
+    // Modo VPS (API JWT)
+    if (isApiConfigured) {
+      const token = getAdminToken()
+      if (!token) {
+        setLoading(false)
+        return () => { mounted = false }
+      }
+      apiFetch('/auth/me')
+        .then((me) => {
+          if (!mounted) return
+          const adminUser = { ...me, is_admin: true, full_name: me.full_name || me.name }
+          setUser(localUserFromAdmin(adminUser))
+          setProfile(localProfileFromAdmin(adminUser))
+          setSession({ access_token: token } as Session)
+        })
+        .catch(() => {
+          // Token inválido/expirado → limpa e segue para login (não deixa 401 “preso”)
+          setAdminToken(null)
+          if (mounted) {
+            setUser(null)
+            setProfile(null)
+            setSession(null)
+          }
+        })
+        .finally(() => {
+          if (mounted) setLoading(false)
+        })
+      return () => { mounted = false }
+    }
+
     if (!isSupabaseConfigured) {
       setLoading(false)
-      return () => {
-        mounted = false
-      }
+      return () => { mounted = false }
     }
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -60,11 +117,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
       setSession(nextSession)
       setUser(nextSession?.user ?? null)
-      if (nextSession?.user) {
-        await fetchProfile(nextSession.user.id)
-      } else {
-        setProfile(null)
-      }
+      if (nextSession?.user) await fetchProfile(nextSession.user.id)
+      else setProfile(null)
       setLoading(false)
     })
 
@@ -75,6 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   async function signUp(email: string, password: string, fullName: string) {
+    if (isApiConfigured) throw new Error('Cadastro público desabilitado no modo VPS')
     if (!isSupabaseConfigured) throw new Error('Supabase não configurado')
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -93,8 +148,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signIn(email: string, password: string) {
+    if (isApiConfigured) {
+      const login = String(email || '').trim()
+      const data = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email: login, username: login, password }),
+      })
+      if (!data?.token || !data?.user) {
+        throw new Error('Resposta de login inválida')
+      }
+      setAdminToken(data.token)
+      // Garante flag admin mesmo se a API omitir o campo
+      const adminUser = { ...data.user, is_admin: true, full_name: data.user.full_name || data.user.name || login }
+      setUser(localUserFromAdmin(adminUser))
+      setProfile(localProfileFromAdmin(adminUser))
+      setSession({ access_token: data.token } as Session)
+      return
+    }
     if (!isSupabaseConfigured) {
-      throw new Error('Supabase não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.')
+      throw new Error('Configure VITE_API_URL (VPS) ou VITE_SUPABASE_URL')
     }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) throw error
@@ -103,6 +175,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signOut() {
+    if (isApiConfigured) {
+      setAdminToken(null)
+      setUser(null)
+      setProfile(null)
+      setSession(null)
+      return
+    }
     if (isSupabaseConfigured) {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
@@ -111,6 +190,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function updateProfile(data: Partial<Profile>) {
+    if (isApiConfigured) throw new Error('Perfil via API ainda não suportado')
     if (!user) throw new Error('Not authenticated')
     const { error } = await supabase
       .from('profiles')
@@ -121,6 +201,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function resetPassword(email: string) {
+    if (isApiConfigured) throw new Error('Reset de senha: altere ADMIN_PASSWORD na VPS')
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`,
     })

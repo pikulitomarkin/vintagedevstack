@@ -1,0 +1,76 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: vintage-db-1
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vintage_agenda
+      POSTGRES_USER: vintage
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set_POSTGRES_PASSWORD}
+    volumes:
+      - vintage_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vintage -d vintage_agenda"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [vintage]
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: vintage-api-1
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PORT: 8787
+      DATABASE_URL: postgresql://vintage:${POSTGRES_PASSWORD}@db:5432/vintage_agenda
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
+      ICE_SERVERS: ${ICE_SERVERS:-[]}
+      TURN_HOST: ${TURN_HOST:-}
+      TURN_USER: ${TURN_USER:-vintage}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [vintage]
+
+  # TURN/STUN self-hosted — credenciais só via .env (script), sem secrets no YAML
+  turn:
+    image: coturn/coturn:4.6.2-alpine
+    container_name: vintage-turn-1
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - ./deploy/start-coturn.sh:/start-coturn.sh:ro
+    entrypoint: ["/bin/sh", "/start-coturn.sh"]
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-/api}
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL:-}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY:-}
+        VITE_SPOTIFY_CLIENT_ID: ${VITE_SPOTIFY_CLIENT_ID:-}
+        SITE_URL: ${PUBLIC_SITE_URL:-https://www.vintagedevstack.com.br}
+    container_name: vintage-web-1
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8090}:80"
+    depends_on:
+      - api
+    networks: [vintage, clube_clube]
+
+volumes:
+  vintage_pg:
+
+networks:
+  vintage:
+  clube_clube:
+    external: true
+    name: clube_clube

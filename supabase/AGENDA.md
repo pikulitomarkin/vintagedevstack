@@ -1,14 +1,19 @@
 # Agenda de videochamadas
 
-## O que foi entregue (Fase 1)
+## Produção recomendada (VPS)
+Ver **`DEPLOY_VPS.md`**: Postgres + API Node + Jitsi embutido em `/call/:id`.
+Frontend usa `VITE_API_URL=/api` (sem depender do Supabase).
+
+## O que foi entregue
 - Página pública `/agenda` — consulta e solicitação de horário
-- Admin `/admin/agenda` — confirmar/cancelar e colar link Meet/Zoom
+- Admin `/admin/agenda` — confirmar e gerar sala Vintage
+- Call `/call/:id` — videochamada Jitsi no site
 - Login `/auth/login`
-- Janela: **segunda a quinta, 17h–22h (America/Sao_Paulo)**, slots de **30 min**
+- Janela: **segunda a quinta, 09h–18h (America/Sao_Paulo)**, slots de **30 min**
 - Status inicial: **pending** (você confirma)
 - Antecedência mínima: 2h · horizonte: 14 dias
 
-## Setup Supabase
+## Setup Supabase (legado / opcional)
 1. Crie um projeto no Supabase (ou use o existente).
 2. No SQL Editor, execute o arquivo:
    `supabase/migrations/20260909_agenda.sql`

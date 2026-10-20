@@ -37,16 +37,24 @@ export default function LoginPage() {
       </header>
       <main className="agenda-shell agenda-shell--narrow">
         <h1>Admin login</h1>
-        <p className="agenda-lead">Acesso à gestão de videochamadas.</p>
-        {error && <p className="agenda-error">{error}</p>}
+        <p className="agenda-lead">Acesso à gestão de agendamentos e videochamadas.</p>
+        <p className="agenda-muted">Usuário: <code>marcos.padilha</code> · se der erro, force atualizar (Ctrl+F5).</p>
+        {error && <p className="agenda-error" role="alert">{error}</p>}
         <form className="agenda-form" onSubmit={onSubmit}>
           <label>
-            E-mail
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            Usuário ou e-mail
+            <input
+              type="text"
+              required
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="marcos.padilha"
+            />
           </label>
           <label>
             Senha
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
           <button type="submit" className="agenda-btn primary" disabled={busy}>
             {busy ? 'Entrando…' : 'Entrar'}

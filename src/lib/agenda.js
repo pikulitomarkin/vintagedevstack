@@ -1,49 +1,19 @@
 import { supabase, isSupabaseConfigured } from './supabase'
+import { apiFetch, isApiConfigured } from './api'
 
 export const AGENDA_TZ = 'America/Sao_Paulo'
 export const SLOT_MINUTES = 30
 export const HORIZON_DAYS = 14
 export const MIN_LEAD_HOURS = 2
 
-/** @typedef {'pending' | 'confirmed' | 'cancelled' | 'completed'} BookingStatus */
+/** Preferência: API VPS > Supabase */
+export function isAgendaConfigured() {
+  return isApiConfigured || isSupabaseConfigured
+}
 
-/**
- * @typedef {Object} AvailabilityRule
- * @property {string} id
- * @property {number} weekday
- * @property {number} start_minute
- * @property {number} end_minute
- * @property {number} slot_minutes
- * @property {boolean} active
- */
-
-/**
- * @typedef {Object} Booking
- * @property {string} id
- * @property {string} starts_at
- * @property {string} ends_at
- * @property {string} client_name
- * @property {string} client_email
- * @property {string} client_whatsapp
- * @property {string|null} topic
- * @property {BookingStatus} status
- * @property {string|null} meeting_url
- * @property {string|null} admin_notes
- * @property {string} created_at
- * @property {string} updated_at
- */
-
-/**
- * @typedef {Object} TimeSlot
- * @property {string} startsAt ISO UTC
- * @property {string} endsAt ISO UTC
- * @property {string} label local HH:mm
- * @property {boolean} available
- */
-
-function assertSupabase() {
-  if (!isSupabaseConfigured) {
-    throw new Error('Supabase não configurado. Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.')
+function assertBackend() {
+  if (!isAgendaConfigured()) {
+    throw new Error('Agenda não configurada. Defina VITE_API_URL (VPS) ou VITE_SUPABASE_URL.')
   }
 }
 
@@ -72,7 +42,6 @@ export function spParts(date = new Date()) {
   }
 }
 
-/** Convert local SP wall time to UTC ISO */
 export function spLocalToUtcIso(year, month, day, hour, minute) {
   const guess = new Date(Date.UTC(year, month - 1, day, hour + 3, minute, 0))
   const sp = new Date(guess.toLocaleString('en-US', { timeZone: AGENDA_TZ }))
@@ -101,18 +70,23 @@ export function formatSpTime(iso) {
 }
 
 export async function fetchAvailabilityRules() {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) return apiFetch('/agenda/rules')
   const { data, error } = await supabase
     .from('availability_rules')
     .select('*')
     .eq('active', true)
     .order('weekday')
   if (error) throw error
-  return /** @type {AvailabilityRule[]} */ (data || [])
+  return data || []
 }
 
 export async function fetchBusySlots(fromIso, toIso) {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) {
+    const q = new URLSearchParams({ from: fromIso, to: toIso })
+    return apiFetch(`/agenda/busy?${q}`)
+  }
   const { data, error } = await supabase.rpc('get_busy_slots', {
     p_from: fromIso,
     p_to: toIso,
@@ -125,10 +99,6 @@ function overlaps(aStart, aEnd, bStart, bEnd) {
   return aStart < bEnd && aEnd > bStart
 }
 
-/**
- * Build bookable days (date keys) for the next HORIZON_DAYS
- * @param {AvailabilityRule[]} rules
- */
 export function listBookableDays(rules, fromDate = new Date()) {
   const activeWeekdays = new Set(rules.filter((r) => r.active).map((r) => r.weekday))
   const days = []
@@ -153,19 +123,12 @@ export function listBookableDays(rules, fromDate = new Date()) {
   return days
 }
 
-/**
- * @param {object} day from listBookableDays
- * @param {AvailabilityRule[]} rules
- * @param {{starts_at:string, ends_at:string}[]} busy
- * @returns {TimeSlot[]}
- */
 export function buildSlotsForDay(day, rules, busy) {
   const rule = rules.find((r) => r.weekday === day.weekday && r.active)
   if (!rule) return []
 
   const now = Date.now()
   const minStart = now + MIN_LEAD_HOURS * 3600 * 1000
-  /** @type {TimeSlot[]} */
   const slots = []
 
   for (let m = rule.start_minute; m + rule.slot_minutes <= rule.end_minute; m += rule.slot_minutes) {
@@ -178,18 +141,27 @@ export function buildSlotsForDay(day, rules, busy) {
     const taken = busy.some((b) =>
       overlaps(startMs, endMs, new Date(b.starts_at).getTime(), new Date(b.ends_at).getTime())
     )
+    const tooSoon = startMs < minStart
     slots.push({
       startsAt,
       endsAt,
       label: `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`,
-      available: !taken && startMs >= minStart,
+      taken,
+      tooSoon,
+      available: !taken && !tooSoon,
     })
   }
   return slots
 }
 
 export async function createBooking({ startsAt, name, email, whatsapp, topic }) {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) {
+    return apiFetch('/agenda/bookings', {
+      method: 'POST',
+      body: JSON.stringify({ startsAt, name, email, whatsapp, topic }),
+    })
+  }
   const { data, error } = await supabase.rpc('create_booking', {
     p_starts_at: startsAt,
     p_client_name: name,
@@ -198,21 +170,43 @@ export async function createBooking({ startsAt, name, email, whatsapp, topic }) 
     p_topic: topic || null,
   })
   if (error) throw error
-  return /** @type {Booking} */ (data)
+  return data
+}
+
+export async function fetchBookingPublic(id) {
+  assertBackend()
+  if (isApiConfigured) return apiFetch(`/agenda/bookings/${id}`)
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('id, starts_at, ends_at, status, topic, meeting_url, client_name')
+    .eq('id', id)
+    .single()
+  if (error) throw error
+  return data
 }
 
 export async function adminListBookings({ fromIso, toIso } = {}) {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) {
+    const q = fromIso ? `?from=${encodeURIComponent(fromIso)}` : ''
+    return apiFetch(`/admin/bookings${q}`)
+  }
   let q = supabase.from('bookings').select('*').order('starts_at', { ascending: true })
   if (fromIso) q = q.gte('starts_at', fromIso)
   if (toIso) q = q.lte('starts_at', toIso)
   const { data, error } = await q
   if (error) throw error
-  return /** @type {Booking[]} */ (data || [])
+  return data || []
 }
 
 export async function adminUpdateBooking(id, patch) {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) {
+    return apiFetch(`/admin/bookings/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    })
+  }
   const { data, error } = await supabase
     .from('bookings')
     .update(patch)
@@ -220,11 +214,52 @@ export async function adminUpdateBooking(id, patch) {
     .select('*')
     .single()
   if (error) throw error
-  return /** @type {Booking} */ (data)
+  return data
+}
+
+export async function adminConfirmBooking(id) {
+  assertBackend()
+  if (isApiConfigured) {
+    return apiFetch(`/admin/bookings/${id}/confirm`, { method: 'POST', body: '{}' })
+  }
+  // Supabase legado: só confirma; link Meet ainda manual ou meeting_url já setado
+  return adminUpdateBooking(id, { status: 'confirmed' })
+}
+
+/** Call imediata com link Vintage (admin) */
+export async function adminCreateInstantCall(payload = {}) {
+  assertBackend()
+  if (!isApiConfigured) throw new Error('Call instantânea exige API VPS')
+  return apiFetch('/admin/bookings/instant', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+/** Agendar + gerar link já confirmado (admin) */
+export async function adminScheduleWithLink(payload) {
+  assertBackend()
+  if (!isApiConfigured) throw new Error('Agendar com link exige API VPS')
+  return apiFetch('/admin/bookings/schedule', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function adminEnsureRoom(id) {
+  assertBackend()
+  if (isApiConfigured) {
+    return apiFetch(`/admin/bookings/${id}/room`, { method: 'POST', body: '{}' })
+  }
+  const url = `${window.location.origin}/call/${id}`
+  return adminUpdateBooking(id, { meeting_url: url })
 }
 
 export async function adminCreateBlock({ startsAt, endsAt, reason }) {
-  assertSupabase()
+  assertBackend()
+  if (isApiConfigured) {
+    throw new Error('Bloqueios via API ainda não expostos — use o admin SQL se necessário')
+  }
   const { data, error } = await supabase
     .from('availability_blocks')
     .insert({ starts_at: startsAt, ends_at: endsAt, reason: reason || null })

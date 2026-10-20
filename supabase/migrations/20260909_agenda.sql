@@ -62,8 +62,8 @@ create trigger on_auth_user_created
 create table if not exists public.availability_rules (
   id uuid primary key default gen_random_uuid(),
   weekday smallint not null check (weekday between 1 and 7),
-  start_minute smallint not null default 1020, -- 17:00
-  end_minute smallint not null default 1320,   -- 22:00
+  start_minute smallint not null default 540,  -- 09:00
+  end_minute smallint not null default 1080,   -- 18:00
   slot_minutes smallint not null default 30,
   active boolean not null default true,
   unique (weekday)
@@ -83,10 +83,10 @@ create policy "availability_rules_admin_all" on public.availability_rules
 
 insert into public.availability_rules (weekday, start_minute, end_minute, slot_minutes, active)
 values
-  (1, 1020, 1320, 30, true),
-  (2, 1020, 1320, 30, true),
-  (3, 1020, 1320, 30, true),
-  (4, 1020, 1320, 30, true)
+  (1, 540, 1080, 30, true),
+  (2, 540, 1080, 30, true),
+  (3, 540, 1080, 30, true),
+  (4, 540, 1080, 30, true)
 on conflict (weekday) do update set
   start_minute = excluded.start_minute,
   end_minute = excluded.end_minute,
@@ -232,7 +232,7 @@ begin
   v_ends_at := p_starts_at + make_interval(mins => v_slot_minutes);
 
   if v_minute < v_rule.start_minute or (v_minute + v_slot_minutes) > v_rule.end_minute then
-    raise exception 'HORARIO: fora da janela 17h–22h';
+    raise exception 'HORARIO: fora da janela 09h–18h';
   end if;
   if mod(v_minute - v_rule.start_minute, v_slot_minutes) <> 0 then
     raise exception 'SLOT: horário inválido';
